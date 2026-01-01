@@ -1,0 +1,41 @@
+# -------------------------------------------------------------------------
+# Git 줄바꿈 설정 (Windows <-> Mac 협업 시 필수)
+# -------------------------------------------------------------------------
+
+# 모든 텍스트 파일은 저장소에 올라갈 때 LF로 변환, 내려받을 때는 OS에 맞게 변환
+* text=auto
+
+# C# 스크립트는 명확하게 텍스트로 처리
+*.cs text diff=csharp
+
+# 쉐이더 파일
+*.cginc text
+*.shader text
+
+# Unity 관련 텍스트 파일들 (YAML 등)
+*.mat text
+*.anim text
+*.unity text
+*.prefab text
+*.physicsMaterial2D text
+*.physicMaterial text
+*.asset text
+*.meta text
+*.controller text
+
+# 이미지나 바이너리 파일은 절대 줄바꿈 변환 금지 (파일 깨짐 방지)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.mov binary
+*.mp4 binary
+*.mp3 binary
+*.wav binary
+*.aiff binary
+*.ogg binary
+*.gltf binary
+*.glb binary
+*.ttf binary
+*.otf binary
