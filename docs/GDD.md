@@ -109,9 +109,9 @@ UI는 트리 형태 혹은 방사형(별자리) 형태로 구성하며, 마우�
 	4. 게임 종료
 - 배경: 우주 테마, 인게임에서 마주할 폐기물이나 자원 파편 등이 떠다니는 모습으로 연출
 
-| ![[main.png]]<div style="width:400px">    | ![[main_nanobanana.png]]<div style="width:400px">    |
+| ![메인화면_구성](images/main.png)<div style="width:400px">    | ![메인화면_컨셉](images/main_nanobanana.png)<div style="width:400px">    |
 | ----------------------------------------- | ---------------------------------------------------- |
-| ![[setting.png]]<div style="width:400px"> | ![[setting_nanobanana.png]]<div style="width:400px"> |
+| ![설정화면_구성](images/setting.png)<div style="width:400px"> | ![설정화면_컨셉](images/setting_nanobanana.png)<div style="width:400px"> |
 
 ### 4.2. 인게임 HUD
 - **좌측 상단:** 보유 자원 및 재화량.
@@ -119,7 +119,7 @@ UI는 트리 형태 혹은 방사형(별자리) 형태로 구성하며, 마우�
 - **화면 중앙:** 플레이어 캐릭터
 - **마우스 방향:** 조준점(Crosshair)
 
-| ![[ingame_exploration.png]]<div style="width:400px"> | ![[ingame_exploration_nanobanana.png]]<div style="width:400px"> |
+| ![탐사화면_구성](images/ingame_exploration.png)<div style="width:400px"> | ![탐사화면_컨셉](images/ingame_exploration_nanobanana.png)<div style="width:400px"> |
 | ---------------------------------------------------- | --------------------------------------------------------------- |
 ### 4.3. 우주선 내부 (Hub)
 - 사이드뷰 형태의 우주선 단면도.
@@ -129,9 +129,9 @@ UI는 트리 형태 혹은 방사형(별자리) 형태로 구성하며, 마우�
     - 조작 패널: 업그레이드 UI 호출.
     - 교환소: 자원 판매.
 
-| ![[ingame_hub.png]]<div style="width:400px">    | ![[ingame_hub_nanobanana.png]]<div style="width:400px">    |
+| ![대기화면_구성](images/ingame_hub.png)<div style="width:400px">    | ![대기화면_컨셉](images/ingame_hub_nanobanana.png)<div style="width:400px">    |
 | ----------------------------------------------- | ---------------------------------------------------------- |
-| ![[upgrade_panel.png]]<div style="width:400px"> | ![[upgrade_panel_nanobanana.png]]<div style="width:400px"> |
+| ![업그레이드화면_구성](images/upgrade_panel.png)<div style="width:400px"> | ![업그레이드화면_컨셉](images/upgrade_panel_nanobanana.png)<div style="width:400px"> |
 
 ---
 ## 5. 아트 및 사운드 스타일
