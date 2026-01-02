@@ -141,8 +141,20 @@ UI는 트리 형태 혹은 방사형(별자리) 형태로 구성하며, 마우�
 - **화면 중앙:** 플레이어 캐릭터
 - **마우스 방향:** 조준점(Crosshair)
 
-| ![탐사화면_구성](images/ingame_exploration.png) | ![탐사화면_컨셉](images/ingame_exploration_nanobanana.png) |
-| ---------------------------------------------------- | --------------------------------------------------------------- |
+<table width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <img src="images/ingame_exploration.png" width="100%" alt="탐사화면_구성">
+      <br>
+      <b>탐사화면_구성</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="images/ingame_exploration_nanobanana.png" width="100%" alt="탐사화면_컨셉">
+      <br>
+      <b>탐사화면_컨셉</b>
+    </td>
+  </tr>
+</table>
 ### 4.3. 우주선 내부 (Hub)
 - 사이드뷰 형태의 우주선 단면도.
 - **상호작용 오브젝트:**
@@ -151,10 +163,32 @@ UI는 트리 형태 혹은 방사형(별자리) 형태로 구성하며, 마우�
     - 조작 패널: 업그레이드 UI 호출.
     - 교환소: 자원 판매.
 
-| ![대기화면_구성](images/ingame_hub.png)       | ![대기화면_컨셉](images/ingame_hub_nanobanana.png)       |
-| --------------------------------------- | -------------------------------------------------- |
-| ![업그레이드화면_구성](images/upgrade_panel.png) | ![업그레이드화면_컨셉](images/upgrade_panel_nanobanana.png) |
-
+<table width="100%">
+  <tr>
+    <td align="center" width="50%">
+      <img src="images/ingame_hub.png" width="100%" alt="대기화면_구성">
+      <br>
+      <b>대기화면_구성</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="images/ingame_hub_nanobanana.png" width="100%" alt="대기화면_컨셉">
+      <br>
+      <b>대기화면_컨셉</b>
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="images/upgrade_panel.png" width="100%" alt="업그레이드화면_구성">
+      <br>
+      <b>업그레이드화면_구성</b>
+    </td>
+    <td align="center" width="50%">
+      <img src="images/upgrade_panel_nanobanana.png" width="100%" alt="업그레이드화면_컨셉">
+      <br>
+      <b>업그레이드화면_컨셉</b>
+    </td>
+  </tr>
+</table>
 ---
 ## 5. 아트 및 사운드 스타일
 ### 5.1. 비주얼 컨셉
