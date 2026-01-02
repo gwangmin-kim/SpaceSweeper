@@ -67,5 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "SpaceSweeper.slnx"
+    "dotnet.defaultSolution": "SpaceSweeper.slnx",
+    "editor.formatOnSave": true
 }
