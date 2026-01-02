@@ -108,3 +108,7 @@ InitTestScene*.unity*
 ehthumbs.db
 [Tt]humbs.db
 [Dd]esktop.ini
+
+# Obsidian-generated files
+/[Dd]ocs/.obsidian
+/[Dd]ocs/README.md
