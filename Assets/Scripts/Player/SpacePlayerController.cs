@@ -20,6 +20,7 @@ public class SpacePlayerController : MonoBehaviour
 
     // input caching
     Vector2 _moveInput = Vector2.zero;
+    [SerializeField] Vector2 _aimPosition = Vector2.zero; // worldPosition
 
     // smooth moving
     Vector2 _currentMoveFactor = Vector2.zero;
@@ -83,7 +84,11 @@ public class SpacePlayerController : MonoBehaviour
     {
         Vector3 localScale = _visualRoot.localScale;
 
-        localScale.x = Mathf.Sign(_currentMoveFactor.x);
+        // 단순히 이동 방향을 바라보도록 구현하는 경우
+        // localScale.x = Mathf.Sign(_currentMoveFactor.x);
+
+        // 마우스 방향을 바라보도록 구현
+        localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
 
         _visualRoot.localScale = localScale;
     }
@@ -111,7 +116,9 @@ public class SpacePlayerController : MonoBehaviour
     {
         Vector2 position = inputValue.Get<Vector2>();
 
-        Debug.Log($"input detected: aim[{position}]");
+        // Debug.Log($"input detected: aim[{position}]");
+
+        _aimPosition = Camera.main.ScreenToWorldPoint(position);
     }
 
     public void OnAttack(InputValue inputValue)
@@ -120,5 +127,11 @@ public class SpacePlayerController : MonoBehaviour
         {
             Debug.Log($"input detected: attack");
         }
+    }
+
+    public void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blueViolet;
+        Gizmos.DrawLine(transform.position, _aimPosition);
     }
 }
