@@ -26,7 +26,9 @@ public class SpacePlayerController : MonoBehaviour
 
     // input caching
     Vector2 _moveInput = Vector2.zero;
-    [SerializeField] Vector2 _aimPosition = Vector2.zero; // worldPosition
+    Vector2 _aimPosition = Vector2.zero; // worldPosition
+
+    public Vector2 AimPosition => _aimPosition;
 
     // smooth moving
     Vector2 _currentMoveFactor = Vector2.zero;
