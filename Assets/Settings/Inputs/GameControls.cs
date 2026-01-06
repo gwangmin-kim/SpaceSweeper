@@ -201,7 +201,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             ]
         },
         {
-            ""name"": ""Exploration"",
+            ""name"": ""Space"",
             ""id"": ""06c311ea-f5cd-44be-8628-3e53f95d67e2"",
             ""actions"": [
                 {
@@ -340,18 +340,18 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Hub_Move = m_Hub.FindAction("Move", throwIfNotFound: true);
         m_Hub_Jump = m_Hub.FindAction("Jump", throwIfNotFound: true);
         m_Hub_Interact = m_Hub.FindAction("Interact", throwIfNotFound: true);
-        // Exploration
-        m_Exploration = asset.FindActionMap("Exploration", throwIfNotFound: true);
-        m_Exploration_Move = m_Exploration.FindAction("Move", throwIfNotFound: true);
-        m_Exploration_Dash = m_Exploration.FindAction("Dash", throwIfNotFound: true);
-        m_Exploration_Aim = m_Exploration.FindAction("Aim", throwIfNotFound: true);
-        m_Exploration_Attack = m_Exploration.FindAction("Attack", throwIfNotFound: true);
+        // Space
+        m_Space = asset.FindActionMap("Space", throwIfNotFound: true);
+        m_Space_Move = m_Space.FindAction("Move", throwIfNotFound: true);
+        m_Space_Dash = m_Space.FindAction("Dash", throwIfNotFound: true);
+        m_Space_Aim = m_Space.FindAction("Aim", throwIfNotFound: true);
+        m_Space_Attack = m_Space.FindAction("Attack", throwIfNotFound: true);
     }
 
     ~@GameControls()
     {
         UnityEngine.Debug.Assert(!m_Hub.enabled, "This will cause a leak and performance issues, GameControls.Hub.Disable() has not been called.");
-        UnityEngine.Debug.Assert(!m_Exploration.enabled, "This will cause a leak and performance issues, GameControls.Exploration.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Space.enabled, "This will cause a leak and performance issues, GameControls.Space.Disable() has not been called.");
     }
 
     /// <summary>
@@ -542,44 +542,44 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     /// </summary>
     public HubActions @Hub => new HubActions(this);
 
-    // Exploration
-    private readonly InputActionMap m_Exploration;
-    private List<IExplorationActions> m_ExplorationActionsCallbackInterfaces = new List<IExplorationActions>();
-    private readonly InputAction m_Exploration_Move;
-    private readonly InputAction m_Exploration_Dash;
-    private readonly InputAction m_Exploration_Aim;
-    private readonly InputAction m_Exploration_Attack;
+    // Space
+    private readonly InputActionMap m_Space;
+    private List<ISpaceActions> m_SpaceActionsCallbackInterfaces = new List<ISpaceActions>();
+    private readonly InputAction m_Space_Move;
+    private readonly InputAction m_Space_Dash;
+    private readonly InputAction m_Space_Aim;
+    private readonly InputAction m_Space_Attack;
     /// <summary>
-    /// Provides access to input actions defined in input action map "Exploration".
+    /// Provides access to input actions defined in input action map "Space".
     /// </summary>
-    public struct ExplorationActions
+    public struct SpaceActions
     {
         private @GameControls m_Wrapper;
 
         /// <summary>
         /// Construct a new instance of the input action map wrapper class.
         /// </summary>
-        public ExplorationActions(@GameControls wrapper) { m_Wrapper = wrapper; }
+        public SpaceActions(@GameControls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "Exploration/Move".
+        /// Provides access to the underlying input action "Space/Move".
         /// </summary>
-        public InputAction @Move => m_Wrapper.m_Exploration_Move;
+        public InputAction @Move => m_Wrapper.m_Space_Move;
         /// <summary>
-        /// Provides access to the underlying input action "Exploration/Dash".
+        /// Provides access to the underlying input action "Space/Dash".
         /// </summary>
-        public InputAction @Dash => m_Wrapper.m_Exploration_Dash;
+        public InputAction @Dash => m_Wrapper.m_Space_Dash;
         /// <summary>
-        /// Provides access to the underlying input action "Exploration/Aim".
+        /// Provides access to the underlying input action "Space/Aim".
         /// </summary>
-        public InputAction @Aim => m_Wrapper.m_Exploration_Aim;
+        public InputAction @Aim => m_Wrapper.m_Space_Aim;
         /// <summary>
-        /// Provides access to the underlying input action "Exploration/Attack".
+        /// Provides access to the underlying input action "Space/Attack".
         /// </summary>
-        public InputAction @Attack => m_Wrapper.m_Exploration_Attack;
+        public InputAction @Attack => m_Wrapper.m_Space_Attack;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
-        public InputActionMap Get() { return m_Wrapper.m_Exploration; }
+        public InputActionMap Get() { return m_Wrapper.m_Space; }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
         public void Enable() { Get().Enable(); }
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
@@ -587,9 +587,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
         public bool enabled => Get().enabled;
         /// <summary>
-        /// Implicitly converts an <see ref="ExplorationActions" /> to an <see ref="InputActionMap" /> instance.
+        /// Implicitly converts an <see ref="SpaceActions" /> to an <see ref="InputActionMap" /> instance.
         /// </summary>
-        public static implicit operator InputActionMap(ExplorationActions set) { return set.Get(); }
+        public static implicit operator InputActionMap(SpaceActions set) { return set.Get(); }
         /// <summary>
         /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
         /// </summary>
@@ -597,11 +597,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
         /// </remarks>
-        /// <seealso cref="ExplorationActions" />
-        public void AddCallbacks(IExplorationActions instance)
+        /// <seealso cref="SpaceActions" />
+        public void AddCallbacks(ISpaceActions instance)
         {
-            if (instance == null || m_Wrapper.m_ExplorationActionsCallbackInterfaces.Contains(instance)) return;
-            m_Wrapper.m_ExplorationActionsCallbackInterfaces.Add(instance);
+            if (instance == null || m_Wrapper.m_SpaceActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_SpaceActionsCallbackInterfaces.Add(instance);
             @Move.started += instance.OnMove;
             @Move.performed += instance.OnMove;
             @Move.canceled += instance.OnMove;
@@ -622,8 +622,8 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
         /// </remarks>
-        /// <seealso cref="ExplorationActions" />
-        private void UnregisterCallbacks(IExplorationActions instance)
+        /// <seealso cref="SpaceActions" />
+        private void UnregisterCallbacks(ISpaceActions instance)
         {
             @Move.started -= instance.OnMove;
             @Move.performed -= instance.OnMove;
@@ -640,12 +640,12 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         }
 
         /// <summary>
-        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="ExplorationActions.UnregisterCallbacks(IExplorationActions)" />.
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="SpaceActions.UnregisterCallbacks(ISpaceActions)" />.
         /// </summary>
-        /// <seealso cref="ExplorationActions.UnregisterCallbacks(IExplorationActions)" />
-        public void RemoveCallbacks(IExplorationActions instance)
+        /// <seealso cref="SpaceActions.UnregisterCallbacks(ISpaceActions)" />
+        public void RemoveCallbacks(ISpaceActions instance)
         {
-            if (m_Wrapper.m_ExplorationActionsCallbackInterfaces.Remove(instance))
+            if (m_Wrapper.m_SpaceActionsCallbackInterfaces.Remove(instance))
                 UnregisterCallbacks(instance);
         }
 
@@ -655,21 +655,21 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <remarks>
         /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
         /// </remarks>
-        /// <seealso cref="ExplorationActions.AddCallbacks(IExplorationActions)" />
-        /// <seealso cref="ExplorationActions.RemoveCallbacks(IExplorationActions)" />
-        /// <seealso cref="ExplorationActions.UnregisterCallbacks(IExplorationActions)" />
-        public void SetCallbacks(IExplorationActions instance)
+        /// <seealso cref="SpaceActions.AddCallbacks(ISpaceActions)" />
+        /// <seealso cref="SpaceActions.RemoveCallbacks(ISpaceActions)" />
+        /// <seealso cref="SpaceActions.UnregisterCallbacks(ISpaceActions)" />
+        public void SetCallbacks(ISpaceActions instance)
         {
-            foreach (var item in m_Wrapper.m_ExplorationActionsCallbackInterfaces)
+            foreach (var item in m_Wrapper.m_SpaceActionsCallbackInterfaces)
                 UnregisterCallbacks(item);
-            m_Wrapper.m_ExplorationActionsCallbackInterfaces.Clear();
+            m_Wrapper.m_SpaceActionsCallbackInterfaces.Clear();
             AddCallbacks(instance);
         }
     }
     /// <summary>
-    /// Provides a new <see cref="ExplorationActions" /> instance referencing this action map.
+    /// Provides a new <see cref="SpaceActions" /> instance referencing this action map.
     /// </summary>
-    public ExplorationActions @Exploration => new ExplorationActions(this);
+    public SpaceActions @Space => new SpaceActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Hub" which allows adding and removing callbacks.
     /// </summary>
@@ -700,11 +700,11 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         void OnInteract(InputAction.CallbackContext context);
     }
     /// <summary>
-    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Exploration" which allows adding and removing callbacks.
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Space" which allows adding and removing callbacks.
     /// </summary>
-    /// <seealso cref="ExplorationActions.AddCallbacks(IExplorationActions)" />
-    /// <seealso cref="ExplorationActions.RemoveCallbacks(IExplorationActions)" />
-    public interface IExplorationActions
+    /// <seealso cref="SpaceActions.AddCallbacks(ISpaceActions)" />
+    /// <seealso cref="SpaceActions.RemoveCallbacks(ISpaceActions)" />
+    public interface ISpaceActions
     {
         /// <summary>
         /// Method invoked when associated input action "Move" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.

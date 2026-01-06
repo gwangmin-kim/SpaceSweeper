@@ -634,7 +634,7 @@ GameObject:
   - component: {fileID: 1247851519}
   - component: {fileID: 1247851523}
   m_Layer: 3
-  m_Name: Player
+  m_Name: SpacePlayer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +667,7 @@ MonoBehaviour:
   m_ActionEvents: []
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
-  m_DefaultActionMap: Exploration
+  m_DefaultActionMap: Space
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
 --- !u!50 &1247851520
