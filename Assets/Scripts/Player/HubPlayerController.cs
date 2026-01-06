@@ -134,7 +134,7 @@ public class HubPlayerController : MonoBehaviour
     {
         Vector2 move = inputValue.Get<Vector2>();
 
-        Debug.Log($"input detected: move[{move}]");
+        // Debug.Log($"input detected: move[{move}]");
 
         _horizontalInput = move.x;
         _verticalInput = move.y;
@@ -144,7 +144,7 @@ public class HubPlayerController : MonoBehaviour
     {
         if (inputValue.isPressed)
         {
-            Debug.Log($"input detected: jump");
+            // Debug.Log($"input detected: jump");
             Jump();
         }
     }
@@ -153,7 +153,7 @@ public class HubPlayerController : MonoBehaviour
     {
         if (inputValue.isPressed)
         {
-            Debug.Log($"input detected: interact");
+            // Debug.Log($"input detected: interact");
             Interact();
         }
     }

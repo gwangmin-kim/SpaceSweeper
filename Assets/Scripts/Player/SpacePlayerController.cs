@@ -128,7 +128,7 @@ public class SpacePlayerController : MonoBehaviour
     {
         Vector2 move = inputValue.Get<Vector2>();
 
-        Debug.Log($"input detected: move[{move}]");
+        // Debug.Log($"input detected: move[{move}]");
 
         _moveInput = move;
     }
@@ -137,7 +137,7 @@ public class SpacePlayerController : MonoBehaviour
     {
         if (inputValue.isPressed)
         {
-            Debug.Log($"input detected: dash");
+            // Debug.Log($"input detected: dash");
 
             StartDash();
         }
@@ -156,7 +156,7 @@ public class SpacePlayerController : MonoBehaviour
     {
         if (inputValue.isPressed)
         {
-            Debug.Log($"input detected: attack");
+            // Debug.Log($"input detected: attack");
         }
     }
 
