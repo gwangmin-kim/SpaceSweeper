@@ -20,9 +20,9 @@ public class SpacePlayerController : MonoBehaviour
 
     [Header("Collision")]
     [SerializeField] LayerMask _collisionLayer;
-    [SerializeField] float _bounceFactor; // 넉백에 저항하는 정도를 결정
-    [SerializeField] float _knockbackFactor; // 넉백에 저항하는 정도를 결정
-    [SerializeField] float _knockbackDuration;
+    [SerializeField] float _bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
+    [SerializeField] float _knockbackFactor; // 동적으로 움직이는 물체에 '맞았을 때' 튕겨나가는 정도
+    [SerializeField] float _knockbackDuration; // 최소 넉백 시간
 
     // input caching
     Vector2 _moveInput = Vector2.zero;
@@ -41,7 +41,7 @@ public class SpacePlayerController : MonoBehaviour
 
     // knock back
     Vector2 _knockbackDirection = Vector2.zero;
-
+    float _knockbackTimer = 0f;
 
     void Awake()
     {
