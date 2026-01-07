@@ -232,10 +232,19 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""Attack"",
+                    ""name"": ""Interact"",
                     ""type"": ""Button"",
-                    ""id"": ""5cc8f04a-c262-4138-b710-601b95702364"",
+                    ""id"": ""75cf0d11-00b5-44dd-a4f8-35ba1b0511fe"",
                     ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Attack"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""5cc8f04a-c262-4138-b710-601b95702364"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -329,6 +338,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Attack"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fea66e00-b660-4c13-bf5a-b151be35c693"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -345,6 +365,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Space_Move = m_Space.FindAction("Move", throwIfNotFound: true);
         m_Space_Dash = m_Space.FindAction("Dash", throwIfNotFound: true);
         m_Space_Aim = m_Space.FindAction("Aim", throwIfNotFound: true);
+        m_Space_Interact = m_Space.FindAction("Interact", throwIfNotFound: true);
         m_Space_Attack = m_Space.FindAction("Attack", throwIfNotFound: true);
     }
 
@@ -548,6 +569,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Space_Move;
     private readonly InputAction m_Space_Dash;
     private readonly InputAction m_Space_Aim;
+    private readonly InputAction m_Space_Interact;
     private readonly InputAction m_Space_Attack;
     /// <summary>
     /// Provides access to input actions defined in input action map "Space".
@@ -572,6 +594,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Space/Aim".
         /// </summary>
         public InputAction @Aim => m_Wrapper.m_Space_Aim;
+        /// <summary>
+        /// Provides access to the underlying input action "Space/Interact".
+        /// </summary>
+        public InputAction @Interact => m_Wrapper.m_Space_Interact;
         /// <summary>
         /// Provides access to the underlying input action "Space/Attack".
         /// </summary>
@@ -611,6 +637,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Aim.started += instance.OnAim;
             @Aim.performed += instance.OnAim;
             @Aim.canceled += instance.OnAim;
+            @Interact.started += instance.OnInteract;
+            @Interact.performed += instance.OnInteract;
+            @Interact.canceled += instance.OnInteract;
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
@@ -634,6 +663,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Aim.started -= instance.OnAim;
             @Aim.performed -= instance.OnAim;
             @Aim.canceled -= instance.OnAim;
+            @Interact.started -= instance.OnInteract;
+            @Interact.performed -= instance.OnInteract;
+            @Interact.canceled -= instance.OnInteract;
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
@@ -727,6 +759,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAim(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnInteract(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Attack" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

@@ -18,6 +18,9 @@ public class SpacePlayerController : MonoBehaviour
     [SerializeField] float _dashDistance;
     [SerializeField] float _dashCooldown;
 
+    [Header("Combat")]
+    [SerializeField] float _attackCommandInterval; // 공격 키를 누르고 있을 때 공격 명령을 내리는 주기, 실제 공격 여부는 무기 오브젝트의 쿨다운으로 결정됨
+
     [Header("Collision")]
     [SerializeField] LayerMask _collisionLayer;
     [SerializeField] float _bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
@@ -27,6 +30,7 @@ public class SpacePlayerController : MonoBehaviour
     // input caching
     Vector2 _moveInput = Vector2.zero;
     Vector2 _aimPosition = Vector2.zero; // worldPosition
+    [SerializeField] bool _isAttackPressed = false;
 
     public Vector2 AimPosition => _aimPosition;
 
@@ -41,6 +45,11 @@ public class SpacePlayerController : MonoBehaviour
     bool IsDashing => _dashTimer > 0f;
     bool IsDashReady => _dashCooldownTimer <= 0f; // 해금 조건도 여기에 추가할 수도
 
+    // combat
+    [SerializeField] GameObject _currentWeapon;
+    float _attackCommandTimer = 0f;
+    bool IsAttackReady => _attackCommandTimer <= 0f;
+
     // knock back
     Vector2 _knockbackDirection = Vector2.zero;
     float _knockbackTimer = 0f;
@@ -49,6 +58,11 @@ public class SpacePlayerController : MonoBehaviour
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _rigidbody.gravityScale = 0f;
+    }
+
+    void Start()
+    {
+        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
 
         // 현재는 고정이지만, 업그레이드 등으로 수치가 변경되면 재계산 필요
         _dashDuration = _dashDistance / _dashSpeed;
@@ -59,13 +73,19 @@ public class SpacePlayerController : MonoBehaviour
         if (IsDashing)
         {
             Dash();
-            _dashTimer -= Time.fixedDeltaTime;
+            _dashTimer -= Time.fixedDeltaTime; // 0 이상이라는 조건이 이미 분기에 포함되어 있음
         }
         else
         {
             Move();
-            _dashCooldownTimer -= Time.fixedDeltaTime;
+            if (_dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
         }
+
+        if (_isAttackPressed && IsAttackReady)
+        {
+            SendAttack();
+        }
+        if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
 
         ApplyVisualDirection();
     }
@@ -104,6 +124,18 @@ public class SpacePlayerController : MonoBehaviour
         localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
 
         _visualRoot.localScale = localScale;
+    }
+
+    void SendAttack()
+    {
+        if (_currentWeapon == null || !_currentWeapon.TryGetComponent<IWeapon>(out var weapon)) return;
+
+        Vector2 aimDirection = (_aimPosition - (Vector2)transform.position).normalized;
+
+        weapon.Attack(aimDirection);
+
+        // Debug.Log($"[SendAttack] current weapon: {weapon}");
+        // Debug.Log($"[SendAttack] aim direction: {aimDirection}");
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -154,10 +186,9 @@ public class SpacePlayerController : MonoBehaviour
 
     public void OnAttack(InputValue inputValue)
     {
-        if (inputValue.isPressed)
-        {
-            // Debug.Log($"input detected: attack");
-        }
+        // Debug.Log($"input detected: attack");
+
+        _isAttackPressed = inputValue.isPressed;
     }
 
     public void OnDrawGizmos()
