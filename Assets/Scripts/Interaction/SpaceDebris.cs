@@ -1,17 +1,17 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class SpaceFloatingObject : MonoBehaviour, IDamagable
+public class SpaceDebris : MonoBehaviour, IDamagable
 {
     Rigidbody2D _rigidbody;
 
     [Header("Status")]
     [SerializeField] int _maxHealth;
+    [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
 
     [Header("Drop Settings")]
     [SerializeField] GameObject _resourcePrefab;
-    [SerializeField] int _minDropCount;
-    [SerializeField] int _maxDropCount;
+    [SerializeField] int _dropCount;
 
     [Header("Floating Settings")]
     [SerializeField] float _minDriftSpeed;
@@ -39,7 +39,17 @@ public class SpaceFloatingObject : MonoBehaviour, IDamagable
 
     void Die()
     {
+        // 필요 시 확률 기반 드롭 카운트 배율 적용 (업그레이드 항목 고려)
 
+        for (int i = 0; i < _dropCount; i++)
+        {
+            Vector2 spawnOffset = Random.insideUnitCircle * _radius;
+            Vector2 spawnPosition = (Vector2)transform.position + spawnOffset;
+
+            Instantiate(_resourcePrefab, spawnPosition, Quaternion.identity);
+        }
+
+        Destroy(gameObject);
     }
 
     public void TakeDamage(int damage)
@@ -58,5 +68,11 @@ public class SpaceFloatingObject : MonoBehaviour, IDamagable
         _rigidbody.linearVelocity = knockbackVelocity;
 
         _rigidbody.linearDamping = _linearDampingAfterCollision;
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(transform.position, _radius);
     }
 }

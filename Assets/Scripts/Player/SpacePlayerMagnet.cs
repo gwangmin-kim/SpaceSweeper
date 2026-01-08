@@ -4,6 +4,7 @@ using UnityEngine;
 public class SpacePlayerMagnet : MonoBehaviour
 {
     CircleCollider2D _magnetArea;
+    [SerializeField] LayerMask _resourceLayer;
 
     void Awake()
     {
@@ -17,6 +18,9 @@ public class SpacePlayerMagnet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-
+        if (((1 << collision.gameObject.layer) & _resourceLayer) != 0 && collision.TryGetComponent<ResourceItem>(out var item))
+        {
+            item.SetTarget(transform);
+        }
     }
 }

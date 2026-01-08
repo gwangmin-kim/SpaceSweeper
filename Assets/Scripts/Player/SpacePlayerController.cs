@@ -23,6 +23,7 @@ public class SpacePlayerController : MonoBehaviour
 
     [Header("Collision")]
     [SerializeField] LayerMask _collisionLayer;
+    [SerializeField] LayerMask _resourceLayer;
     [SerializeField] float _bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
     [SerializeField] float _knockbackFactor; // 동적으로 움직이는 물체에 '맞았을 때' 튕겨나가는 정도
     [SerializeField] float _knockbackDuration; // 최소 넉백 시간
@@ -143,7 +144,7 @@ public class SpacePlayerController : MonoBehaviour
         if (((1 << collision.gameObject.layer) & _collisionLayer) != 0)
         {
             // 법선 방향으로 튕겨남
-            // 나중에 반사각이나 반대 방향으로 변경 고려
+            // ? 나중에 반사각이나 반대 방향으로 변경 고려
             Vector2 normal = collision.contacts[0].normal;
 
             _currentMoveFactor = _currentMoveFactor.magnitude * _bounceFactor * normal;
