@@ -5,13 +5,13 @@ public class Pickaxe : MonoBehaviour, IWeapon
     [Header("Attack Status")]
     [SerializeField] int _attackDamage;
     [SerializeField] float _attackCooldown;
-    [SerializeField] float _knockbackIntensity;
+    [SerializeField] float _knockbackIntensity; // 타격 시 타격 대상이 밀려나는 정도
 
     // 부채꼴 형태 공격 범위
     [SerializeField] float _attackHalfAngle; // 예: 60이면 조준 방향 위아래로 60도 씩 총 120도 범위 타격
     [SerializeField] float _attackRadius;
 
-    [SerializeField] bool _isMultiHitUnlocked;
+    [SerializeField] bool _isMultiHitUnlocked; // 광역 공격 해금 여부
 
     [Header("Collision")]
     [SerializeField] LayerMask _damagableLayer;

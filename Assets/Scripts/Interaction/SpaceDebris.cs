@@ -35,6 +35,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable
 
         _rigidbody.linearVelocity = floatingSpeed * floatingDirection;
         _rigidbody.angularVelocity = rotationAnglePerSecond;
+
+        _currentHealth = _maxHealth;
     }
 
     void Die()

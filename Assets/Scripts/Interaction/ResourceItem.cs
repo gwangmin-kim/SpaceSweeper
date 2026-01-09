@@ -23,6 +23,7 @@ public class ResourceItem : MonoBehaviour
 
     [Header("Collision")]
     [SerializeField] LayerMask _playerLayer;
+    [SerializeField] LayerMask _resourceLayer;
 
     public int Value => _value;
 
@@ -49,6 +50,8 @@ public class ResourceItem : MonoBehaviour
         _rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
     }
 
+    // ! 움직이는 콜라이더는 Rigidbody를 달아주는 것이 효율적이라고 함. (https://docs.unity3d.com/6000.3/Documentation/Manual/CollidersOverview.html)
+    // ! transform.position을 직접 수정하는 것에서 Rigidbody 기반 속도 제어로 변경 고려
     void Update()
     {
         if (_standbyTimer > 0f)

@@ -19,11 +19,11 @@ public class SpacePlayerController : MonoBehaviour
     [SerializeField] float _dashCooldown;
 
     [Header("Combat")]
+    [SerializeField] Transform _weaponSocket;
     [SerializeField] float _attackCommandInterval; // 공격 키를 누르고 있을 때 공격 명령을 내리는 주기, 실제 공격 여부는 무기 오브젝트의 쿨다운으로 결정됨
 
     [Header("Collision")]
     [SerializeField] LayerMask _collisionLayer;
-    [SerializeField] LayerMask _resourceLayer;
     [SerializeField] float _bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
     [SerializeField] float _knockbackFactor; // 동적으로 움직이는 물체에 '맞았을 때' 튕겨나가는 정도
     [SerializeField] float _knockbackDuration; // 최소 넉백 시간
@@ -54,6 +54,7 @@ public class SpacePlayerController : MonoBehaviour
     // knock back
     Vector2 _knockbackDirection = Vector2.zero;
     float _knockbackTimer = 0f;
+    bool IsKnockbacking => _knockbackTimer > 0f;
 
     void Awake()
     {
@@ -67,10 +68,16 @@ public class SpacePlayerController : MonoBehaviour
 
         // 현재는 고정이지만, 업그레이드 등으로 수치가 변경되면 재계산 필요
         _dashDuration = _dashDistance / _dashSpeed;
+        _currentWeapon = _weaponSocket.GetChild(0).gameObject;
     }
 
     void FixedUpdate()
     {
+        if (IsKnockbacking)
+        {
+            Knockback();
+            _knockbackTimer -= Time.fixedDeltaTime;
+        }
         if (IsDashing)
         {
             Dash();
@@ -88,7 +95,7 @@ public class SpacePlayerController : MonoBehaviour
         }
         if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
 
-        ApplyVisualDirection();
+        ApplyVisual();
     }
 
     void Move()
@@ -114,8 +121,9 @@ public class SpacePlayerController : MonoBehaviour
         _dashCooldownTimer = _dashCooldown;
     }
 
-    void ApplyVisualDirection()
+    void ApplyVisual()
     {
+        // 좌우 방향 설정
         Vector3 localScale = _visualRoot.localScale;
 
         // 단순히 이동 방향을 바라보도록 구현하는 경우
@@ -137,6 +145,25 @@ public class SpacePlayerController : MonoBehaviour
 
         // Debug.Log($"[SendAttack] current weapon: {weapon}");
         // Debug.Log($"[SendAttack] aim direction: {aimDirection}");
+    }
+
+    void Knockback()
+    {
+        _rigidbody.linearVelocity = _knockbackFactor * _knockbackDirection;
+    }
+
+    public void StartKnockback(Vector2 direction, float intensity)
+    {
+        // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
+        _knockbackTimer = _knockbackDuration;
+        _knockbackDirection = intensity * direction; // not normalized
+        _currentMoveFactor = direction;
+
+        // cancel dash state
+        if (IsDashing)
+        {
+            _dashTimer = 0f;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D collision)

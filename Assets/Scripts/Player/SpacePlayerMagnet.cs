@@ -23,4 +23,11 @@ public class SpacePlayerMagnet : MonoBehaviour
             item.SetTarget(transform);
         }
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.softRed;
+        float radius = (_magnetArea == null) ? 0f : _magnetArea.radius;
+        Gizmos.DrawWireSphere(transform.position, radius);
+    }
 }
