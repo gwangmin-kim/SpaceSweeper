@@ -26,7 +26,7 @@ public class SpacePlayerMagnet : MonoBehaviour
 
     void OnDrawGizmos()
     {
-        Gizmos.color = Color.softRed;
+        Gizmos.color = Color.skyBlue;
         float radius = (_magnetArea == null) ? 0f : _magnetArea.radius;
         Gizmos.DrawWireSphere(transform.position, radius);
     }

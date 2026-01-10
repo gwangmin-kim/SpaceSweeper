@@ -49,6 +49,8 @@ public class Shotgun : MonoBehaviour, IWeapon
             }
         }
 
+        Debug.DrawLine(_bulletSpawnPoint.position, 10f * _bulletData.duration * aimDirection, Color.yellowGreen, 0.5f);
+
         _player.StartKnockback(-aimDirection, _reboundIntensity);
 
         _attackCooldownTimer = _attackCooldown;

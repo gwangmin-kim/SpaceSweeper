@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Pickaxe : MonoBehaviour, IWeapon
@@ -14,11 +15,20 @@ public class Pickaxe : MonoBehaviour, IWeapon
     [SerializeField] bool _isMultiHitUnlocked; // 광역 공격 해금 여부
 
     [Header("Collision")]
-    [SerializeField] LayerMask _damagableLayer;
-    [SerializeField] LayerMask _firstCheckLayer; // ? idea: 플레이어에게 위협이 되는 물체가 있다면 우선적으로 타격하도록 구현하고 싶을 때 사용 (_damagableLayer의 부분집합)
+    [SerializeField] LayerMask _targetLayer;
 
     float _attackCooldownTimer = 0f;
     bool IsAttackable => _attackCooldownTimer <= 0f;
+
+    ContactFilter2D _filter;
+    List<Collider2D> _hitBuffer = new List<Collider2D>(10);
+
+    void Awake()
+    {
+        _filter = new ContactFilter2D();
+        _filter.SetLayerMask(_targetLayer);
+        _filter.useTriggers = false;
+    }
 
     void FixedUpdate()
     {
@@ -34,9 +44,11 @@ public class Pickaxe : MonoBehaviour, IWeapon
     {
         if (!IsAttackable) return;
 
+        _attackCooldownTimer = _attackCooldown;
+
         if (!_isMultiHitUnlocked)
         {
-            Collider2D hit = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _damagableLayer);
+            Collider2D hit = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _targetLayer);
 
             if (hit == null) return;
 
@@ -53,10 +65,28 @@ public class Pickaxe : MonoBehaviour, IWeapon
         }
         else
         {
-            Collider2D[] hits = Physics2D.OverlapCircleAll((Vector2)transform.position, _attackRadius, _damagableLayer);
+            // Collider2D[] hits = Physics2D.OverlapCircleAll((Vector2)transform.position, _attackRadius, _targetLayer);
 
-            foreach (Collider2D hit in hits)
+            // foreach (Collider2D hit in hits)
+            // {
+            //     if (hit == null) continue;
+
+            //     Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
+            //     float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
+
+            //     if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
+            //     {
+            //         component.TakeDamage(_attackDamage);
+            //         component.ApplyKnockback(aimDirection, _knockbackIntensity);
+            //     }
+            // }
+
+            int count = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _filter, _hitBuffer);
+
+            for (int i = 0; i < count; i++)
             {
+                Collider2D hit = _hitBuffer[i];
+
                 if (hit == null) continue;
 
                 Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
@@ -70,13 +100,13 @@ public class Pickaxe : MonoBehaviour, IWeapon
             }
         }
 
-        _attackCooldownTimer = _attackCooldown;
+        Debug.DrawLine(transform.position, _attackRadius * aimDirection, Color.yellowGreen, 0.5f);
     }
 
     public void OnDrawGizmos()
     {
         // draw attack range
-        Gizmos.color = Color.red;
+        Gizmos.color = Color.softRed;
         Gizmos.DrawWireSphere(transform.position, _attackRadius);
     }
 }

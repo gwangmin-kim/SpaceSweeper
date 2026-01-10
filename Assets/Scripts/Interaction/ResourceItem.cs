@@ -25,8 +25,6 @@ public class ResourceItem : MonoBehaviour
     [SerializeField] LayerMask _playerLayer;
     [SerializeField] LayerMask _resourceLayer;
 
-    public int Value => _value;
-
     Transform _target;
     float _initialInverseSqrDistance;
 
@@ -97,8 +95,8 @@ public class ResourceItem : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & _playerLayer) != 0)
         {
-            // 플레이어를 거치지 않고 직접 리소스 매니저 호출
-            // ResourceManager.Instance.EarnResources(item.Value);
+            // 플레이어를 거치지 않고 직접 세션 매니저 호출
+            SessionManager.Instance.LootResource(_value);
 
             Destroy(gameObject);
         }

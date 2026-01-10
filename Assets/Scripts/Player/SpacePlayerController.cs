@@ -78,7 +78,7 @@ public class SpacePlayerController : MonoBehaviour
             Knockback();
             _knockbackTimer -= Time.fixedDeltaTime;
         }
-        if (IsDashing)
+        else if (IsDashing)
         {
             Dash();
             _dashTimer -= Time.fixedDeltaTime; // 0 이상이라는 조건이 이미 분기에 포함되어 있음
@@ -147,6 +147,17 @@ public class SpacePlayerController : MonoBehaviour
         // Debug.Log($"[SendAttack] aim direction: {aimDirection}");
     }
 
+    void SendReturn()
+    {
+        // 우주선 귀환 시도
+        if (SessionManager.Instance != null) SessionManager.Instance.TryReturn();
+    }
+
+    void SendCancel()
+    {
+        if (SessionManager.Instance != null) SessionManager.Instance.Cancel();
+    }
+
     void Knockback()
     {
         _rigidbody.linearVelocity = _knockbackFactor * _knockbackDirection;
@@ -210,6 +221,24 @@ public class SpacePlayerController : MonoBehaviour
         // Debug.Log($"input detected: aim[{position}]");
 
         _aimPosition = Camera.main.ScreenToWorldPoint(position);
+    }
+
+    public void OnInteract(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            // Debug.Log($"input detected: interact");
+            SendReturn();
+        }
+    }
+
+    public void OnCancel(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            // Debug.Log($"input detected: cancel");
+            SendCancel();
+        }
     }
 
     public void OnAttack(InputValue inputValue)
