@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Shotgun
   _attackCooldown: 1
-  _reboundIntensity: 0.5
+  _reboundIntensity: 3
   _bulletSpawnPoint: {fileID: 2911316668329039520}
   _bulletPrefab: {fileID: 7293312896602760015, guid: 9ffae58caf4f83744bbe5d9a43e0ea95, type: 3}
   _bulletData:

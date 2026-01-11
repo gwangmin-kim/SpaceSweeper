@@ -36,7 +36,7 @@ public class SpacePlayerController : MonoBehaviour
     public Vector2 AimPosition => _aimPosition;
 
     // smooth moving
-    Vector2 _currentMoveFactor = Vector2.zero;
+    Vector2 _currentVelocity = Vector2.zero;
 
     // dash
     Vector2 _dashDirection = Vector2.zero;
@@ -52,9 +52,16 @@ public class SpacePlayerController : MonoBehaviour
     bool IsAttackReady => _attackCommandTimer <= 0f;
 
     // knock back
-    Vector2 _knockbackDirection = Vector2.zero;
     float _knockbackTimer = 0f;
-    bool IsKnockbacking => _knockbackTimer > 0f;
+
+    enum State
+    {
+        Move, // Idle or Move
+        Dash,
+        Knockback,
+    }
+
+    State _state;
 
     void Awake()
     {
@@ -64,31 +71,24 @@ public class SpacePlayerController : MonoBehaviour
 
     void Start()
     {
+        _state = State.Move;
+
         // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
 
-        // 현재는 고정이지만, 업그레이드 등으로 수치가 변경되면 재계산 필요
+
         _dashDuration = _dashDistance / _dashSpeed;
-        _currentWeapon = _weaponSocket.GetChild(0).gameObject;
+        if (_weaponSocket.childCount != 0)
+        {
+            _currentWeapon = _weaponSocket.GetChild(0).gameObject;
+        }
     }
 
     void FixedUpdate()
     {
-        if (IsKnockbacking)
-        {
-            Knockback();
-            _knockbackTimer -= Time.fixedDeltaTime;
-        }
-        else if (IsDashing)
-        {
-            Dash();
-            _dashTimer -= Time.fixedDeltaTime; // 0 이상이라는 조건이 이미 분기에 포함되어 있음
-        }
-        else
-        {
-            Move();
-            if (_dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
-        }
+        // move
+        Move();
 
+        // attack
         if (_isAttackPressed && IsAttackReady)
         {
             SendAttack();
@@ -98,15 +98,61 @@ public class SpacePlayerController : MonoBehaviour
         ApplyVisual();
     }
 
-    void Move()
+    void SetState(State state)
     {
-        _currentMoveFactor = Vector2.Lerp(_currentMoveFactor, _moveInput, _moveDamping * Time.fixedDeltaTime);
-        _rigidbody.linearVelocity = _moveSpeed * _currentMoveFactor;
+        if (_state == state) return;
+        _state = state;
+
+        switch (state)
+        {
+            case State.Move:
+                _dashTimer = 0f;
+                _knockbackTimer = 0f;
+                break;
+            case State.Dash:
+                _dashTimer = _dashDuration;
+                _dashCooldownTimer = _dashCooldown;
+                _knockbackTimer = 0f;
+                break;
+            case State.Knockback:
+                _knockbackTimer = _knockbackDuration;
+                _dashTimer = 0f;
+                break;
+        }
     }
 
-    void Dash()
+    void Move()
     {
-        _rigidbody.linearVelocity = _dashSpeed * _dashDirection;
+        switch (_state)
+        {
+            case State.Move:
+                Vector2 targetSpeed = _moveInput * _moveSpeed;
+                _currentVelocity = Vector2.Lerp(_currentVelocity, targetSpeed, _moveDamping * Time.fixedDeltaTime);
+
+                break;
+            case State.Dash:
+                _dashTimer -= Time.fixedDeltaTime;
+
+                if (_dashTimer <= 0f)
+                {
+                    SetState(State.Move);
+                }
+
+                break;
+            case State.Knockback:
+                _knockbackTimer -= Time.fixedDeltaTime;
+
+                if (_knockbackTimer <= 0f)
+                {
+                    SetState(State.Move);
+                }
+
+                break;
+        }
+
+        if (_state != State.Dash && _dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
+
+        _rigidbody.linearVelocity = _currentVelocity;
     }
 
     void StartDash()
@@ -114,11 +160,18 @@ public class SpacePlayerController : MonoBehaviour
         // 추가 조건 검사 로직 필요 (해금 여부)
         if (IsDashing || !IsDashReady) return;
 
-        _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentMoveFactor.normalized;
-        _currentMoveFactor = _dashDirection;
+        _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentVelocity.normalized;
+        _currentVelocity = _dashSpeed * _dashDirection;
 
-        _dashTimer = _dashDuration;
-        _dashCooldownTimer = _dashCooldown;
+        SetState(State.Dash);
+    }
+
+    public void StartKnockback(Vector2 direction, float intensity)
+    {
+        // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
+        _currentVelocity = _knockbackFactor * intensity * direction;
+
+        SetState(State.Knockback);
     }
 
     void ApplyVisual()
@@ -126,11 +179,21 @@ public class SpacePlayerController : MonoBehaviour
         // 좌우 방향 설정
         Vector3 localScale = _visualRoot.localScale;
 
-        // 단순히 이동 방향을 바라보도록 구현하는 경우
-        // localScale.x = Mathf.Sign(_currentMoveFactor.x);
-
-        // 마우스 방향을 바라보도록 구현
-        localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
+        switch (_state)
+        {
+            case State.Move:
+                // 이동: 마우스 방향 바라봄
+                localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
+                break;
+            case State.Dash:
+                // 대시: 이동 방향 바라봄
+                if (_currentVelocity.x != 0f) localScale.x = Mathf.Sign(_currentVelocity.x);
+                break;
+            case State.Knockback:
+                // 넉백: 이동 반대 방향 바라봄
+                if (_currentVelocity.x != 0f) localScale.x = -Mathf.Sign(_currentVelocity.x);
+                break;
+        }
 
         _visualRoot.localScale = localScale;
     }
@@ -158,25 +221,6 @@ public class SpacePlayerController : MonoBehaviour
         if (SessionManager.Instance != null) SessionManager.Instance.Cancel();
     }
 
-    void Knockback()
-    {
-        _rigidbody.linearVelocity = _knockbackFactor * _knockbackDirection;
-    }
-
-    public void StartKnockback(Vector2 direction, float intensity)
-    {
-        // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
-        _knockbackTimer = _knockbackDuration;
-        _knockbackDirection = intensity * direction; // not normalized
-        _currentMoveFactor = direction;
-
-        // cancel dash state
-        if (IsDashing)
-        {
-            _dashTimer = 0f;
-        }
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
         if (((1 << collision.gameObject.layer) & _collisionLayer) != 0)
@@ -185,13 +229,10 @@ public class SpacePlayerController : MonoBehaviour
             // ? 나중에 반사각이나 반대 방향으로 변경 고려
             Vector2 normal = collision.contacts[0].normal;
 
-            _currentMoveFactor = _currentMoveFactor.magnitude * _bounceFactor * normal;
+            _currentVelocity = _currentVelocity.magnitude * _bounceFactor * normal;
 
-            // cancel dash state
-            if (IsDashing)
-            {
-                _dashTimer = 0f;
-            }
+            // cancel dash or knockback state
+            SetState(State.Move);
         }
     }
 

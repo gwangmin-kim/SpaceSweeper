@@ -1,6 +1,7 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class ResourceItem : MonoBehaviour
 {
     Collider2D _collider;
@@ -23,7 +24,6 @@ public class ResourceItem : MonoBehaviour
 
     [Header("Collision")]
     [SerializeField] LayerMask _playerLayer;
-    [SerializeField] LayerMask _resourceLayer;
 
     Transform _target;
     float _initialInverseSqrDistance;

@@ -156,9 +156,11 @@ MonoBehaviour:
     m_Bits: 384
   _bounceFactor: 1.5
   _knockbackFactor: 1
-  _knockbackDuration: 1
+  _knockbackDuration: 0.5
   _isAttackPressed: 0
+  _dashTimer: 0
   _currentWeapon: {fileID: 0}
+  _knockbackTimer: 0
 --- !u!1 &4685354783919970889
 GameObject:
   m_ObjectHideFlags: 0
