@@ -91,7 +91,7 @@ public class Lasergun : MonoBehaviour, IWeapon
         _currentTargets.Add(hit.transform);
 
         Debug.DrawLine(_detectOrigin.position, hit.transform.position, Color.red, 0.5f);
-        Debug.Log($"[Hit 0] First Target: {hit.transform.name}");
+        // Debug.Log($"[Hit 0] First Target: {hit.transform.name}");
 
         if (!_isTransitionUnlocked) return;
 
@@ -111,7 +111,7 @@ public class Lasergun : MonoBehaviour, IWeapon
             }
 
             Debug.DrawLine(currentOrigin.position, target.position, Color.cyan, 0.5f);
-            Debug.Log($"[Hit {i + 1}] Transition Target: {target.name}");
+            // Debug.Log($"[Hit {i + 1}] Transition Target: {target.name}");
 
             component.TakeDamage(_attackDamage);
             _currentTargets.Add(target);
@@ -126,7 +126,7 @@ public class Lasergun : MonoBehaviour, IWeapon
         Gizmos.DrawWireSphere(_detectOrigin.position, _attackDistance);
         foreach (Transform target in _currentTargets)
         {
-            Debug.Log($"current target: {target}");
+            // Debug.Log($"current target: {target}");
             if (target != null)
             {
                 Gizmos.DrawWireSphere(target.position, _transitionRadius);
