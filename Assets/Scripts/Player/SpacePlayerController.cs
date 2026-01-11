@@ -18,6 +18,10 @@ public class SpacePlayerController : MonoBehaviour
     [SerializeField] float _dashDistance;
     [SerializeField] float _dashCooldown;
 
+    [Header("Combat")]
+    [SerializeField] Transform _weaponSocket;
+    [SerializeField] float _attackCommandInterval; // 공격 키를 누르고 있을 때 공격 명령을 내리는 주기, 실제 공격 여부는 무기 오브젝트의 쿨다운으로 결정됨
+
     [Header("Collision")]
     [SerializeField] LayerMask _collisionLayer;
     [SerializeField] float _bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
@@ -27,11 +31,12 @@ public class SpacePlayerController : MonoBehaviour
     // input caching
     Vector2 _moveInput = Vector2.zero;
     Vector2 _aimPosition = Vector2.zero; // worldPosition
+    [SerializeField] bool _isAttackPressed = false;
 
     public Vector2 AimPosition => _aimPosition;
 
     // smooth moving
-    Vector2 _currentMoveFactor = Vector2.zero;
+    Vector2 _currentVelocity = Vector2.zero;
 
     // dash
     Vector2 _dashDirection = Vector2.zero;
@@ -41,44 +46,113 @@ public class SpacePlayerController : MonoBehaviour
     bool IsDashing => _dashTimer > 0f;
     bool IsDashReady => _dashCooldownTimer <= 0f; // 해금 조건도 여기에 추가할 수도
 
+    // combat
+    [SerializeField] GameObject _currentWeapon;
+    float _attackCommandTimer = 0f;
+    bool IsAttackReady => _attackCommandTimer <= 0f;
+
     // knock back
-    Vector2 _knockbackDirection = Vector2.zero;
     float _knockbackTimer = 0f;
+
+    enum State
+    {
+        Move, // Idle or Move
+        Dash,
+        Knockback,
+    }
+
+    State _state;
 
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
         _rigidbody.gravityScale = 0f;
+    }
 
-        // 현재는 고정이지만, 업그레이드 등으로 수치가 변경되면 재계산 필요
+    void Start()
+    {
+        _state = State.Move;
+
+        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
+
+
         _dashDuration = _dashDistance / _dashSpeed;
+        if (_weaponSocket.childCount != 0)
+        {
+            _currentWeapon = _weaponSocket.GetChild(0).gameObject;
+        }
     }
 
     void FixedUpdate()
     {
-        if (IsDashing)
-        {
-            Dash();
-            _dashTimer -= Time.fixedDeltaTime;
-        }
-        else
-        {
-            Move();
-            _dashCooldownTimer -= Time.fixedDeltaTime;
-        }
+        // move
+        Move();
 
-        ApplyVisualDirection();
+        // attack
+        if (_isAttackPressed && IsAttackReady)
+        {
+            SendAttack();
+        }
+        if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
+
+        ApplyVisual();
+    }
+
+    void SetState(State state)
+    {
+        if (_state == state) return;
+        _state = state;
+
+        switch (state)
+        {
+            case State.Move:
+                _dashTimer = 0f;
+                _knockbackTimer = 0f;
+                break;
+            case State.Dash:
+                _dashTimer = _dashDuration;
+                _dashCooldownTimer = _dashCooldown;
+                _knockbackTimer = 0f;
+                break;
+            case State.Knockback:
+                _knockbackTimer = _knockbackDuration;
+                _dashTimer = 0f;
+                break;
+        }
     }
 
     void Move()
     {
-        _currentMoveFactor = Vector2.Lerp(_currentMoveFactor, _moveInput, _moveDamping * Time.fixedDeltaTime);
-        _rigidbody.linearVelocity = _moveSpeed * _currentMoveFactor;
-    }
+        switch (_state)
+        {
+            case State.Move:
+                Vector2 targetSpeed = _moveInput * _moveSpeed;
+                _currentVelocity = Vector2.Lerp(_currentVelocity, targetSpeed, _moveDamping * Time.fixedDeltaTime);
 
-    void Dash()
-    {
-        _rigidbody.linearVelocity = _dashSpeed * _dashDirection;
+                break;
+            case State.Dash:
+                _dashTimer -= Time.fixedDeltaTime;
+
+                if (_dashTimer <= 0f)
+                {
+                    SetState(State.Move);
+                }
+
+                break;
+            case State.Knockback:
+                _knockbackTimer -= Time.fixedDeltaTime;
+
+                if (_knockbackTimer <= 0f)
+                {
+                    SetState(State.Move);
+                }
+
+                break;
+        }
+
+        if (_state != State.Dash && _dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
+
+        _rigidbody.linearVelocity = _currentVelocity;
     }
 
     void StartDash()
@@ -86,24 +160,65 @@ public class SpacePlayerController : MonoBehaviour
         // 추가 조건 검사 로직 필요 (해금 여부)
         if (IsDashing || !IsDashReady) return;
 
-        _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentMoveFactor.normalized;
-        _currentMoveFactor = _dashDirection;
+        _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentVelocity.normalized;
+        _currentVelocity = _dashSpeed * _dashDirection;
 
-        _dashTimer = _dashDuration;
-        _dashCooldownTimer = _dashCooldown;
+        SetState(State.Dash);
     }
 
-    void ApplyVisualDirection()
+    public void StartKnockback(Vector2 direction, float intensity)
     {
+        // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
+        _currentVelocity = _knockbackFactor * intensity * direction;
+
+        SetState(State.Knockback);
+    }
+
+    void ApplyVisual()
+    {
+        // 좌우 방향 설정
         Vector3 localScale = _visualRoot.localScale;
 
-        // 단순히 이동 방향을 바라보도록 구현하는 경우
-        // localScale.x = Mathf.Sign(_currentMoveFactor.x);
-
-        // 마우스 방향을 바라보도록 구현
-        localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
+        switch (_state)
+        {
+            case State.Move:
+                // 이동: 마우스 방향 바라봄
+                localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
+                break;
+            case State.Dash:
+                // 대시: 이동 방향 바라봄
+                if (_currentVelocity.x != 0f) localScale.x = Mathf.Sign(_currentVelocity.x);
+                break;
+            case State.Knockback:
+                // 넉백: 이동 반대 방향 바라봄
+                if (_currentVelocity.x != 0f) localScale.x = -Mathf.Sign(_currentVelocity.x);
+                break;
+        }
 
         _visualRoot.localScale = localScale;
+    }
+
+    void SendAttack()
+    {
+        if (_currentWeapon == null || !_currentWeapon.TryGetComponent<IWeapon>(out var weapon)) return;
+
+        Vector2 aimDirection = (_aimPosition - (Vector2)transform.position).normalized;
+
+        weapon.Attack(aimDirection);
+
+        // Debug.Log($"[SendAttack] current weapon: {weapon}");
+        // Debug.Log($"[SendAttack] aim direction: {aimDirection}");
+    }
+
+    void SendReturn()
+    {
+        // 우주선 귀환 시도
+        if (SessionManager.Instance != null) SessionManager.Instance.TryReturn();
+    }
+
+    void SendCancel()
+    {
+        if (SessionManager.Instance != null) SessionManager.Instance.Cancel();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -111,16 +226,13 @@ public class SpacePlayerController : MonoBehaviour
         if (((1 << collision.gameObject.layer) & _collisionLayer) != 0)
         {
             // 법선 방향으로 튕겨남
-            // 나중에 반사각이나 반대 방향으로 변경 고려
+            // ? 나중에 반사각이나 반대 방향으로 변경 고려
             Vector2 normal = collision.contacts[0].normal;
 
-            _currentMoveFactor = _currentMoveFactor.magnitude * _bounceFactor * normal;
+            _currentVelocity = _currentVelocity.magnitude * _bounceFactor * normal;
 
-            // cancel dash state
-            if (IsDashing)
-            {
-                _dashTimer = 0f;
-            }
+            // cancel dash or knockback state
+            SetState(State.Move);
         }
     }
 
@@ -152,12 +264,29 @@ public class SpacePlayerController : MonoBehaviour
         _aimPosition = Camera.main.ScreenToWorldPoint(position);
     }
 
-    public void OnAttack(InputValue inputValue)
+    public void OnInteract(InputValue inputValue)
     {
         if (inputValue.isPressed)
         {
-            // Debug.Log($"input detected: attack");
+            // Debug.Log($"input detected: interact");
+            SendReturn();
         }
+    }
+
+    public void OnCancel(InputValue inputValue)
+    {
+        if (inputValue.isPressed)
+        {
+            // Debug.Log($"input detected: cancel");
+            SendCancel();
+        }
+    }
+
+    public void OnAttack(InputValue inputValue)
+    {
+        // Debug.Log($"input detected: attack");
+
+        _isAttackPressed = inputValue.isPressed;
     }
 
     public void OnDrawGizmos()

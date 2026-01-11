@@ -128,7 +128,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 405770047}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Environment
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -163,7 +163,7 @@ GameObject:
   - component: {fileID: 428213878}
   - component: {fileID: 428213880}
   - component: {fileID: 428213881}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -630,9 +630,9 @@ MonoBehaviour:
   _terminalVerticalSpeed: 20
   _groundCheckOffset: {x: 0, y: 0}
   _groundCheckRadius: 0.05
-  _environmentLayer:
+  _groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 128
   _isGrounded: 1
 --- !u!50 &705347501
 Rigidbody2D:
@@ -800,7 +800,7 @@ GameObject:
   - component: {fileID: 917537783}
   - component: {fileID: 917537785}
   - component: {fileID: 917537784}
-  m_Layer: 6
+  m_Layer: 7
   m_Name: Square (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
