@@ -3,7 +3,7 @@ using UnityEngine;
 public class SessionManager : MonoBehaviour
 {
     // Singleton
-    public static SessionManager Instance;
+    public static SessionManager Instance { get; private set; }
 
     [Header("Player")]
     [SerializeField] SpacePlayerController _player;
@@ -36,14 +36,23 @@ public class SessionManager : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        StartSession();
+    }
+
     void Update()
     {
         if (_currentOxygenAmount > 0f)
         {
             _currentOxygenAmount -= Time.deltaTime;
+            float oxygenRatio = _currentOxygenAmount / _totalOxygenAmount;
+
+            SessionUIManager.Instance.SetOxygen(_currentOxygenAmount, oxygenRatio);
         }
         else
         {
+            SessionUIManager.Instance.SetOxygen(0f, 0f);
             EndSession();
         }
     }
@@ -53,11 +62,15 @@ public class SessionManager : MonoBehaviour
         _isReturning = false;
         _currentOxygenAmount = _totalOxygenAmount;
         _sessionLoot = 0;
+
+        SessionUIManager.Instance.SetOxygen(_currentOxygenAmount, 1f);
+        SessionUIManager.Instance.SetResource(_sessionLoot);
     }
 
     public void LootResource(int amount)
     {
         _sessionLoot += amount;
+        SessionUIManager.Instance.SetResource(_sessionLoot);
     }
 
     public void EndSession()
@@ -66,6 +79,7 @@ public class SessionManager : MonoBehaviour
         {
             // 플레이어 자발적 귀환: 성공
             if (ResourceManager.Instance != null) ResourceManager.Instance.StoreResources(_sessionLoot);
+
         }
         else
         {

@@ -3,7 +3,7 @@ using UnityEngine;
 public class ResourceManager : MonoBehaviour
 {
     // Singleton
-    public static ResourceManager Instance;
+    public static ResourceManager Instance { get; private set; }
 
     private int _totalStoredResource = 0; // 탐사 세션 종료 후, 획득이 확정된 자원량
 
