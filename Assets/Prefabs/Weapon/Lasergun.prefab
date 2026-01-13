@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lasergun
   _attackDamage: 1
-  _attackInterval: 0.5
+  _attackInterval: 0.1
   _attackDistance: 5
   _detectHalfWidth: 1
   _detectOrigin: {fileID: 2911316668329039520}
