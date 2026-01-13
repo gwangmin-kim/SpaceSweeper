@@ -79,7 +79,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     void SetHealthVisual()
     {
         // UI
-        // _currentHealthRatio = Mathf.Lerp(_currentHealthRatio, _targetHealthRatio, _healthBarDamping * Time.deltaTime);
         _currentHealthRatio = Mathf.SmoothDamp(
             _currentHealthRatio,
             _targetHealthRatio,
