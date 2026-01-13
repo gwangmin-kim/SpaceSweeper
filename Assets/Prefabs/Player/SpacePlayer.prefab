@@ -114,12 +114,12 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -5156993582514690110, guid: d3e5857b5563c4b468b61dd266e8c37a, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d3e5857b5563c4b468b61dd266e8c37a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.02, y: 3.42}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -237,12 +237,12 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -6199720543617963891, guid: 54530b873d8bab2429dd8c406bb16648, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 54530b873d8bab2429dd8c406bb16648, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 4.08, y: 5.02}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -400,15 +400,15 @@ MonoBehaviour:
   _faceAttractFactor: {x: 0.5, y: 0.35}
   _headDamping: 3
   _bodyPivot: {fileID: 7035832108036668773}
-  _moveTiltAngle: 10
-  _dashTiltAngle: 20
-  _knockbackTiltAngle: 15
-  _bodyTiltDamping: 0
+  _moveTiltAngle: 20
+  _dashTiltAngle: 30
+  _knockbackTiltAngle: 25
+  _bodyTiltDamping: 3
   _handRoot: {fileID: 150395179779981091}
   _handSocket: {fileID: 3890985834191432297}
   _handAttractFactor: {x: 0.5, y: 0.5}
   _handDamping: 5
-  _restAngle: 45
+  _restAngle: 30
   _aimThreshold: 1
   _weaponRotationDamping: 5
 --- !u!114 &3110833387944489917
@@ -436,7 +436,7 @@ MonoBehaviour:
     m_Bits: 384
   _bounceFactor: 1.5
   _knockbackFactor: 1
-  _knockbackDuration: 0.5
+  _knockbackDuration: 0.3
   _isAttackPressed: 0
   _currentWeapon: {fileID: 0}
 --- !u!1 &4998150080418763616
@@ -949,12 +949,12 @@ SpriteRenderer:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: -3390919049375580356, guid: 8c8286b206cb293499e435ff689cdc6d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8c8286b206cb293499e435ff689cdc6d, type: 3}
   m_Color: {r: 0.13333334, g: 0.13333334, b: 0.13333334, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3.02, y: 2.57}
+  m_Size: {x: 5.12, y: 5.12}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

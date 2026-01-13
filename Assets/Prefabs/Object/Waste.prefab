@@ -85,7 +85,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
-  m_AngularDamping: 0.05
+  m_AngularDamping: 0
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -117,8 +117,8 @@ MonoBehaviour:
   _minDriftSpeed: 0
   _maxDriftSpeed: 0
   _maxRotationAnglePerSecond: 60
-  _knockbackFactor: 0.5
-  _linearDampingAfterCollision: 0.1
+  _knockbackFactor: 1
+  _linearDampingAfterCollision: 1
 --- !u!1 &6396764344100364256
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,23 +105,27 @@ public class SpacePlayerVisual : MonoBehaviour
 
         if (diff.sqrMagnitude < _aimThreshold * _aimThreshold)
         {
+            // 파지
             targetRotation = Quaternion.Euler(0, 0, _restAngle);
-        }
-        else
-        {
-            Vector2 direction = diff.normalized;
-            targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
-        }
-        _handSocket.rotation = Quaternion.Lerp(_handSocket.rotation, targetRotation, _weaponRotationDamping * Time.deltaTime);
 
-        // 왼쪽을 바라볼 때 무기 좌우 반전
-        if (diff.x < 0f)
-        {
-            _handSocket.localScale = new Vector3(1, -1, 1);
-        }
-        else
-        {
             _handSocket.localScale = new Vector3(1, 1, 1);
         }
+        else
+        {
+            // 조준
+            Vector2 direction = diff.normalized;
+            targetRotation = Quaternion.FromToRotation(Vector3.right, direction);
+
+            // 왼쪽을 바라볼 때 무기 좌우 반전
+            if (diff.x < 0f)
+            {
+                _handSocket.localScale = new Vector3(1, -1, 1);
+            }
+            else
+            {
+                _handSocket.localScale = new Vector3(1, 1, 1);
+            }
+        }
+        _handSocket.rotation = Quaternion.Lerp(_handSocket.rotation, targetRotation, _weaponRotationDamping * Time.deltaTime);
     }
 }
