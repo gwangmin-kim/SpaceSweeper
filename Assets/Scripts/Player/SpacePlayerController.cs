@@ -8,7 +8,7 @@ public class SpacePlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float _moveSpeed;
-    [SerializeField] float _moveDamping;
+    [SerializeField] float _moveDampingTime;
 
     [Header("Sprite")]
     [SerializeField] Transform _visualRoot;
@@ -35,6 +35,7 @@ public class SpacePlayerController : MonoBehaviour
 
     // smooth moving
     Vector2 _currentVelocity = Vector2.zero;
+    Vector2 _currentVelocityReference = Vector2.zero;
 
     // dash
     Vector2 _dashDirection = Vector2.zero;
@@ -128,8 +129,8 @@ public class SpacePlayerController : MonoBehaviour
         switch (_state)
         {
             case PlayerState.Move:
-                Vector2 targetSpeed = _moveInput * _moveSpeed;
-                _currentVelocity = Vector2.Lerp(_currentVelocity, targetSpeed, _moveDamping * Time.fixedDeltaTime);
+                Vector2 targetVelocity = _moveSpeed * _moveInput;
+                _currentVelocity = Vector2.SmoothDamp(_currentVelocity, targetVelocity, ref _currentVelocityReference, _moveDampingTime);
 
                 break;
             case PlayerState.Dash:
