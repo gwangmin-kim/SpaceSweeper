@@ -8,7 +8,7 @@ public class HubPlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float _moveSpeed;
-    [SerializeField] float _moveDamping;
+    [SerializeField] float _moveDampingTime;
     [SerializeField] float _jumpHeight;
 
     [Header("Sprite")]
@@ -29,6 +29,7 @@ public class HubPlayerController : MonoBehaviour
 
     // smooth moving
     float _currentHorizontalFactor = 0f;
+    float _currentVelocityReference = 0f;
 
     // vertical speed (jump, gravity)
     [SerializeField] bool _isGrounded = false;
@@ -97,7 +98,8 @@ public class HubPlayerController : MonoBehaviour
 
     void UpdateHorizontalMoveFactor()
     {
-        _currentHorizontalFactor = Mathf.Lerp(_currentHorizontalFactor, _horizontalInput, _moveDamping * Time.fixedDeltaTime);
+        _currentHorizontalFactor = Mathf.SmoothDamp(
+            _currentHorizontalFactor, _horizontalInput, ref _currentVelocityReference, _moveDampingTime);
     }
 
     void Move()
