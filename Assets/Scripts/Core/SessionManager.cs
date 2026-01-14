@@ -43,7 +43,7 @@ public class SessionManager : MonoBehaviour
         if (_currentOxygenAmount > 0f)
         {
             _currentOxygenAmount -= Time.deltaTime;
-            float oxygenRatio = _currentOxygenAmount / _totalOxygenAmount;
+            float oxygenRatio = Mathf.Clamp01(_currentOxygenAmount / _totalOxygenAmount);
 
             SessionUIManager.Instance.SetOxygen(_currentOxygenAmount, oxygenRatio);
         }
@@ -54,7 +54,7 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    public void StartSession()
+    void StartSession()
     {
         _currentOxygenAmount = _totalOxygenAmount;
         _sessionLoot = 0;
@@ -63,13 +63,7 @@ public class SessionManager : MonoBehaviour
         SessionUIManager.Instance.SetResource(_sessionLoot);
     }
 
-    public void LootResource(int amount)
-    {
-        _sessionLoot += amount;
-        SessionUIManager.Instance.SetResource(_sessionLoot);
-    }
-
-    public void EndSession()
+    void EndSession()
     {
         if (_currentOxygenAmount > 0f)
         {
@@ -81,6 +75,18 @@ public class SessionManager : MonoBehaviour
         {
             // 산소 고갈: 강제 종료
         }
+
+        SessionInformation.lootAmount = _sessionLoot;
+        SessionInformation.explorationTime = _totalOxygenAmount - _currentOxygenAmount;
+        SessionInformation.damageInflicted = 0;
+
+        SessionUIManager.Instance.SessionSummary();
+    }
+
+    public void LootResource(int amount)
+    {
+        _sessionLoot += amount;
+        SessionUIManager.Instance.SetResource(_sessionLoot);
     }
 
     public void TryReturn()
@@ -88,6 +94,11 @@ public class SessionManager : MonoBehaviour
         if (!_returnArea.IsPlayerOn) return;
 
         EndSession();
+    }
+
+    public void ReturnToHub()
+    {
+        SceneLoader.LoadScene("Hub");
     }
 
     public void Cancel()
