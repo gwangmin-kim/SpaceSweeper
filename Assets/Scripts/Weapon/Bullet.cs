@@ -1,15 +1,4 @@
-using System;
 using UnityEngine;
-
-[Serializable]
-public class BulletData
-{
-    public int damage;
-    public float speed;
-    public float duration;
-    public bool isPenetrationUnlocked;
-    public LayerMask targetLayer;
-}
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]

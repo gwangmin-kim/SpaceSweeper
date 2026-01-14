@@ -14,7 +14,7 @@ public class UpgradeNode
 public class UpgradeManager : MonoBehaviour
 {
     // Singleton
-    public static UpgradeManager Instance;
+    public static UpgradeManager Instance { get; private set; }
 
     void Awake()
     {

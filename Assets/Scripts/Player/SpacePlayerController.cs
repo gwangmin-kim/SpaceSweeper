@@ -8,7 +8,7 @@ public class SpacePlayerController : MonoBehaviour
 
     [Header("Movement")]
     [SerializeField] float _moveSpeed;
-    [SerializeField] float _moveDamping;
+    [SerializeField] float _moveDampingTime;
 
     [Header("Sprite")]
     [SerializeField] Transform _visualRoot;
@@ -33,10 +33,9 @@ public class SpacePlayerController : MonoBehaviour
     Vector2 _aimPosition = Vector2.zero; // worldPosition
     [SerializeField] bool _isAttackPressed = false;
 
-    public Vector2 AimPosition => _aimPosition;
-
     // smooth moving
     Vector2 _currentVelocity = Vector2.zero;
+    Vector2 _currentVelocityReference = Vector2.zero;
 
     // dash
     Vector2 _dashDirection = Vector2.zero;
@@ -54,14 +53,20 @@ public class SpacePlayerController : MonoBehaviour
     // knock back
     float _knockbackTimer = 0f;
 
-    enum State
+    // need for visual control
+    public PlayerState State => _state;
+    public Vector2 AimPosition => _aimPosition;
+    public Vector2 MoveInput => _moveInput;
+    public Vector2 CurrentVelocity => _currentVelocity;
+
+    public enum PlayerState
     {
         Move, // Idle or Move
         Dash,
         Knockback,
     }
 
-    State _state;
+    PlayerState _state;
 
     void Awake()
     {
@@ -71,7 +76,7 @@ public class SpacePlayerController : MonoBehaviour
 
     void Start()
     {
-        _state = State.Move;
+        _state = PlayerState.Move;
 
         // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
 
@@ -94,27 +99,25 @@ public class SpacePlayerController : MonoBehaviour
             SendAttack();
         }
         if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
-
-        ApplyVisual();
     }
 
-    void SetState(State state)
+    void SetState(PlayerState state)
     {
         if (_state == state) return;
         _state = state;
 
         switch (state)
         {
-            case State.Move:
+            case PlayerState.Move:
                 _dashTimer = 0f;
                 _knockbackTimer = 0f;
                 break;
-            case State.Dash:
+            case PlayerState.Dash:
                 _dashTimer = _dashDuration;
                 _dashCooldownTimer = _dashCooldown;
                 _knockbackTimer = 0f;
                 break;
-            case State.Knockback:
+            case PlayerState.Knockback:
                 _knockbackTimer = _knockbackDuration;
                 _dashTimer = 0f;
                 break;
@@ -125,32 +128,32 @@ public class SpacePlayerController : MonoBehaviour
     {
         switch (_state)
         {
-            case State.Move:
-                Vector2 targetSpeed = _moveInput * _moveSpeed;
-                _currentVelocity = Vector2.Lerp(_currentVelocity, targetSpeed, _moveDamping * Time.fixedDeltaTime);
+            case PlayerState.Move:
+                Vector2 targetVelocity = _moveSpeed * _moveInput;
+                _currentVelocity = Vector2.SmoothDamp(_currentVelocity, targetVelocity, ref _currentVelocityReference, _moveDampingTime);
 
                 break;
-            case State.Dash:
+            case PlayerState.Dash:
                 _dashTimer -= Time.fixedDeltaTime;
 
                 if (_dashTimer <= 0f)
                 {
-                    SetState(State.Move);
+                    SetState(PlayerState.Move);
                 }
 
                 break;
-            case State.Knockback:
+            case PlayerState.Knockback:
                 _knockbackTimer -= Time.fixedDeltaTime;
 
                 if (_knockbackTimer <= 0f)
                 {
-                    SetState(State.Move);
+                    SetState(PlayerState.Move);
                 }
 
                 break;
         }
 
-        if (_state != State.Dash && _dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
+        if (_state != PlayerState.Dash && _dashCooldownTimer > 0f) _dashCooldownTimer -= Time.fixedDeltaTime;
 
         _rigidbody.linearVelocity = _currentVelocity;
     }
@@ -163,7 +166,7 @@ public class SpacePlayerController : MonoBehaviour
         _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentVelocity.normalized;
         _currentVelocity = _dashSpeed * _dashDirection;
 
-        SetState(State.Dash);
+        SetState(PlayerState.Dash);
     }
 
     public void StartKnockback(Vector2 direction, float intensity)
@@ -171,31 +174,7 @@ public class SpacePlayerController : MonoBehaviour
         // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
         _currentVelocity = _knockbackFactor * intensity * direction;
 
-        SetState(State.Knockback);
-    }
-
-    void ApplyVisual()
-    {
-        // 좌우 방향 설정
-        Vector3 localScale = _visualRoot.localScale;
-
-        switch (_state)
-        {
-            case State.Move:
-                // 이동: 마우스 방향 바라봄
-                localScale.x = Mathf.Sign(_aimPosition.x - transform.position.x);
-                break;
-            case State.Dash:
-                // 대시: 이동 방향 바라봄
-                if (_currentVelocity.x != 0f) localScale.x = Mathf.Sign(_currentVelocity.x);
-                break;
-            case State.Knockback:
-                // 넉백: 이동 반대 방향 바라봄
-                if (_currentVelocity.x != 0f) localScale.x = -Mathf.Sign(_currentVelocity.x);
-                break;
-        }
-
-        _visualRoot.localScale = localScale;
+        SetState(PlayerState.Knockback);
     }
 
     void SendAttack()
@@ -232,7 +211,7 @@ public class SpacePlayerController : MonoBehaviour
             _currentVelocity = _currentVelocity.magnitude * _bounceFactor * normal;
 
             // cancel dash or knockback state
-            SetState(State.Move);
+            SetState(PlayerState.Move);
         }
     }
 

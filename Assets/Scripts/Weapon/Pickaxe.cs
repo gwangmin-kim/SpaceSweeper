@@ -8,8 +8,10 @@ public class Pickaxe : MonoBehaviour, IWeapon
     [SerializeField] float _attackCooldown;
     [SerializeField] float _knockbackIntensity; // 타격 시 타격 대상이 밀려나는 정도
 
-    // 부채꼴 형태 공격 범위
-    [SerializeField] float _attackHalfAngle; // 예: 60이면 조준 방향 위아래로 60도 씩 총 120도 범위 타격
+    // 부채꼴 형태 공격 범위 (기각)
+    // [SerializeField] float _attackHalfAngle; // 예: 60이면 조준 방향 위아래로 60도 씩 총 120도 범위 타격
+    // 원형 공격 범위
+    [SerializeField] Transform _attackOffset;
     [SerializeField] float _attackRadius;
 
     [SerializeField] bool _isMultiHitUnlocked; // 광역 공격 해금 여부
@@ -48,55 +50,54 @@ public class Pickaxe : MonoBehaviour, IWeapon
 
         if (!_isMultiHitUnlocked)
         {
-            Collider2D hit = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _targetLayer);
+            // Collider2D hit = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _targetLayer);
+            Collider2D hit = Physics2D.OverlapCircle(_attackOffset.position, _attackRadius, _targetLayer);
 
-            if (hit == null) return;
-
-            // Debug.Log($"hit detected: {hit}");
-
-            Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
-            float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
-
-            if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
+            if (hit != null && hit.TryGetComponent<IDamagable>(out var component))
             {
+                // Debug.Log($"hit detected: {hit}");
+
                 component.TakeDamage(_attackDamage);
-                component.ApplyKnockback(aimDirection, _knockbackIntensity);
+
+                Vector2 knockbackDirection = (hit.transform.position - _attackOffset.position).normalized;
+                component.ApplyKnockback(knockbackDirection, _knockbackIntensity);
             }
+
+            // Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
+            // float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
+
+            // if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
+            // {
+            //     component.TakeDamage(_attackDamage);
+            //     component.ApplyKnockback(aimDirection, _knockbackIntensity);
+            // }
         }
         else
         {
-            // Collider2D[] hits = Physics2D.OverlapCircleAll((Vector2)transform.position, _attackRadius, _targetLayer);
-
-            // foreach (Collider2D hit in hits)
-            // {
-            //     if (hit == null) continue;
-
-            //     Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
-            //     float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
-
-            //     if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
-            //     {
-            //         component.TakeDamage(_attackDamage);
-            //         component.ApplyKnockback(aimDirection, _knockbackIntensity);
-            //     }
-            // }
-
-            int count = Physics2D.OverlapCircle((Vector2)transform.position, _attackRadius, _filter, _hitBuffer);
+            int count = Physics2D.OverlapCircle(_attackOffset.position, _attackRadius, _filter, _hitBuffer);
 
             for (int i = 0; i < count; i++)
             {
                 Collider2D hit = _hitBuffer[i];
 
-                if (hit == null) continue;
-
-                Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
-                float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
-
-                if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
+                if (hit != null && hit.TryGetComponent<IDamagable>(out var component))
                 {
+                    // Debug.Log($"hit detected: {hit}");
+
                     component.TakeDamage(_attackDamage);
-                    component.ApplyKnockback(aimDirection, _knockbackIntensity);
+
+                    Vector2 knockbackDirection = (hit.transform.position - _attackOffset.position).normalized;
+                    component.ApplyKnockback(knockbackDirection, _knockbackIntensity);
                 }
+
+                // Vector2 hitDirection = (hit.transform.position - transform.position).normalized;
+                // float angle = Vector2.Angle(hitDirection, aimDirection); // unsigned angle
+
+                // if (angle <= _attackHalfAngle && hit.TryGetComponent<IDamagable>(out var component))
+                // {
+                //     component.TakeDamage(_attackDamage);
+                //     component.ApplyKnockback(aimDirection, _knockbackIntensity);
+                // }
             }
         }
 
@@ -107,6 +108,6 @@ public class Pickaxe : MonoBehaviour, IWeapon
     {
         // draw attack range
         Gizmos.color = Color.softRed;
-        Gizmos.DrawWireSphere(transform.position, _attackRadius);
+        Gizmos.DrawWireSphere(_attackOffset.position, _attackRadius);
     }
 }

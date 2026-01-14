@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
 public class SpaceDebris : MonoBehaviour, IDamagable
@@ -22,7 +23,18 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     [SerializeField] float _knockbackFactor; // 밀려나는 정도: 작을 수록 적게 밀려남 (큰 폐기물은 이 값을 작게 설정하기)
     [SerializeField] float _linearDampingAfterCollision; // 자유롭게 떠다니다가, 첫 피격 이후부터는 감쇠 적용
 
+    [Header("UI")]
+    [SerializeField] SpriteRenderer _fillRenderer; // Health_Fill 오브젝트 연결
+    [SerializeField] float _healthBarDampingTime;
+
     int _currentHealth;
+
+    // HealthBar Shader
+    float _currentHealthRatio = 1f;
+    float _targetHealthRatio = 1f;
+    float _currentVelocity = 0f;
+    static readonly int _fillAmountID = Shader.PropertyToID("_FillAmount"); // 셰이더 프로퍼티 이름 (그래프 Blackboard에 만든 이름과 똑같아야 함)
+    MaterialPropertyBlock _materialPropertyBlock;
 
     void Awake()
     {
@@ -37,6 +49,16 @@ public class SpaceDebris : MonoBehaviour, IDamagable
         _rigidbody.angularVelocity = rotationAnglePerSecond;
 
         _currentHealth = _maxHealth;
+        _currentHealthRatio = 1f;
+        _targetHealthRatio = 1f;
+
+        // 최적화를 위한 프로퍼티 블록 생성
+        _materialPropertyBlock = new MaterialPropertyBlock();
+    }
+
+    void Update()
+    {
+        SetHealthVisual();
     }
 
     void Die()
@@ -54,9 +76,25 @@ public class SpaceDebris : MonoBehaviour, IDamagable
         Destroy(gameObject);
     }
 
+    void SetHealthVisual()
+    {
+        // UI
+        _currentHealthRatio = Mathf.SmoothDamp(
+            _currentHealthRatio,
+            _targetHealthRatio,
+            ref _currentVelocity,
+            _healthBarDampingTime
+        );
+
+        _fillRenderer.GetPropertyBlock(_materialPropertyBlock);
+        _materialPropertyBlock.SetFloat(_fillAmountID, _currentHealthRatio);
+        _fillRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
+
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
+        _targetHealthRatio = Mathf.Clamp01(_currentHealth / (float)_maxHealth);
 
         if (_currentHealth <= 0)
         {
