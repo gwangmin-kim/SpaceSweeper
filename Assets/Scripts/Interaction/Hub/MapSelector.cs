@@ -1,17 +1,17 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
-public class ExitDoor : MonoBehaviour, IInteractable
+public class MapSelector : MonoBehaviour, IInteractable
 {
     [Header("Collision")]
     [SerializeField] LayerMask _playerMask;
 
     [Header("UI")]
-    [SerializeField] GameObject _uiExitIndicator;
+    [SerializeField] GameObject _uiSelectMapIndicator;
 
     void Awake()
     {
-        _uiExitIndicator.SetActive(false);
+        _uiSelectMapIndicator.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +19,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
             // UI
-            _uiExitIndicator.SetActive(true);
+            _uiSelectMapIndicator.SetActive(true);
         }
     }
 
@@ -28,7 +28,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
             // UI
-            _uiExitIndicator.SetActive(false);
+            _uiSelectMapIndicator.SetActive(false);
         }
     }
 
@@ -36,6 +36,6 @@ public class ExitDoor : MonoBehaviour, IInteractable
     {
         if (!isPressed) return;
 
-        SceneLoader.LoadScene("Game");
+        // 장소 선택 UI 호출
     }
 }

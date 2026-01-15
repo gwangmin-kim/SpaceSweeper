@@ -1,17 +1,16 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Collider2D))]
-public class ExitDoor : MonoBehaviour, IInteractable
+public class UpgradePanel : MonoBehaviour, IInteractable
 {
     [Header("Collision")]
     [SerializeField] LayerMask _playerMask;
 
     [Header("UI")]
-    [SerializeField] GameObject _uiExitIndicator;
+    [SerializeField] GameObject _uiUpgradeIndicator;
 
     void Awake()
     {
-        _uiExitIndicator.SetActive(false);
+        _uiUpgradeIndicator.SetActive(false);
     }
 
     void OnTriggerEnter2D(Collider2D collision)
@@ -19,7 +18,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
             // UI
-            _uiExitIndicator.SetActive(true);
+            _uiUpgradeIndicator.SetActive(true);
         }
     }
 
@@ -28,7 +27,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
             // UI
-            _uiExitIndicator.SetActive(false);
+            _uiUpgradeIndicator.SetActive(false);
         }
     }
 
@@ -36,6 +35,6 @@ public class ExitDoor : MonoBehaviour, IInteractable
     {
         if (!isPressed) return;
 
-        SceneLoader.LoadScene("Game");
+        // 업그레이드 패널 UI 호출
     }
 }

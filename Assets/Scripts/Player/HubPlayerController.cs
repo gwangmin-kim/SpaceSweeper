@@ -30,6 +30,7 @@ public class HubPlayerController : MonoBehaviour
     float _horizontalInput = 0f;
     float _verticalInput = 0f;
     Vector2 _aimPosition = Vector2.zero; // worldPosition
+    bool _isInteractPressed = false;
 
     // smooth moving
     float _currentHorizontalFactor = 0f;
@@ -129,7 +130,7 @@ public class HubPlayerController : MonoBehaviour
 
     void Interact()
     {
-        _currentInteractableOn?.Interact();
+        _currentInteractableOn?.Interact(_isInteractPressed);
     }
 
     public void OnMove(InputValue inputValue)
@@ -162,11 +163,9 @@ public class HubPlayerController : MonoBehaviour
 
     public void OnInteract(InputValue inputValue)
     {
-        if (inputValue.isPressed)
-        {
-            // Debug.Log($"input detected: interact");
-            Interact();
-        }
+        // Debug.Log($"input detected: interact");
+        _isInteractPressed = inputValue.isPressed;
+        Interact();
     }
 
     void OnDrawGizmos()
@@ -179,14 +178,16 @@ public class HubPlayerController : MonoBehaviour
     {
         if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var interactable))
         {
+            if (_isInteractPressed) interactable?.Interact(true);
             _currentInteractableOn = interactable;
         }
     }
 
     void OnTriggerExit2D(Collider2D collision)
     {
-        if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var _))
+        if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var interactable))
         {
+            interactable?.Interact(false);
             _currentInteractableOn = null;
         }
     }
