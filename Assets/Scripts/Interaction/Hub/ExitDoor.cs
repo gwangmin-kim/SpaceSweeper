@@ -1,25 +1,24 @@
 using UnityEngine;
 
-public class SpaceshipController : MonoBehaviour
+public class ExitDoor : MonoBehaviour, IInteractable
 {
     [Header("Collision")]
     [SerializeField] LayerMask _playerMask;
 
     [Header("UI")]
-    [SerializeField] GameObject _uiReturnIndicator;
+    [SerializeField] GameObject _uiExitIndicator;
 
-    bool _isPlayerOn = false;
-
-    public bool IsPlayerOn => _isPlayerOn;
+    void Awake()
+    {
+        _uiExitIndicator.SetActive(false);
+    }
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
-            _isPlayerOn = true;
-
             // UI
-            _uiReturnIndicator.SetActive(true);
+            _uiExitIndicator.SetActive(true);
         }
     }
 
@@ -27,10 +26,13 @@ public class SpaceshipController : MonoBehaviour
     {
         if (((1 << collision.gameObject.layer) & _playerMask) != 0)
         {
-            _isPlayerOn = false;
-
             // UI
-            _uiReturnIndicator.SetActive(false);
+            _uiExitIndicator.SetActive(false);
         }
+    }
+
+    public void Interact()
+    {
+        SceneLoader.LoadScene("Game");
     }
 }

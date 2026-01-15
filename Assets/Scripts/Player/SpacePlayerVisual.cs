@@ -35,7 +35,7 @@ public class SpacePlayerVisual : MonoBehaviour
 
     void Awake()
     {
-        _playerController = GetComponent<SpacePlayerController>();
+        if (_playerController == null) _playerController = GetComponent<SpacePlayerController>();
     }
 
     void Update()
@@ -53,7 +53,7 @@ public class SpacePlayerVisual : MonoBehaviour
         Vector2 direction = (aimPosition - headPosition).normalized;
 
         Vector2 headOffset = direction * _headAttractFactor;
-        _head.localPosition = Vector2.Lerp(_head.localPosition, headOffset, _handDamping * Time.deltaTime);
+        _head.localPosition = Vector2.Lerp(_head.localPosition, headOffset, _headDamping * Time.deltaTime);
 
         Vector2 faceOffset = direction;
         faceOffset.x *= _faceAttractFactor.x;

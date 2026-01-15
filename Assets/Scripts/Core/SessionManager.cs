@@ -25,7 +25,6 @@ public class SessionManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
-            // Space Scene에만 존재, 매 세션 초기화 (no DontDestroyOnLoad)
         }
         else
         {

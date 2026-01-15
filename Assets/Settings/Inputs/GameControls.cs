@@ -111,6 +111,15 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Aim"",
+                    ""type"": ""Value"",
+                    ""id"": ""5d68b220-51d4-4e1f-841f-65475b90671c"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""25eceecc-ac3b-442f-8f0d-e3bf7239b201"",
@@ -215,6 +224,17 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Cancel"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""bb64e0e3-575b-419a-a855-6582ad360141"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Aim"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -399,6 +419,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Hub = asset.FindActionMap("Hub", throwIfNotFound: true);
         m_Hub_Move = m_Hub.FindAction("Move", throwIfNotFound: true);
         m_Hub_Jump = m_Hub.FindAction("Jump", throwIfNotFound: true);
+        m_Hub_Aim = m_Hub.FindAction("Aim", throwIfNotFound: true);
         m_Hub_Interact = m_Hub.FindAction("Interact", throwIfNotFound: true);
         m_Hub_Cancel = m_Hub.FindAction("Cancel", throwIfNotFound: true);
         // Space
@@ -492,6 +513,7 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private List<IHubActions> m_HubActionsCallbackInterfaces = new List<IHubActions>();
     private readonly InputAction m_Hub_Move;
     private readonly InputAction m_Hub_Jump;
+    private readonly InputAction m_Hub_Aim;
     private readonly InputAction m_Hub_Interact;
     private readonly InputAction m_Hub_Cancel;
     /// <summary>
@@ -513,6 +535,10 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Hub/Jump".
         /// </summary>
         public InputAction @Jump => m_Wrapper.m_Hub_Jump;
+        /// <summary>
+        /// Provides access to the underlying input action "Hub/Aim".
+        /// </summary>
+        public InputAction @Aim => m_Wrapper.m_Hub_Aim;
         /// <summary>
         /// Provides access to the underlying input action "Hub/Interact".
         /// </summary>
@@ -553,6 +579,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
+            @Aim.started += instance.OnAim;
+            @Aim.performed += instance.OnAim;
+            @Aim.canceled += instance.OnAim;
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
@@ -576,6 +605,9 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
+            @Aim.started -= instance.OnAim;
+            @Aim.performed -= instance.OnAim;
+            @Aim.canceled -= instance.OnAim;
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
@@ -787,6 +819,13 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnJump(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Aim" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAim(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Interact" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

@@ -23,9 +23,13 @@ public class HubPlayerController : MonoBehaviour
     [SerializeField] float _groundCheckRadius;
     [SerializeField] LayerMask _groundLayer;
 
+    [Header("Interaction")]
+    [SerializeField] LayerMask _interactableLayer;
+
     // input caching
     float _horizontalInput = 0f;
     float _verticalInput = 0f;
+    Vector2 _aimPosition = Vector2.zero; // worldPosition
 
     // smooth moving
     float _currentHorizontalFactor = 0f;
@@ -38,7 +42,14 @@ public class HubPlayerController : MonoBehaviour
 
     // jump timer: to avoid instant landing
     float _minJumpDuration = 0.1f;
-    float _jumpTimer = 0f;
+    float _minJumpTimer = 0f;
+
+    // interaction
+    IInteractable _currentInteractableOn;
+
+    // need for visual control
+    public Vector2 AimPosition => _aimPosition;
+    public bool IsJumping => !_isGrounded;
 
     void Awake()
     {
@@ -54,15 +65,13 @@ public class HubPlayerController : MonoBehaviour
         ApplyGravity();
         UpdateHorizontalMoveFactor();
         Move();
-
-        ApplyVisualDirection();
     }
 
     void CheckGround()
     {
-        if (_jumpTimer > 0f)
+        if (_minJumpTimer > 0f)
         {
-            _jumpTimer -= Time.fixedDeltaTime;
+            _minJumpTimer -= Time.fixedDeltaTime;
             return;
         }
 
@@ -115,21 +124,12 @@ public class HubPlayerController : MonoBehaviour
         _currentVerticalSpeed = _jumpSpeed;
 
         _isGrounded = false;
-        _jumpTimer = _minJumpDuration;
+        _minJumpTimer = _minJumpDuration;
     }
 
     void Interact()
     {
-
-    }
-
-    void ApplyVisualDirection()
-    {
-        Vector3 localScale = _visualRoot.localScale;
-
-        localScale.x = (_horizontalInput != 0) ? _horizontalInput : localScale.x;
-
-        _visualRoot.localScale = localScale;
+        _currentInteractableOn?.Interact();
     }
 
     public void OnMove(InputValue inputValue)
@@ -151,6 +151,15 @@ public class HubPlayerController : MonoBehaviour
         }
     }
 
+    public void OnAim(InputValue inputValue)
+    {
+        Vector2 position = inputValue.Get<Vector2>();
+
+        // Debug.Log($"input detected: aim[{position}]");
+
+        _aimPosition = Camera.main.ScreenToWorldPoint(position);
+    }
+
     public void OnInteract(InputValue inputValue)
     {
         if (inputValue.isPressed)
@@ -164,5 +173,21 @@ public class HubPlayerController : MonoBehaviour
     {
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere((Vector2)transform.position + _groundCheckOffset, _groundCheckRadius);
+    }
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var interactable))
+        {
+            _currentInteractableOn = interactable;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var _))
+        {
+            _currentInteractableOn = null;
+        }
     }
 }
