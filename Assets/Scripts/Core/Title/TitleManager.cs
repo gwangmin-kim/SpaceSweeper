@@ -4,12 +4,14 @@ public class TitleManager : MonoBehaviour
 {
     public void OnNewGameButton()
     {
-
+        GameManager.Instance.CurrentData = new GameData();
+        SceneLoader.LoadScene("Hub");
     }
 
     public void OnContinueButton()
     {
-
+        GameManager.Instance.CurrentData = SaveSystem.Load();
+        SceneLoader.LoadScene("Hub");
     }
 
     public void OnSettingButton()
