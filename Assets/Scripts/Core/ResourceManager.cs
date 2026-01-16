@@ -5,11 +5,8 @@ public class ResourceManager : MonoBehaviour
     // Singleton
     public static ResourceManager Instance { get; private set; }
 
-    [SerializeField] private int _resource = 0;
-    [SerializeField] private int _gold = 0;
-
-    public int Resource => _resource;
-    public int Gold => _gold;
+    public int Resource => GameManager.Instance.CurrentData.resource;
+    public int Gold => GameManager.Instance.CurrentData.gold;
 
     public void Awake()
     {
@@ -26,26 +23,28 @@ public class ResourceManager : MonoBehaviour
 
     public void StoreResources(int sessionLootAmount)
     {
-        _resource += sessionLootAmount;
+        GameManager.Instance.CurrentData.resource += sessionLootAmount;
     }
 
     public int WithdrawResources(int amount)
     {
-        if (_resource >= amount)
+        var data = GameManager.Instance.CurrentData;
+
+        if (data.resource >= amount)
         {
-            _resource -= amount;
+            data.resource -= amount;
             return amount;
         }
         else
         {
-            amount = _resource;
-            _resource = 0;
-            return amount;
+            int remaining = data.resource;
+            data.resource = 0;
+            return remaining;
         }
     }
 
     public void AddGold(int amount)
     {
-        _gold += amount;
+        GameManager.Instance.CurrentData.gold += amount;
     }
 }
