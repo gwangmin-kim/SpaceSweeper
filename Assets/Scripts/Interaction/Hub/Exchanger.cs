@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using UnityEngine;
 
 public class Exchanger : MonoBehaviour, IInteractable
@@ -8,7 +9,14 @@ public class Exchanger : MonoBehaviour, IInteractable
     [Header("UI")]
     [SerializeField] GameObject _uiExchangeIndicator;
 
+    [Header("Exchange Status")]
+    [SerializeField] int _exchangeAmount; // 한 번에 교환하는 자원량
+    [SerializeField] float _exchangeInterval; // 교환 속도 (매 횟수 발동 간격)
+    [SerializeField] int _goldPerResource; // 교환비
+
     bool _isInteracting = false;
+
+    float _exchangeTimer = 0f;
 
     void Awake()
     {
@@ -17,9 +25,21 @@ public class Exchanger : MonoBehaviour, IInteractable
 
     void Update()
     {
-        if (_isInteracting)
-        {
+        if (_exchangeTimer > 0f) _exchangeTimer -= Time.deltaTime;
 
+        if (_isInteracting && _exchangeTimer <= 0f)
+        {
+            _exchangeTimer = _exchangeInterval;
+
+            // 자원 교환
+            int amount = ResourceManager.Instance.WithdrawResources(_exchangeAmount);
+            if (amount > 0)
+            {
+                ResourceManager.Instance.AddGold(amount * _goldPerResource);
+            }
+
+            HubUIManager.Instance.SetResource(ResourceManager.Instance.Resource);
+            HubUIManager.Instance.SetGold(ResourceManager.Instance.Gold);
         }
     }
 

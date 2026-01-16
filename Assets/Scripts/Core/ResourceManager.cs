@@ -5,9 +5,11 @@ public class ResourceManager : MonoBehaviour
     // Singleton
     public static ResourceManager Instance { get; private set; }
 
-    private int _totalStoredResource = 0; // 탐사 세션 종료 후, 획득이 확정된 자원량
+    [SerializeField] private int _resource = 0;
+    [SerializeField] private int _gold = 0;
 
-    private int _gold = 0;
+    public int Resource => _resource;
+    public int Gold => _gold;
 
     public void Awake()
     {
@@ -24,6 +26,26 @@ public class ResourceManager : MonoBehaviour
 
     public void StoreResources(int sessionLootAmount)
     {
-        _totalStoredResource += sessionLootAmount;
+        _resource += sessionLootAmount;
+    }
+
+    public int WithdrawResources(int amount)
+    {
+        if (_resource >= amount)
+        {
+            _resource -= amount;
+            return amount;
+        }
+        else
+        {
+            amount = _resource;
+            _resource = 0;
+            return amount;
+        }
+    }
+
+    public void AddGold(int amount)
+    {
+        _gold += amount;
     }
 }
