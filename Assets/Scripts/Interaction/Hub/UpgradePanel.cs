@@ -36,5 +36,6 @@ public class UpgradePanel : MonoBehaviour, IInteractable
         if (!isPressed) return;
 
         // 업그레이드 패널 UI 호출
+        UpgradeManager.Instance.ActivatePanel();
     }
 }

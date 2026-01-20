@@ -22,14 +22,7 @@ public class SessionManager : MonoBehaviour
 
     public void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     void Start()
@@ -44,11 +37,11 @@ public class SessionManager : MonoBehaviour
             _currentOxygenAmount -= Time.deltaTime;
             float oxygenRatio = Mathf.Clamp01(_currentOxygenAmount / _totalOxygenAmount);
 
-            SessionUIManager.Instance.SetOxygen(_currentOxygenAmount, oxygenRatio);
+            SessionUIController.Instance.SetOxygen(_currentOxygenAmount, oxygenRatio);
         }
         else
         {
-            SessionUIManager.Instance.SetOxygen(0f, 0f);
+            SessionUIController.Instance.SetOxygen(0f, 0f);
             EndSession();
         }
     }
@@ -58,8 +51,8 @@ public class SessionManager : MonoBehaviour
         _currentOxygenAmount = _totalOxygenAmount;
         _sessionLoot = 0;
 
-        SessionUIManager.Instance.SetOxygen(_currentOxygenAmount, 1f);
-        SessionUIManager.Instance.SetResource(_sessionLoot);
+        SessionUIController.Instance.SetOxygen(_currentOxygenAmount, 1f);
+        SessionUIController.Instance.SetResource(_sessionLoot);
     }
 
     void EndSession()
@@ -79,13 +72,13 @@ public class SessionManager : MonoBehaviour
         SessionInformation.explorationTime = _totalOxygenAmount - _currentOxygenAmount;
         SessionInformation.damageInflicted = 0;
 
-        SessionUIManager.Instance.SessionSummary();
+        SessionUIController.Instance.SessionSummary();
     }
 
     public void LootResource(int amount)
     {
         _sessionLoot += amount;
-        SessionUIManager.Instance.SetResource(_sessionLoot);
+        SessionUIController.Instance.SetResource(_sessionLoot);
     }
 
     public void TryReturn()

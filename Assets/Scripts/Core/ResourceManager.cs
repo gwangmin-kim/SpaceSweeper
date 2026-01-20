@@ -1,12 +1,13 @@
 using UnityEngine;
+using BreakInfinity;
 
 public class ResourceManager : MonoBehaviour
 {
     // Singleton
     public static ResourceManager Instance { get; private set; }
 
-    public int Resource => GameManager.Instance.CurrentData.resource;
-    public int Gold => GameManager.Instance.CurrentData.gold;
+    public BigDouble Resource => GameManager.Instance.CurrentData.resource;
+    public BigDouble Gold => GameManager.Instance.CurrentData.gold;
 
     public void Awake()
     {
@@ -21,12 +22,12 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    public void StoreResources(int sessionLootAmount)
+    public void StoreResources(BigDouble sessionLootAmount)
     {
         GameManager.Instance.CurrentData.resource += sessionLootAmount;
     }
 
-    public int WithdrawResources(int amount)
+    public BigDouble WithdrawResources(BigDouble amount)
     {
         var data = GameManager.Instance.CurrentData;
 
@@ -37,14 +38,24 @@ public class ResourceManager : MonoBehaviour
         }
         else
         {
-            int remaining = data.resource;
+            BigDouble remaining = data.resource;
             data.resource = 0;
             return remaining;
         }
     }
 
-    public void AddGold(int amount)
+    public void AddGold(BigDouble amount)
     {
         GameManager.Instance.CurrentData.gold += amount;
+    }
+
+    public bool TryWithdrawGold(BigDouble amount)
+    {
+        var data = GameManager.Instance.CurrentData;
+
+        if (data.gold < amount) return false;
+
+        data.gold -= amount;
+        return true;
     }
 }

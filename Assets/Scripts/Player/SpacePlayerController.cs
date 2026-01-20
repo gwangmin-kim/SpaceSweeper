@@ -68,6 +68,18 @@ public class SpacePlayerController : MonoBehaviour
 
     PlayerState _state;
 
+    public void Initialize()
+    {
+        _state = PlayerState.Move;
+
+        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
+
+        _dashDuration = _dashDistance / _dashSpeed;
+
+        _currentWeapon = Instantiate(_currentWeapon, _weaponSocket);
+        _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+    }
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -76,16 +88,7 @@ public class SpacePlayerController : MonoBehaviour
 
     void Start()
     {
-        _state = PlayerState.Move;
-
-        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
-
-
-        _dashDuration = _dashDistance / _dashSpeed;
-        if (_weaponSocket.childCount != 0)
-        {
-            _currentWeapon = _weaponSocket.GetChild(0).gameObject;
-        }
+        Initialize();
     }
 
     void FixedUpdate()

@@ -2,10 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SessionUIManager : MonoBehaviour
+public class SessionUIController : MonoBehaviour
 {
     // Singleton
-    public static SessionUIManager Instance { get; private set; }
+    public static SessionUIController Instance { get; private set; }
 
     [Header("Oxygen")]
     [SerializeField] Image _oxygenBar;
@@ -22,14 +22,7 @@ public class SessionUIManager : MonoBehaviour
 
     public void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+        Instance = this;
     }
 
     void Start()

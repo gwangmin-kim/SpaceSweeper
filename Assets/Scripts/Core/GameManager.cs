@@ -19,4 +19,19 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    public void SaveGame()
+    {
+        SaveSystem.Save(CurrentData);
+    }
+
+    public void LoadGame()
+    {
+        CurrentData = SaveSystem.Load();
+    }
+
+    void OnApplicationQuit()
+    {
+        SaveGame();
+    }
 }
