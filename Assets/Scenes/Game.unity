@@ -2187,6 +2187,53 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3568543234758067139, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
   m_PrefabInstance: {fileID: 650944505}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1127395712
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1127395714}
+  - component: {fileID: 1127395713}
+  m_Layer: 0
+  m_Name: WeaponManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1127395713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127395712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87d3499a591f83d4dbf9599de9722a12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::WeaponManager
+  _pickaxe: {fileID: 8946074369228821592, guid: 5921ec33d9f1f824a90925557ebc2247, type: 3}
+  _shotgun: {fileID: 6644893148108249137, guid: 1da02d055dfc4f7479d57e77167ceead, type: 3}
+  _lasergun: {fileID: 6644893148108249137, guid: 5380618a9769c074b8cc231ad8504f4b, type: 3}
+--- !u!4 &1127395714
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127395712}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1605, y: 50, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1247851523 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3110833387944489917, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
@@ -4806,14 +4853,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3110833387944489917, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
-      propertyPath: _dashSpeed
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 3110833387944489917, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
-      propertyPath: _currentWeapon
-      value: 
-      objectReference: {fileID: 8946074369228821592, guid: 5921ec33d9f1f824a90925557ebc2247, type: 3}
     - target: {fileID: 4540882231245232354, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
       propertyPath: m_Name
       value: SpacePlayer
@@ -4859,8 +4898,7 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects:
-    - {fileID: 3856145069390021490, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
+    m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
@@ -4911,6 +4949,7 @@ SceneRoots:
   - {fileID: 684617147}
   - {fileID: 2090726129}
   - {fileID: 8081118147504638510}
+  - {fileID: 1127395714}
   - {fileID: 2534859170854857839}
   - {fileID: 1257529074}
   - {fileID: 2144255317253608797}

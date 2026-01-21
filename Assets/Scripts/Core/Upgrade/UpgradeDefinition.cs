@@ -2,11 +2,14 @@
 using UnityEngine;
 using BreakInfinity;
 
-[CreateAssetMenu(fileName = "NewUpgrade", menuName = "Game/Upgrade Definition", order = 0)]
+[CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/Upgrade Definition", order = 0)]
 public class UpgradeDefinition : ScriptableObject
 {
     [Header("ID")]
     public string id;
+
+    [Header("Behavior")]
+    public UpgradeEffect effect;
 
     [Header("Display")]
     public string upgradeName;

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using BreakInfinity;
 
 public class SessionUIController : MonoBehaviour
 {
@@ -18,8 +19,6 @@ public class SessionUIController : MonoBehaviour
     [SerializeField] GameObject _summaryPanel;
     [SerializeField] TextMeshProUGUI _summaryText;
 
-    string SummaryString => $"{SessionInformation.explorationTime:F2}s\n\n{SessionInformation.lootAmount}\n\n{SessionInformation.damageInflicted}";
-
     public void Awake()
     {
         Instance = this;
@@ -30,20 +29,29 @@ public class SessionUIController : MonoBehaviour
         _summaryPanel.SetActive(false);
     }
 
+    string SummaryString(SessionInformation sessionInformation)
+    {
+        string time = $"{sessionInformation.timer:F2}s";
+        string loot = BigDoubleFormatter.Format(sessionInformation.lootAmount);
+        string damage = $"{sessionInformation.playerDamage}";
+
+        return $"{time}\n\n{loot}\n\n{damage}";
+    }
+
     public void SetOxygen(float amount, float ratio)
     {
         _oxygenTimer.text = $"{amount:F2}s";
         _oxygenBar.fillAmount = ratio;
     }
 
-    public void SetResource(int amount)
+    public void SetResource(BigDouble amount)
     {
         _resourceAmount.text = $"{amount}";
     }
 
-    public void SessionSummary()
+    public void SessionSummary(SessionInformation sessionInformation)
     {
         _summaryPanel.SetActive(true);
-        _summaryText.text = SummaryString;
+        _summaryText.text = SummaryString(sessionInformation);
     }
 }

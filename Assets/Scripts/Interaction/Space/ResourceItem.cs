@@ -1,4 +1,5 @@
 using UnityEngine;
+// using BreakInfinity;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
@@ -7,7 +8,7 @@ public class ResourceItem : MonoBehaviour
     Collider2D _collider;
 
     [Header("Resource Status")]
-    [SerializeField] int _value;
+    [SerializeField] double _value;
 
     [Header("Initialize Options")]
     [SerializeField] float _standbyDuration; // 생성 직후 곧바로 끌려가지 않고 일정 시간 대기

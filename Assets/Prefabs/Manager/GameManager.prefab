@@ -45,5 +45,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   CurrentData:
-    resource: 0
-    gold: 0
+    resource:
+      mantissa: 0
+      exponent: 0
+    gold:
+      mantissa: 0
+      exponent: 0
+    unlockedUpgrades: []
+    playerSpec:
+      moveStat:
+        speed: 3
+        dampingTime: 0.5
+        isDashUnlocked: 0
+        dashSpeed: 5
+        dashDistance: 2
+        dashCooldown: 1
+        bounceFactor: 1.5
+        knockbackFactor: 2
+        knockbackDuration: 0.3
+      magnetRange: 0
+      oxygenAmount: 10
+      currentWeapon: 0
+      pickaxeStat:
+        damage: 1
+        cooldown: 1
+        range: 1
+        isMultiHitUnlocked: 0
+        knockbackIntensity: 1
+        dropIncreseRate: 1
+      shotgunStat:
+        cooldown: 1.5
+        spreadAngle: 60
+        reboundIntensity: 1
+        bulletData:
+          damage: 1
+          speed: 5
+          duration: 1
+          isPenetrationUnlocked: 0
+        bulletCount: 10
+        bulletSpeedVariation: 0.2
+      lasergunStat:
+        damage: 1
+        cooldown: 0.5
+        range: 5
+        isTransitionUnlocked: 0
+        transitionCount: 3
+        transitionRange: 3
+      lossRatio: 1

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: W1-MultiHit
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  id: W1-MultiHit
+  effect: {fileID: 0}
+  upgradeName: "\uACF5\uC815\uD55C \uD0C0\uACA9"
+  description: "\uACE1\uAD2D\uC774\uAC00 \uBC94\uC704 \uB0B4\uC758 \uBAA8\uB4E0 \uD3D0\uAE30\uBB3C\uC744
+    \uD0C0\uACA9\uD569\uB2C8\uB2E4."
+  icon: {fileID: 0}
+  costString: 0
+  parent: {fileID: 11400000, guid: a5d9c14d7e6d43344bc650ecacfc2523, type: 2}

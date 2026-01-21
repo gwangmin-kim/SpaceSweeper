@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: W1-Range1
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  id: W1-Range1
+  effect: {fileID: 0}
+  upgradeName: "\uAC70\uB300\uD55C \uACE1\uAD2D\uC774 I"
+  description: "\uACE1\uAD2D\uC774\uC758 \uD0C0\uACA9 \uBC94\uC704\uAC00 \uB113\uC5B4\uC9D1\uB2C8\uB2E4."
+  icon: {fileID: 0}
+  costString: 0
+  parent: {fileID: 11400000, guid: cd829cdc7f5742b48b22e73bf51bcfd6, type: 2}

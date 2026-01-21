@@ -423,20 +423,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c7e1d62f98431f44afbcee6fa7bc475, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SpacePlayerMovement
-  _moveSpeed: 3
-  _moveDampingTime: 0.5
-  _visualRoot: {fileID: 4116084128141795057}
-  _dashSpeed: 5
-  _dashDistance: 2
-  _dashCooldown: 1
-  _weaponSocket: {fileID: 3890985834191432297}
-  _attackCommandInterval: 0.1
+  _moveStat:
+    speed: 3
+    dampingTime: 0.5
+    isDashUnlocked: 0
+    dashSpeed: 5
+    dashDistance: 2
+    dashCooldown: 1
+    bounceFactor: 0
+    knockbackFactor: 0
+    knockbackDuration: 0
   _collisionLayer:
     serializedVersion: 2
     m_Bits: 384
-  _bounceFactor: 1.5
-  _knockbackFactor: 1
-  _knockbackDuration: 0.3
+  _weaponSocket: {fileID: 3890985834191432297}
+  _attackCommandInterval: 0.1
+  _targetLayer:
+    serializedVersion: 2
+    m_Bits: 256
+  _visualRoot: {fileID: 4116084128141795057}
   _isAttackPressed: 0
   _currentWeapon: {fileID: 0}
 --- !u!1 &4998150080418763616

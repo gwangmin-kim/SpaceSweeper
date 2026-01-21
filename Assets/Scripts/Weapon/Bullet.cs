@@ -6,7 +6,8 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody2D _rigidbody;
 
-    BulletData _bulletData;
+    [SerializeField] BulletData _bulletData;
+    LayerMask TargetLayer => SpacePlayerController.Instance.TargetLayer;
 
     void Awake()
     {
@@ -25,7 +26,7 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if ((((1 << collision.gameObject.layer) & _bulletData.targetLayer) != 0)
+        if ((((1 << collision.gameObject.layer) & TargetLayer) != 0)
             && collision.TryGetComponent<IDamagable>(out var component))
         {
             component.TakeDamage(_bulletData.damage);

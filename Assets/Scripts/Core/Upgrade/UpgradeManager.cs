@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class UpgradeManager : MonoBehaviour
 {
@@ -9,9 +8,6 @@ public class UpgradeManager : MonoBehaviour
 
     [Header("All Upgrades")]
     [SerializeField] List<UpgradeDefinition> _allUpgrades;
-
-    [Header("UI")]
-    [SerializeField] GameObject _upgradePanel;
 
     // 검색 효율 위한 딕셔너리 (ID -> SO)
     Dictionary<string, UpgradeDefinition> _upgradeMap;
@@ -31,19 +27,6 @@ public class UpgradeManager : MonoBehaviour
         }
 
         InitializeDictionary();
-
-        _upgradePanel.SetActive(false);
-    }
-
-    void Update()
-    {
-        if (_upgradePanel.activeSelf)
-        {
-            if (Keyboard.current != null)
-            {
-                if (Keyboard.current.escapeKey.wasPressedThisFrame) OnPanelCloseButton();
-            }
-        }
     }
 
     void InitializeDictionary()
@@ -54,11 +37,6 @@ public class UpgradeManager : MonoBehaviour
         {
             _upgradeMap.Add(upgrade.id, upgrade);
         }
-    }
-
-    void ApplyUpgrade(string id)
-    {
-
     }
 
     public bool IsUnlocked(string id)
@@ -88,19 +66,9 @@ public class UpgradeManager : MonoBehaviour
 
         GameManager.Instance.CurrentData.unlockedUpgrades.Add(upgradeDefinition.id);
 
-        ApplyUpgrade(upgradeDefinition.id);
+        upgradeDefinition.effect.Apply();
 
         GameManager.Instance.SaveGame();
         return true;
-    }
-
-    public void ActivatePanel()
-    {
-        _upgradePanel.SetActive(true);
-    }
-
-    public void OnPanelCloseButton()
-    {
-        _upgradePanel.SetActive(false);
     }
 }

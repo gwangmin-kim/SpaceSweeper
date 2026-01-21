@@ -115,7 +115,7 @@ MonoBehaviour:
   _resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
   _dropCount: 5
   _minDriftSpeed: 0
-  _maxDriftSpeed: 0
+  _maxDriftSpeed: 0.5
   _maxRotationAnglePerSecond: 60
   _knockbackFactor: 1
   _linearDampingAfterCollision: 1

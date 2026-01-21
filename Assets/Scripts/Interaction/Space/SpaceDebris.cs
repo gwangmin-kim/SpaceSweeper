@@ -64,8 +64,14 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     void Die()
     {
         // 필요 시 확률 기반 드롭 카운트 배율 적용 (업그레이드 항목 고려)
+        int dropCount = _dropCount;
+        // 우선 곡괭이만 배율 업그레이드 적용
+        if (GameManager.Instance.CurrentData.playerSpec.currentWeapon == WeaponType.Pickaxe)
+        {
+            dropCount = (int)(dropCount * GameManager.Instance.CurrentData.playerSpec.pickaxeStat.dropIncreseRate);
+        }
 
-        for (int i = 0; i < _dropCount; i++)
+        for (int i = 0; i < dropCount; i++)
         {
             Vector2 spawnOffset = Random.insideUnitCircle * _radius;
             Vector2 spawnPosition = (Vector2)transform.position + spawnOffset;
