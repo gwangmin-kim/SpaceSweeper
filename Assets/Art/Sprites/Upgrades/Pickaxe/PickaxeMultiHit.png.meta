@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: e1cad184ab52c4541b2d4cc3b2a098b2
+guid: 1180447b29a43914e83da7a851d79a63
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2813119029548609608
-    second: SlotFrame_0
+      213: 4379500592729026752
+    second: PickaxeMultiHit_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlotFrame_0
+      name: PickaxeMultiHit_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 2
         width: 64
-        height: 64
+        height: 58
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bf0ddca52bc5f8d0800000000000000
-      internalID: -2813119029548609608
+      spriteID: 0c0f933e59c17cc30800000000000000
+      internalID: 4379500592729026752
       vertices: []
       indices: 
       edges: []
@@ -148,7 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SlotFrame_0: -2813119029548609608
+      PickaxeMultiHit_0: 4379500592729026752
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -1,10 +1,19 @@
 fileFormatVersion: 2
-guid: e1cad184ab52c4541b2d4cc3b2a098b2
+guid: d22cf1253dfb8504daaefb4480c45d1e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2813119029548609608
-    second: SlotFrame_0
+      213: 3768248669775149829
+    second: PickaxeNoKnockback_0
+  - first:
+      213: 1274147555179591485
+    second: PickaxeNoKnockback_1
+  - first:
+      213: -1989266055656599704
+    second: PickaxeNoKnockback_2
+  - first:
+      213: -7863992238801063803
+    second: PickaxeNoKnockback_3
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +122,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlotFrame_0
+      name: PickaxeNoKnockback_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 5
         y: 0
-        width: 64
-        height: 64
+        width: 42
+        height: 33
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +137,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bf0ddca52bc5f8d0800000000000000
-      internalID: -2813119029548609608
+      spriteID: 50b394b33328b4430800000000000000
+      internalID: 3768248669775149829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeNoKnockback_1
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 22
+        width: 9
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d3779e1637eaea110800000000000000
+      internalID: 1274147555179591485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeNoKnockback_2
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 25
+        width: 7
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 86f88dcdf05b464e0800000000000000
+      internalID: -1989266055656599704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeNoKnockback_3
+      rect:
+        serializedVersion: 2
+        x: 24
+        y: 24
+        width: 40
+        height: 40
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 58075d959bc7dd290800000000000000
+      internalID: -7863992238801063803
       vertices: []
       indices: 
       edges: []
@@ -148,7 +223,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SlotFrame_0: -2813119029548609608
+      PickaxeNoKnockback_0: 3768248669775149829
+      PickaxeNoKnockback_1: 1274147555179591485
+      PickaxeNoKnockback_2: -1989266055656599704
+      PickaxeNoKnockback_3: -7863992238801063803
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

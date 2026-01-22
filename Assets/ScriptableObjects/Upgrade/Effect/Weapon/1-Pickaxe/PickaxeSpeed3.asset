@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PickaxeSpeed3
   m_EditorClassIdentifier: Assembly-CSharp::WeaponUpgradeEffect
   weaponType: 1
-  statType: 1
+  statType: 2
   value: 0.4

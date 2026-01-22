@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PickaxeMultihit
   m_EditorClassIdentifier: Assembly-CSharp::WeaponUpgradeEffect
   weaponType: 1
-  statType: 5
+  statType: 6
   value: 0

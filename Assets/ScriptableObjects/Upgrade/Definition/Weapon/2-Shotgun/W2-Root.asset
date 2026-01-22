@@ -16,6 +16,6 @@ MonoBehaviour:
   effect: {fileID: 11400000, guid: ee40781a8a4a0544788cb0686b949bb3, type: 2}
   upgradeName: "\uC0F7\uAC74 \uAD6C\uB9E4"
   description: "\uBC18\uB3D9\uC5D0 \uC8FC\uC758\uD558\uC138\uC694."
-  icon: {fileID: 21300000, guid: 708b74fa826ad7041b85fd742f9ca98d, type: 3}
+  icon: {fileID: 21300000, guid: 745cf2ff0bf473b448f7378057184821, type: 3}
   costString: 0
   parent: {fileID: 11400000, guid: a5d9c14d7e6d43344bc650ecacfc2523, type: 2}

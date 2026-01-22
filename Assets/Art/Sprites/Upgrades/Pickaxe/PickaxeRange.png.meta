@@ -1,10 +1,22 @@
 fileFormatVersion: 2
-guid: e1cad184ab52c4541b2d4cc3b2a098b2
+guid: 043d78061b346594eb39dd75a079d3b6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -2813119029548609608
-    second: SlotFrame_0
+      213: 2120800718248567632
+    second: PickaxeRange_0
+  - first:
+      213: -7253953888698035312
+    second: PickaxeRange_1
+  - first:
+      213: 68932030652896885
+    second: PickaxeRange_2
+  - first:
+      213: 5504230227541012086
+    second: PickaxeRange_3
+  - first:
+      213: 6090764818981844883
+    second: PickaxeRange_4
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +125,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: SlotFrame_0
+      name: PickaxeRange_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 64
-        height: 64
+        x: 5
+        y: 10
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +140,96 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 8bf0ddca52bc5f8d0800000000000000
-      internalID: -2813119029548609608
+      spriteID: 053699a44099e6d10800000000000000
+      internalID: 2120800718248567632
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeRange_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 22
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 093171f0f57c45b90800000000000000
+      internalID: -7253953888698035312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeRange_2
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 36
+        width: 17
+        height: 17
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 57656b01155e4f000800000000000000
+      internalID: 68932030652896885
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeRange_3
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 6
+        width: 15
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67eac82ba34f26c40800000000000000
+      internalID: 5504230227541012086
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PickaxeRange_4
+      rect:
+        serializedVersion: 2
+        x: 14
+        y: 7
+        width: 23
+        height: 23
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 397fbd5255eb68450800000000000000
+      internalID: 6090764818981844883
       vertices: []
       indices: 
       edges: []
@@ -148,7 +248,11 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      SlotFrame_0: -2813119029548609608
+      PickaxeRange_0: 2120800718248567632
+      PickaxeRange_1: -7253953888698035312
+      PickaxeRange_2: 68932030652896885
+      PickaxeRange_3: 5504230227541012086
+      PickaxeRange_4: 6090764818981844883
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

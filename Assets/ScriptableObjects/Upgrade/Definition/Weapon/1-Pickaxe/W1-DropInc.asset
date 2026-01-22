@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
-  m_Name: W1-IncDrop
+  m_Name: W1-DropInc
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  id: W1-IncDrop
+  id: W1-DropInc
   effect: {fileID: 11400000, guid: 1db0c094cb8e08949ab86c945bac2ba6, type: 2}
   upgradeName: "\uC0B0\uC0B0\uC870\uAC01"
   description: "\uAE08\uC18D \uD30C\uD3B8\uC774 \uB354 \uB9CE\uC774 \uB5A8\uC5B4\uC9D1\uB2C8\uB2E4."
-  icon: {fileID: 21300000, guid: 708b74fa826ad7041b85fd742f9ca98d, type: 3}
+  icon: {fileID: 21300000, guid: 45e2b14e5a5fc29408af918beb39a6fa, type: 3}
   costString: 0
-  parent: {fileID: 11400000, guid: e6945a1922c9237419cf799aa62590dc, type: 2}
+  parent: {fileID: 11400000, guid: 18e832fd5d9dec9489aaf46412b0a5d8, type: 2}

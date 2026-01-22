@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: PickaxeRange3
   m_EditorClassIdentifier: Assembly-CSharp::WeaponUpgradeEffect
   weaponType: 1
-  statType: 2
+  statType: 3
   value: 2
