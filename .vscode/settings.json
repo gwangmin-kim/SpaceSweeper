@@ -68,5 +68,7 @@
         "*.slnx": "*.csproj"
     },
     "dotnet.defaultSolution": "SpaceSweeper.slnx",
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
+    "unity-code-snippets.usePrivateKeyword": false,
+    "unity-code-snippets.style": "allman",
 }

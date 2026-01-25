@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W2-AS1
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   id: W2-AS1
-  effect: {fileID: 11400000, guid: ee40781a8a4a0544788cb0686b949bb3, type: 2}
+  effect: {fileID: 0}
   upgradeName: "\uBE60\uB978 \uC7AC\uC7A5\uC804"
   description: "\uBC1C\uC0AC \uC18D\uB3C4\uAC00 \uBE68\uB77C\uC9D1\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 745cf2ff0bf473b448f7378057184821, type: 3}

@@ -40,14 +40,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     {
         _rigidbody = GetComponent<Rigidbody2D>();
 
-        // set initial movement
-        Vector2 floatingDirection = Random.insideUnitCircle.normalized;
-        float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
-        float rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
-
-        _rigidbody.linearVelocity = floatingSpeed * floatingDirection;
-        _rigidbody.angularVelocity = rotationAnglePerSecond;
-
         _currentHealth = _maxHealth;
         _currentHealthRatio = 1f;
         _targetHealthRatio = 1f;
@@ -79,7 +71,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable
             Instantiate(_resourcePrefab, spawnPosition, Quaternion.identity);
         }
 
-        Destroy(gameObject);
+        StageManager.Instance.OnDebrisDie(gameObject);
     }
 
     void SetHealthVisual()
@@ -95,6 +87,15 @@ public class SpaceDebris : MonoBehaviour, IDamagable
         _fillRenderer.GetPropertyBlock(_materialPropertyBlock);
         _materialPropertyBlock.SetFloat(_fillAmountID, _currentHealthRatio);
         _fillRenderer.SetPropertyBlock(_materialPropertyBlock);
+    }
+
+    public void SetInitialMovement(Vector2 direction)
+    {
+        float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
+        float rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
+
+        _rigidbody.linearVelocity = floatingSpeed * direction;
+        _rigidbody.angularVelocity = rotationAnglePerSecond;
     }
 
     public void TakeDamage(int damage)

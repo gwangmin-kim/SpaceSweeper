@@ -41,12 +41,6 @@ public class ResourceItem : MonoBehaviour
         transform.Rotate(Vector3.forward, Random.Range(0f, 360f));
 
         _collider = GetComponent<Collider2D>();
-        _collider.enabled = false;
-
-        _standbyTimer = _standbyDuration;
-        _explodeTargetPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle;
-
-        _rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
     }
 
     // ! 움직이는 콜라이더는 Rigidbody를 달아주는 것이 효율적이라고 함. (https://docs.unity3d.com/6000.3/Documentation/Manual/CollidersOverview.html)
@@ -82,6 +76,17 @@ public class ResourceItem : MonoBehaviour
 
             transform.position += attractSpeed * Time.deltaTime * attractDirection;
         }
+    }
+
+    // 폐기물 파괴로 생성 시 호출
+    public void SetInitialDropState()
+    {
+        _collider.enabled = false;
+
+        _standbyTimer = _standbyDuration;
+        _explodeTargetPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle;
+
+        _rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
     }
 
     public void SetTarget(Transform target)

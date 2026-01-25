@@ -37,5 +37,6 @@ public class MapSelector : MonoBehaviour, IInteractable
         if (!isPressed) return;
 
         // 장소 선택 UI 호출
+        MapUIController.Instance.ActivatePanel();
     }
 }
