@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: W1-MultiHit
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   id: W1-MultiHit
-  effect: {fileID: 0}
+  effect: {fileID: 11400000, guid: 7252e1d36f3a9cb46bcbe8db40bf1d9f, type: 2}
   upgradeName: "\uACF5\uC815\uD55C \uD0C0\uACA9"
   description: "\uACE1\uAD2D\uC774\uAC00 \uBC94\uC704 \uB0B4\uC758 \uBAA8\uB4E0 \uD3D0\uAE30\uBB3C\uC744
     \uD0C0\uACA9\uD569\uB2C8\uB2E4."

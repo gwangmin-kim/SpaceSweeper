@@ -2,6 +2,7 @@ using UnityEngine;
 
 public enum PlayerStatType
 {
+    // 값을 설정하는 종류
     MoveSpeed,
     DashSpeed,
     DashDistance,
@@ -11,6 +12,9 @@ public enum PlayerStatType
     KnockbackDuration,
     MagnetRange,
     OxygenAmount,
+
+    // 단순 해금 종류
+    UnlockDash,
 }
 
 [CreateAssetMenu(fileName = "NewStatUpgradeEffect", menuName = "Upgrades/Effects/Stat Upgrade Effect")]
@@ -61,6 +65,9 @@ public class StatUpgradeEffect : UpgradeEffect
             case PlayerStatType.OxygenAmount:
                 if (spec.oxygenAmount < value)
                     spec.oxygenAmount = value;
+                break;
+            case PlayerStatType.UnlockDash:
+                spec.moveStat.isDashUnlocked = true;
                 break;
             default:
                 Debug.LogWarning("Unknown stat type");
