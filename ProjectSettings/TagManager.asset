@@ -16,7 +16,7 @@ TagManager:
   - SpaceDebris
   - Resource
   - Bullet
-  - Player-OnlyInteraction
+  - Interactable
   - 
   - 
   - 
@@ -43,6 +43,9 @@ TagManager:
     locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Environment
+    uniqueID: 2597977735
     locked: 0
   - name: Object
     uniqueID: 1079695753

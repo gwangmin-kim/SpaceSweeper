@@ -1,13 +1,13 @@
 using UnityEngine;
+using BreakInfinity;
 
 public class ResourceManager : MonoBehaviour
 {
     // Singleton
     public static ResourceManager Instance { get; private set; }
 
-    private int _totalStoredResource = 0; // 탐사 세션 종료 후, 획득이 확정된 자원량
-
-    private int _gold = 0;
+    public BigDouble Resource => GameManager.Instance.CurrentData.resource;
+    public BigDouble Gold => GameManager.Instance.CurrentData.gold;
 
     public void Awake()
     {
@@ -22,8 +22,40 @@ public class ResourceManager : MonoBehaviour
         }
     }
 
-    public void StoreResources(int sessionLootAmount)
+    public void StoreResources(BigDouble sessionLootAmount)
     {
-        _totalStoredResource += sessionLootAmount;
+        GameManager.Instance.CurrentData.resource += sessionLootAmount;
+    }
+
+    public BigDouble WithdrawResources(BigDouble amount)
+    {
+        var data = GameManager.Instance.CurrentData;
+
+        if (data.resource >= amount)
+        {
+            data.resource -= amount;
+            return amount;
+        }
+        else
+        {
+            BigDouble remaining = data.resource;
+            data.resource = 0;
+            return remaining;
+        }
+    }
+
+    public void AddGold(BigDouble amount)
+    {
+        GameManager.Instance.CurrentData.gold += amount;
+    }
+
+    public bool TryWithdrawGold(BigDouble amount)
+    {
+        var data = GameManager.Instance.CurrentData;
+
+        if (data.gold < amount) return false;
+
+        data.gold -= amount;
+        return true;
     }
 }
