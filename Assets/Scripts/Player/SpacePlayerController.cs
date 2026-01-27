@@ -84,30 +84,6 @@ public class SpacePlayerController : MonoBehaviour
 
     PlayerState _state = PlayerState.Move;
 
-    public void GetPlayerSpec()
-    {
-        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
-        if (GameManager.Instance == null)
-        {
-            Debug.LogError("GameManager is not initialized");
-            return;
-        }
-
-        // move status
-        _moveStat = GameManager.Instance.CurrentData.playerSpec.moveStat;
-        _dashDuration = _moveStat.dashDistance / _moveStat.dashSpeed;
-        _isDashUnlocked = GameManager.Instance.CurrentData.playerSpec.moveStat.isDashUnlocked;
-
-        // weapon
-        var weaponPrefab = WeaponManager.Instance.GetCurrentWeapon();
-        if (weaponPrefab != null)
-        {
-            _currentWeapon = Instantiate(weaponPrefab, _weaponSocket);
-            _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            _currentWeapon.GetComponent<IWeapon>()?.Initialize();
-        }
-    }
-
     void Awake()
     {
         Instance = this;
@@ -132,6 +108,30 @@ public class SpacePlayerController : MonoBehaviour
             SendAttack();
         }
         if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
+    }
+
+    void GetPlayerSpec()
+    {
+        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager is not initialized");
+            return;
+        }
+
+        // move status
+        _moveStat = GameManager.Instance.CurrentData.playerSpec.moveStat;
+        _dashDuration = _moveStat.dashDistance / _moveStat.dashSpeed;
+        _isDashUnlocked = GameManager.Instance.CurrentData.playerSpec.moveStat.isDashUnlocked;
+
+        // weapon
+        var weaponPrefab = WeaponManager.Instance.GetCurrentWeapon();
+        if (weaponPrefab != null)
+        {
+            _currentWeapon = Instantiate(weaponPrefab, _weaponSocket);
+            _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            _currentWeapon.GetComponent<IWeapon>()?.Initialize();
+        }
     }
 
     void SetState(PlayerState state)
@@ -232,13 +232,9 @@ public class SpacePlayerController : MonoBehaviour
         if (SessionManager.Instance != null) SessionManager.Instance.TryReturn();
     }
 
-    void SendCancel()
-    {
-        if (SessionManager.Instance != null) SessionManager.Instance.Cancel();
-    }
-
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Debug.Log($"collision with {collision.gameObject}");
         if (((1 << collision.gameObject.layer) & _collisionLayer) != 0)
         {
             // 법선 방향으로 튕겨남
@@ -246,6 +242,12 @@ public class SpacePlayerController : MonoBehaviour
             Vector2 normal = collision.contacts[0].normal;
 
             _currentVelocity = _currentVelocity.magnitude * _moveStat.bounceFactor * normal;
+
+            // 상대도 밀려날 수 있는 경우
+            if (collision.gameObject.TryGetComponent<IDamagable>(out var component))
+            {
+                component.ApplyKnockback(-normal, _moveStat.knockbackFactor);
+            }
 
             // cancel dash or knockback state
             SetState(PlayerState.Move);
@@ -286,15 +288,6 @@ public class SpacePlayerController : MonoBehaviour
         {
             // Debug.Log($"input detected: interact");
             SendReturn();
-        }
-    }
-
-    public void OnCancel(InputValue inputValue)
-    {
-        if (inputValue.isPressed)
-        {
-            // Debug.Log($"input detected: cancel");
-            SendCancel();
         }
     }
 

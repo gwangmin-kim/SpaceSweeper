@@ -51,6 +51,7 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
+    currentLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
     unlockedUpgrades: []
     playerSpec:
       moveStat:
@@ -60,7 +61,7 @@ MonoBehaviour:
         dashSpeed: 5
         dashDistance: 2
         dashCooldown: 1
-        bounceFactor: 1.5
+        bounceFactor: 1
         knockbackFactor: 2
         knockbackDuration: 0.3
       magnetRange: 0

@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 public class StageManager : MonoBehaviour
@@ -6,6 +7,10 @@ public class StageManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Transform _mapRoot; // 맵이 생성될 부모 오브젝트
+
+    [Header("Camera Settings")]
+    [SerializeField] CinemachineConfiner2D _cameraConfiner; // Cinamachine VCam
+    [SerializeField] BoxCollider2D _cameraBoundsCollider; // Confiner Collider Object
 
     LevelDefinition _currentLevel;
     Collider2D _currentSpawnZone;
@@ -35,9 +40,14 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    void SpawnInitialDebris()
+    void SpawnInitialObjects()
     {
-        foreach (var spawnData in _currentLevel.debrisList)
+        for (int i = 0; i < _currentLevel.resourceSpawnData.count; i++)
+        {
+            SpawnSingleResource(_currentLevel.resourceSpawnData.resourcePrefab);
+        }
+
+        foreach (var spawnData in _currentLevel.debrisDataList)
         {
             for (int i = 0; i < spawnData.count; i++)
             {
@@ -46,15 +56,46 @@ public class StageManager : MonoBehaviour
         }
     }
 
-    public void LoadLevel(LevelDefinition level)
+    void SetCameraBounds()
     {
-        _currentLevel = level;
+        Bounds targetBounds = _currentSpawnZone.bounds;
+
+        // collider 크기 맞추기
+        _cameraBoundsCollider.size = targetBounds.size;
+        _cameraBoundsCollider.offset = targetBounds.center;
+        // _cameraBoundsCollider.transform.position = targetBounds.center;
+
+        _cameraConfiner.BoundingShape2D = _cameraBoundsCollider;
+        _cameraConfiner.InvalidateBoundingShapeCache();
+    }
+
+    public void LoadLevel()
+    {
+        _currentLevel = GameManager.Instance.CurrentData.currentLevel;
 
         ClearLevel();
 
         FindSpawnZone();
 
-        SpawnInitialDebris();
+        SpawnInitialObjects();
+
+        SetCameraBounds();
+    }
+
+    public void SpawnSingleResource(GameObject resourcePrefab)
+    {
+        Vector2 spawnPosition = GetRandomPositionInSpawnZone();
+
+        GameObject resource = Instantiate(resourcePrefab, spawnPosition, Quaternion.identity);
+
+        if (!resource.TryGetComponent<ResourceItem>(out var component))
+        {
+            Debug.LogWarning($"{resource} is not a ResourceItem object");
+            return;
+        }
+
+        Vector2 floatingDirection = Random.insideUnitCircle.normalized;
+        component.InitFloating(floatingDirection);
     }
 
     public void SpawnSingleDebris(GameObject debrisPrefab)
@@ -66,15 +107,16 @@ public class StageManager : MonoBehaviour
         if (!debris.TryGetComponent<SpaceDebris>(out var component))
         {
             Debug.LogWarning($"{debris} is not a SpaceDebris object");
+            return;
         }
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
-        component.SetInitialMovement(floatingDirection);
+        component.InitMovement(floatingDirection);
 
         _remainingDebrisCount++;
     }
 
-    public void OnDebrisDie(GameObject debrisObject)
+    public void OnDebrisDestroy(GameObject debrisObject)
     {
         _remainingDebrisCount--;
 
@@ -83,8 +125,21 @@ public class StageManager : MonoBehaviour
 
     Vector2 GetRandomPositionInSpawnZone()
     {
-        Bounds bounds = _currentSpawnZone.bounds;
-        Vector2 randomPosition = default;
+        // Rejection Sampling
+        // 성능을 위해선 SpawnZone이 Bounding box의 대부분 영역을 차지하도록 잡아야 함.
+        Bounds targetBounds = _currentSpawnZone.bounds;
+        Vector2 randomPosition;
+        int safetyCount = 0;
+
+        do
+        {
+            float x = Random.Range(targetBounds.min.x, targetBounds.max.x);
+            float y = Random.Range(targetBounds.min.y, targetBounds.max.y);
+            randomPosition = new Vector2(x, y);
+
+            safetyCount++;
+        }
+        while (!_currentSpawnZone.OverlapPoint(randomPosition) && safetyCount < 100);
 
         return randomPosition;
     }

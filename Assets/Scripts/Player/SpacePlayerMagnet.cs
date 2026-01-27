@@ -11,8 +11,14 @@ public class SpacePlayerMagnet : MonoBehaviour
         _magnetArea = GetComponent<CircleCollider2D>();
     }
 
-    public void InitializeMagnet(float radius)
+    void Start()
     {
+        InitMagnet();
+    }
+
+    void InitMagnet()
+    {
+        float radius = GameManager.Instance.CurrentData.playerSpec.magnetRange;
         _magnetArea.radius = radius;
     }
 

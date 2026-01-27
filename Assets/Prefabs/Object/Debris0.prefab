@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7001435675685858612}
   - component: {fileID: 3412308803280125624}
   m_Layer: 8
-  m_Name: Debris
+  m_Name: Debris0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,9 +43,9 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3042997265853864001}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDamping: 0
@@ -118,7 +118,7 @@ MonoBehaviour:
   _maxDriftSpeed: 0.5
   _maxRotationAnglePerSecond: 60
   _knockbackFactor: 1
-  _linearDampingAfterCollision: 1
+  _velocityDampingTime: 1
   _fillRenderer: {fileID: 2138380181092663995}
   _healthBarDampingTime: 0.2
 --- !u!1 &4128796782527150831

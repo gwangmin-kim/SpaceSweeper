@@ -127,15 +127,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""e4e0fd17-2c41-447f-a43b-d1271d1b0a72"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -218,17 +209,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""9f7bf0d9-3e09-4169-b41b-0910fd87c61a"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""bb64e0e3-575b-419a-a855-6582ad360141"",
                     ""path"": ""<Mouse>/position"",
                     ""interactions"": """",
@@ -285,15 +265,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""type"": ""PassThrough"",
                     ""id"": ""5cc8f04a-c262-4138-b710-601b95702364"",
                     ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""Cancel"",
-                    ""type"": ""Button"",
-                    ""id"": ""5754ff42-a819-40df-b405-9f8b925d241b"",
-                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -398,17 +369,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
                     ""action"": ""Interact"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""bc3a6b0e-1e89-4837-b852-7ae6e1a7e11a"",
-                    ""path"": ""<Keyboard>/escape"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Cancel"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -421,7 +381,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Hub_Jump = m_Hub.FindAction("Jump", throwIfNotFound: true);
         m_Hub_Aim = m_Hub.FindAction("Aim", throwIfNotFound: true);
         m_Hub_Interact = m_Hub.FindAction("Interact", throwIfNotFound: true);
-        m_Hub_Cancel = m_Hub.FindAction("Cancel", throwIfNotFound: true);
         // Space
         m_Space = asset.FindActionMap("Space", throwIfNotFound: true);
         m_Space_Move = m_Space.FindAction("Move", throwIfNotFound: true);
@@ -429,7 +388,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         m_Space_Aim = m_Space.FindAction("Aim", throwIfNotFound: true);
         m_Space_Interact = m_Space.FindAction("Interact", throwIfNotFound: true);
         m_Space_Attack = m_Space.FindAction("Attack", throwIfNotFound: true);
-        m_Space_Cancel = m_Space.FindAction("Cancel", throwIfNotFound: true);
     }
 
     ~@GameControls()
@@ -515,7 +473,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Hub_Jump;
     private readonly InputAction m_Hub_Aim;
     private readonly InputAction m_Hub_Interact;
-    private readonly InputAction m_Hub_Cancel;
     /// <summary>
     /// Provides access to input actions defined in input action map "Hub".
     /// </summary>
@@ -543,10 +500,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Hub/Interact".
         /// </summary>
         public InputAction @Interact => m_Wrapper.m_Hub_Interact;
-        /// <summary>
-        /// Provides access to the underlying input action "Hub/Cancel".
-        /// </summary>
-        public InputAction @Cancel => m_Wrapper.m_Hub_Cancel;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -585,9 +538,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @Cancel.started += instance.OnCancel;
-            @Cancel.performed += instance.OnCancel;
-            @Cancel.canceled += instance.OnCancel;
         }
 
         /// <summary>
@@ -611,9 +561,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @Cancel.started -= instance.OnCancel;
-            @Cancel.performed -= instance.OnCancel;
-            @Cancel.canceled -= instance.OnCancel;
         }
 
         /// <summary>
@@ -656,7 +603,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Space_Aim;
     private readonly InputAction m_Space_Interact;
     private readonly InputAction m_Space_Attack;
-    private readonly InputAction m_Space_Cancel;
     /// <summary>
     /// Provides access to input actions defined in input action map "Space".
     /// </summary>
@@ -688,10 +634,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Space/Attack".
         /// </summary>
         public InputAction @Attack => m_Wrapper.m_Space_Attack;
-        /// <summary>
-        /// Provides access to the underlying input action "Space/Cancel".
-        /// </summary>
-        public InputAction @Cancel => m_Wrapper.m_Space_Cancel;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -733,9 +675,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Attack.started += instance.OnAttack;
             @Attack.performed += instance.OnAttack;
             @Attack.canceled += instance.OnAttack;
-            @Cancel.started += instance.OnCancel;
-            @Cancel.performed += instance.OnCancel;
-            @Cancel.canceled += instance.OnCancel;
         }
 
         /// <summary>
@@ -762,9 +701,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
             @Attack.started -= instance.OnAttack;
             @Attack.performed -= instance.OnAttack;
             @Attack.canceled -= instance.OnAttack;
-            @Cancel.started -= instance.OnCancel;
-            @Cancel.performed -= instance.OnCancel;
-            @Cancel.canceled -= instance.OnCancel;
         }
 
         /// <summary>
@@ -833,13 +769,6 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInteract(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCancel(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Space" which allows adding and removing callbacks.
@@ -883,12 +812,5 @@ public partial class @GameControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnAttack(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "Cancel" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCancel(InputAction.CallbackContext context);
     }
 }

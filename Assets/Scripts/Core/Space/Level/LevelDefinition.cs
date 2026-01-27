@@ -2,6 +2,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public struct ResourceSpawnData
+{
+    public GameObject resourcePrefab;
+    public int count; // 소환할 개수
+}
+
+[System.Serializable]
 public struct DebrisSpawnData
 {
     public GameObject debrisPrefab;
@@ -15,7 +22,8 @@ public class LevelDefinition : ScriptableObject
     public GameObject mapPrefab;
 
     [Header("Spawn Settings")]
-    public List<DebrisSpawnData> debrisList;
+    public ResourceSpawnData resourceSpawnData;
+    public List<DebrisSpawnData> debrisDataList;
 
     [Header("Gimicks (Optional)")]
     public bool enableMeteors;

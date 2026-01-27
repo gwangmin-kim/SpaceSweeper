@@ -233,10 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 625a873e3eb084642baa6a92797e070a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceItem
+  _currentState: 1
   _value: 1
   _standbyDuration: 0.5
   _explodeDistance: 1
   _explodeSpeedFactor: 10
+  _minDriftSpeed: 0
+  _maxDriftSpeed: 1
   _maxRotationAnglePerSecond: 100
   _minAttractSpeed: 1
   _maxAttractSpeed: 10

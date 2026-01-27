@@ -36,7 +36,7 @@ public class SessionManager : MonoBehaviour
 
     void Start()
     {
-        InitializeSession();
+        InitSession();
     }
 
     void Update()
@@ -57,7 +57,7 @@ public class SessionManager : MonoBehaviour
         }
     }
 
-    void InitializeSession()
+    void InitSession()
     {
         float totalOxygenAmount = GameManager.Instance.CurrentData.playerSpec.oxygenAmount;
         _currentOxygenAmount = totalOxygenAmount;
@@ -69,6 +69,8 @@ public class SessionManager : MonoBehaviour
 
         SessionUIController.Instance.SetOxygen(_currentOxygenAmount, 1f);
         SessionUIController.Instance.SetResource(_info.lootAmount);
+
+        StageManager.Instance.LoadLevel();
     }
 
     void EndSession()
@@ -110,10 +112,5 @@ public class SessionManager : MonoBehaviour
     public void ReturnToHub()
     {
         SceneLoader.LoadScene("Hub");
-    }
-
-    public void Cancel()
-    {
-
     }
 }

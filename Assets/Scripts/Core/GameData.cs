@@ -35,6 +35,9 @@ public class GameData
     public BigDouble resource;
     public BigDouble gold;
 
+    // stage
+    public LevelDefinition currentLevel;
+
     // upgrade
     // 용도를 고려하면 HashSet이 더 적합하지만, HashSet은 json 형식으로 저장하기 어려움
     public List<string> unlockedUpgrades;

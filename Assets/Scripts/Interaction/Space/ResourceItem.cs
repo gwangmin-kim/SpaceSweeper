@@ -5,7 +5,18 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class ResourceItem : MonoBehaviour
 {
+    public enum ResourceState
+    {
+        Spawning, // 드롭되어 튀어 나가는 중
+        Idle, // 떠있는 상태로 대기
+        Attracted // 플레이어에게 끌려가는 상태
+    }
+
     Collider2D _collider;
+    Rigidbody2D _rigidbody;
+
+    [Header("State (Read Only)")]
+    [SerializeField] ResourceState _currentState = ResourceState.Idle;
 
     [Header("Resource Status")]
     [SerializeField] double _value;
@@ -16,6 +27,8 @@ public class ResourceItem : MonoBehaviour
     [SerializeField] float _explodeSpeedFactor; // 초기 폭발 시 얼마나 빠르게 이동하는지 결정
 
     [Header("Floating Options")]
+    [SerializeField] float _minDriftSpeed;
+    [SerializeField] float _maxDriftSpeed;
     [SerializeField] float _maxRotationAnglePerSecond;
 
     [Header("Attract Options")]
@@ -26,14 +39,11 @@ public class ResourceItem : MonoBehaviour
     [Header("Collision")]
     [SerializeField] LayerMask _playerLayer;
 
-    Transform _target;
-    float _initialInverseSqrDistance;
-
-    Vector2 _explodeTargetPosition = Vector2.zero; // 초기 폭발 시의 목표 지점, UnitCircle 내부에서 랜덤 결정 (normalize 안함) 이후 Factor와 곱해서 결정
+    Vector2 _dropPosition = Vector2.zero; // 초기 드롭 시의 목표 지점, UnitCircle 내부에서 랜덤 결정 (normalize 안함) 이후 Factor와 곱해서 결정
     float _standbyTimer = 0f;
 
-    float _rotationAnglePerSecond;
-
+    Transform _target;
+    float _attractTimer = 0f;
 
     void Awake()
     {
@@ -41,60 +51,88 @@ public class ResourceItem : MonoBehaviour
         transform.Rotate(Vector3.forward, Random.Range(0f, 360f));
 
         _collider = GetComponent<Collider2D>();
+        _rigidbody = GetComponent<Rigidbody2D>();
     }
 
     // ! 움직이는 콜라이더는 Rigidbody를 달아주는 것이 효율적이라고 함. (https://docs.unity3d.com/6000.3/Documentation/Manual/CollidersOverview.html)
     // ! transform.position을 직접 수정하는 것에서 Rigidbody 기반 속도 제어로 변경 고려
     void Update()
     {
-        if (_standbyTimer > 0f)
+        switch (_currentState)
         {
-            // 생성 직후
-            _standbyTimer -= Time.deltaTime;
-            transform.position = Vector2.Lerp(transform.position, _explodeTargetPosition, _explodeSpeedFactor * Time.deltaTime);
-        }
-        else if (_target == null)
-        {
-            if (!_collider.enabled) _collider.enabled = true;
-
-            // 대기 상태
-            transform.Rotate(Vector3.forward, _rotationAnglePerSecond * Time.deltaTime);
-        }
-        else
-        {
-            // 플레이어 쪽으로 유도
-            Vector2 deltaPosition = _target.position - transform.position;
-            float sqrDistance = deltaPosition.sqrMagnitude;
-            Vector3 attractDirection = deltaPosition.normalized;
-
-            attractDirection.z = 0f;
-
-            // float distanceFactor = 1f / deltaPosition.sqrMagnitude; // 가까울 수록 빠르게 끌려옴
-            // float attractSpeed = Mathf.Min(_minAttractSpeed, distanceFactor * _attractSpeedFactor);
-
-            float attractSpeed = _attractSpeedFactor * Mathf.Lerp(_minAttractSpeed, _maxAttractSpeed, 1f - sqrDistance * _initialInverseSqrDistance);
-
-            transform.position += attractSpeed * Time.deltaTime * attractDirection;
+            case ResourceState.Spawning:
+                HandleSpawning();
+                break;
+            case ResourceState.Idle:
+                HandleIdle();
+                break;
+            case ResourceState.Attracted:
+                HandleAttracted();
+                break;
         }
     }
 
-    // 폐기물 파괴로 생성 시 호출
-    public void SetInitialDropState()
+    // 폐기물에서 드롭된 직후
+    void HandleSpawning()
     {
+        _standbyTimer -= Time.deltaTime;
+        transform.position = Vector2.Lerp(transform.position, _dropPosition, _explodeSpeedFactor * Time.deltaTime);
+
+        if (_standbyTimer <= 0f)
+        {
+            InitFloating(Vector2.zero);
+        }
+    }
+
+    void HandleIdle()
+    {
+
+    }
+
+    void HandleAttracted()
+    {
+        _attractTimer += Time.deltaTime;
+
+        // 플레이어 쪽으로 유도
+        Vector2 deltaPosition = _target.position - transform.position;
+        Vector3 attractDirection = deltaPosition.normalized;
+
+        attractDirection.z = 0f;
+
+        float attractSpeed = Mathf.Lerp(_minAttractSpeed, _maxAttractSpeed, _attractTimer * _attractSpeedFactor);
+
+        _rigidbody.linearVelocity = attractSpeed * attractDirection;
+    }
+
+    // 초기 맵과 함께 생성 시 호출
+    public void InitFloating(Vector2 direction)
+    {
+        _currentState = ResourceState.Idle;
+        _collider.enabled = true;
+
+        float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
+        _rigidbody.linearVelocity = floatingSpeed * direction;
+        _rigidbody.angularVelocity = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
+    }
+
+    // 폐기물 파괴로 생성 시 호출
+    public void InitDrop()
+    {
+        _currentState = ResourceState.Spawning;
         _collider.enabled = false;
 
         _standbyTimer = _standbyDuration;
-        _explodeTargetPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle;
-
-        _rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
+        _dropPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle;
     }
 
     public void SetTarget(Transform target)
     {
-        _target = target;
+        if (target == null || _currentState == ResourceState.Attracted) return;
 
-        Vector2 deltaPosition = _target.position - transform.position;
-        _initialInverseSqrDistance = 1f / deltaPosition.sqrMagnitude;
+        _target = target;
+        _currentState = ResourceState.Attracted;
+
+        _attractTimer = 0f;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
