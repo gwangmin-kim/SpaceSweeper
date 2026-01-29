@@ -127,6 +127,8 @@ public class MeteorController : MonoBehaviour
             else if (hit.CompareTag("Player"))
             {
                 SessionManager.Instance.ReceiveDamage(_data.damageToPlayer);
+                Vector2 knockbackDirection = (Vector2)hit.transform.position - _hitPosition;
+                hit.GetComponent<SpacePlayerController>().ApplyKnockback(knockbackDirection, _data.knockbackFactor);
             }
         }
 

@@ -242,7 +242,7 @@ public class SpacePlayerController : MonoBehaviour
         SetState(PlayerState.Dash);
     }
 
-    public void StartKnockback(Vector2 direction, float intensity)
+    public void ApplyKnockback(Vector2 direction, float intensity)
     {
         // 넉백 중이어도 새로 넉백 당하면 그 쪽에 맞춰 초기화 (no Guard)
         _currentVelocity = _moveStat.knockbackFactor * intensity * direction;

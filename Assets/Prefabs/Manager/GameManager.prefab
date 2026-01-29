@@ -56,8 +56,8 @@ MonoBehaviour:
       meteorData:
         hitTime: 5
         hitRadius: 2.5
-        damageToDamagable: 10
-        knockbackFactor: 0
+        damageToDamagable: 1
+        knockbackFactor: 1
         damageToPlayer: 1
     unlockedUpgrades: []
     playerSpec:
@@ -72,7 +72,7 @@ MonoBehaviour:
         knockbackFactor: 2
         knockbackDuration: 0.3
       magnetRange: 0
-      oxygenAmount: 10
+      oxygenAmount: 100
       currentWeapon: 0
       pickaxeStat:
         damage: 1

@@ -24,5 +24,6 @@ MonoBehaviour:
   gimickList:
   - isEnabled: 1
     GimickPrefab: {fileID: 646261281379050948, guid: ae3d16c218f2c3348915fd92fd289d02, type: 3}
-    interval: 1
-    probability: 0.2
+    minInterval: 1
+    maxInterval: 5
+    probability: 0.8

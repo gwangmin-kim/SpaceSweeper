@@ -163,19 +163,17 @@ public class StageManager : MonoBehaviour
 
     IEnumerator GimickRoutine(StageGimick data)
     {
-        float waitTime = Mathf.Max(data.interval, 0.5f);
-
-        // WaitForSeconds 객체를 캐싱 (최적화: 매번 new 하지 않도록)
-        var waitObj = new WaitForSeconds(waitTime);
-
         while (true)
         {
-            yield return waitObj;
-
             if (Random.value <= data.probability)
             {
                 SpawnGimick(data.GimickPrefab);
             }
+
+            float nextWaitTime = Random.Range(data.minInterval, data.maxInterval);
+            if (nextWaitTime < 0.1f) nextWaitTime = 0.1f;
+
+            yield return new WaitForSeconds(nextWaitTime);
         }
     }
 

@@ -20,7 +20,8 @@ public struct StageGimick
 {
     public bool isEnabled;
     public GameObject GimickPrefab;
-    public float interval;
+    public float minInterval;
+    public float maxInterval;
     public float probability;
 }
 
