@@ -33,7 +33,7 @@ public class SessionUIController : MonoBehaviour
     {
         string time = $"{sessionInformation.timer:F2}s";
         string loot = BigDoubleFormatter.Format(sessionInformation.lootAmount);
-        string damage = $"{sessionInformation.playerDamage}";
+        string damage = $"{sessionInformation.damageReceived}";
 
         return $"{time}\n\n{loot}\n\n{damage}";
     }

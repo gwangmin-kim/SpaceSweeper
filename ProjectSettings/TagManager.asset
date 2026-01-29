@@ -56,6 +56,9 @@ TagManager:
   - name: Weapon
     uniqueID: 2790999597
     locked: 0
+  - name: Gimick
+    uniqueID: 3068373185
+    locked: 0
   - name: UI
     uniqueID: 339120605
     locked: 0

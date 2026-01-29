@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -7,37 +9,45 @@ public class StageManager : MonoBehaviour
 
     [Header("References")]
     [SerializeField] Transform _mapRoot; // 맵이 생성될 부모 오브젝트
+    [SerializeField] Transform _gimickHolder; // 기믹이 생성될 부모 오브젝트
 
     [Header("Camera Settings")]
     [SerializeField] CinemachineConfiner2D _cameraConfiner; // Cinamachine VCam
     [SerializeField] BoxCollider2D _cameraBoundsCollider; // Confiner Collider Object
 
+    [Header("Gimick Target")]
+    [SerializeField] LayerMask _gimickTargetLayer;
+
     LevelDefinition _currentLevel;
     Collider2D _currentSpawnZone;
+    public Bounds CurrentMapBounds => (_currentSpawnZone != null) ? _currentSpawnZone.bounds : default;
 
     int _remainingDebrisCount = 0;
+
+    public LayerMask GimickTargetLayer => _gimickTargetLayer;
+
+    // 기믹 관리
+    List<Coroutine> _runningGimicks = new List<Coroutine>();
 
     void Awake()
     {
         Instance = this;
     }
 
-    void ClearLevel()
+    void InitLevel()
     {
         // foreach (Transform child in _mapRoot) Destroy(child.gameObject);
-        _remainingDebrisCount = 0;
-    }
-
-    void FindSpawnZone()
-    {
-        GameObject mapObject = Instantiate(_currentLevel.mapPrefab, _mapRoot);
+        _currentLevel = GameManager.Instance.CurrentData.currentLevel;
 
         // 맵 프리팹(_currentLevel.mapPrefab) 안에 SpawnZone이라는 이름의 오브젝트를 포함시켜야 함.
+        GameObject mapObject = Instantiate(_currentLevel.mapPrefab, _mapRoot);
         if (!mapObject.transform.Find("SpawnZone").TryGetComponent(out _currentSpawnZone))
         {
             Debug.LogWarning("Cannot find SpawnZone in map prefab");
             return;
         }
+
+        _remainingDebrisCount = 0;
     }
 
     void SpawnInitialObjects()
@@ -47,7 +57,7 @@ public class StageManager : MonoBehaviour
             SpawnSingleResource(_currentLevel.resourceSpawnData.resourcePrefab);
         }
 
-        foreach (var spawnData in _currentLevel.debrisDataList)
+        foreach (var spawnData in _currentLevel.debrisList)
         {
             for (int i = 0; i < spawnData.count; i++)
             {
@@ -58,7 +68,7 @@ public class StageManager : MonoBehaviour
 
     void SetCameraBounds()
     {
-        Bounds targetBounds = _currentSpawnZone.bounds;
+        Bounds targetBounds = CurrentMapBounds;
 
         // collider 크기 맞추기
         _cameraBoundsCollider.size = targetBounds.size;
@@ -71,22 +81,21 @@ public class StageManager : MonoBehaviour
 
     public void LoadLevel()
     {
-        _currentLevel = GameManager.Instance.CurrentData.currentLevel;
-
-        ClearLevel();
-
-        FindSpawnZone();
+        InitLevel();
 
         SpawnInitialObjects();
 
         SetCameraBounds();
+
+        StartGimicks(_currentLevel.gimickList);
     }
 
     public void SpawnSingleResource(GameObject resourcePrefab)
     {
         Vector2 spawnPosition = GetRandomPositionInSpawnZone();
 
-        GameObject resource = Instantiate(resourcePrefab, spawnPosition, Quaternion.identity);
+        GameObject resource = Instantiate(resourcePrefab, _mapRoot);
+        resource.transform.position = spawnPosition;
 
         if (!resource.TryGetComponent<ResourceItem>(out var component))
         {
@@ -102,16 +111,17 @@ public class StageManager : MonoBehaviour
     {
         Vector2 spawnPosition = GetRandomPositionInSpawnZone();
 
-        GameObject debris = Instantiate(debrisPrefab, spawnPosition, Quaternion.identity);
+        GameObject debrisObject = Instantiate(debrisPrefab, _mapRoot);
+        debrisObject.transform.position = spawnPosition;
 
-        if (!debris.TryGetComponent<SpaceDebris>(out var component))
+        if (!debrisObject.TryGetComponent<SpaceDebris>(out var debris))
         {
-            Debug.LogWarning($"{debris} is not a SpaceDebris object");
+            Debug.LogWarning($"{debrisObject} is not a SpaceDebris object");
             return;
         }
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
-        component.InitMovement(floatingDirection);
+        debris.InitMovement(floatingDirection);
 
         _remainingDebrisCount++;
     }
@@ -121,6 +131,52 @@ public class StageManager : MonoBehaviour
         _remainingDebrisCount--;
 
         Destroy(debrisObject);
+    }
+
+    void StartGimicks(List<StageGimick> gimicks)
+    {
+        foreach (var gimickData in gimicks)
+        {
+            if (!gimickData.isEnabled) continue;
+
+            Coroutine routine = StartCoroutine(GimickRoutine(gimickData));
+
+            _runningGimicks.Add(routine);
+        }
+    }
+
+    public void StopAllGimickRoutines()
+    {
+        foreach (var routine in _runningGimicks)
+        {
+            if (routine != null) StopCoroutine(routine);
+        }
+        _runningGimicks.Clear();
+    }
+
+    void SpawnGimick(GameObject prefab)
+    {
+        if (prefab == null) return;
+
+        Instantiate(prefab, _gimickHolder);
+    }
+
+    IEnumerator GimickRoutine(StageGimick data)
+    {
+        float waitTime = Mathf.Max(data.interval, 0.5f);
+
+        // WaitForSeconds 객체를 캐싱 (최적화: 매번 new 하지 않도록)
+        var waitObj = new WaitForSeconds(waitTime);
+
+        while (true)
+        {
+            yield return waitObj;
+
+            if (Random.value <= data.probability)
+            {
+                SpawnGimick(data.GimickPrefab);
+            }
+        }
     }
 
     Vector2 GetRandomPositionInSpawnZone()
@@ -142,5 +198,12 @@ public class StageManager : MonoBehaviour
         while (!_currentSpawnZone.OverlapPoint(randomPosition) && safetyCount < 100);
 
         return randomPosition;
+    }
+
+    void OnDrawGizmos()
+    {
+        // draw map bounds
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(CurrentMapBounds.center, CurrentMapBounds.size);
     }
 }

@@ -76,7 +76,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 30, y: 20}
+  m_Size: {x: 100, y: 50}
   m_EdgeRadius: 0
 --- !u!1 &7779516437347261427
 GameObject:
@@ -88,7 +88,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8016364037793535084}
   m_Layer: 7
-  m_Name: Stage0
+  m_Name: Stage2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

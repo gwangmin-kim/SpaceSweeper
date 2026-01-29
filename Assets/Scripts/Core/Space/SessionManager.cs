@@ -7,7 +7,8 @@ public class SessionInformation
     public bool isOngoing;
     public float timer;
     public BigDouble lootAmount;
-    public int playerDamage;
+    public float damageReceived; // 잃은 산소량
+    public int damageDealt; // 폐기물에 가한 피해량
 }
 
 public class SessionManager : MonoBehaviour
@@ -71,6 +72,8 @@ public class SessionManager : MonoBehaviour
         SessionUIController.Instance.SetResource(_info.lootAmount);
 
         StageManager.Instance.LoadLevel();
+
+        SpacePlayerController.Instance.enabled = true;
     }
 
     void EndSession()
@@ -86,14 +89,30 @@ public class SessionManager : MonoBehaviour
         else
         {
             // 산소 고갈: 강제 종료
-            float lossRatio = GameManager.Instance.CurrentData.playerSpec.lossRatio;
+            float resourceLossRatio = GameManager.Instance.CurrentData.playerSpec.resourceLossRatio;
 
-            _info.lootAmount *= 1f - lossRatio;
+            _info.lootAmount *= 1f - resourceLossRatio;
         }
 
         _info.isOngoing = false;
 
         SessionUIController.Instance.SessionSummary(_info);
+
+        StageManager.Instance.StopAllGimickRoutines();
+
+        SpacePlayerController.Instance.enabled = false;
+    }
+
+    public void ReceiveDamage(float amount)
+    {
+        // 플레이어가 공격 받아 산소를 잃음
+        _currentOxygenAmount -= amount;
+        _info.damageReceived += amount;
+    }
+
+    public void DealDamage(int amount)
+    {
+        _info.damageDealt += amount;
     }
 
     public void LootResource(BigDouble amount)

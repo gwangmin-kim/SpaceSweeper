@@ -25,7 +25,13 @@ public class PlayerSpec
     public LasergunStat lasergunStat;
 
     [Header("Resource")]
-    public float lossRatio; // 사망 시 자원을 잃어버리는 비율 (1.0일 경우 100% 손실)
+    public float resourceLossRatio; // 사망 시 자원을 잃어버리는 비율 (1.0일 경우 100% 손실)
+}
+
+[System.Serializable]
+public class GimickSpec
+{
+    public MeteorData meteorData;
 }
 
 [System.Serializable]
@@ -37,9 +43,9 @@ public class GameData
 
     // stage
     public LevelDefinition currentLevel;
+    public GimickSpec gimickSpec;
 
     // upgrade
-    // 용도를 고려하면 HashSet이 더 적합하지만, HashSet은 json 형식으로 저장하기 어려움
     public List<string> unlockedUpgrades;
 
     // setting

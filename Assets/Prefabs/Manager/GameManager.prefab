@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 6715002253451671636}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1112.5895, y: 554.89105, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -51,7 +51,14 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
+    currentLevel: {fileID: 11400000, guid: 78ecc31c0c20f744d95f25b7e48efb60, type: 2}
+    gimickSpec:
+      meteorData:
+        hitTime: 5
+        hitRadius: 2.5
+        damageToDamagable: 10
+        knockbackFactor: 0
+        damageToPlayer: 1
     unlockedUpgrades: []
     playerSpec:
       moveStat:
@@ -92,4 +99,4 @@ MonoBehaviour:
         isTransitionUnlocked: 0
         transitionCount: 3
         transitionRange: 3
-      lossRatio: 1
+      resourceLossRatio: 0

@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     [Header("Status")]
     [SerializeField] int _maxHealth;
     [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
+    [SerializeField] float _varianceRate; // 이 수치에 따라 크기/체력이 일정 범위 내에서 랜덤하게 생성
 
     [Header("Drop Settings")]
     [SerializeField] GameObject _resourcePrefab;
@@ -44,12 +46,19 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     {
         _rigidbody = GetComponent<Rigidbody2D>();
 
+        // 최적화를 위한 프로퍼티 블록 생성
+        _materialPropertyBlock = new MaterialPropertyBlock();
+
+        // 랜덤성 부여
+        float sizeRate = Random.Range(1f - _varianceRate, 1f + _varianceRate);
+        transform.localScale *= sizeRate;
+        _radius *= sizeRate;
+        _maxHealth = (int)(_maxHealth * sizeRate);
+        _dropCount = (int)(_dropCount * sizeRate);
+
         _currentHealth = _maxHealth;
         _currentHealthRatio = 1f;
         _targetHealthRatio = 1f;
-
-        // 최적화를 위한 프로퍼티 블록 생성
-        _materialPropertyBlock = new MaterialPropertyBlock();
     }
 
     void FixedUpdate()
@@ -61,6 +70,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable
                 _rigidbody.linearVelocity, Vector2.zero,
                 ref _dampingReference, _velocityDampingTime);
         }
+
+        ConstrainPosition();
     }
 
     void Update()
@@ -68,7 +79,71 @@ public class SpaceDebris : MonoBehaviour, IDamagable
         SetHealthVisual();
     }
 
-    void Die()
+    void ConstrainPosition()
+    {
+        if (StageManager.Instance == null) return;
+
+        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+        Vector2 currentPos = _rigidbody.position;
+        Vector2 currentVel = _rigidbody.linearVelocity;
+
+        float minX = mapBounds.min.x + _radius;
+        float maxX = mapBounds.max.x - _radius;
+        float minY = mapBounds.min.y + _radius;
+        float maxY = mapBounds.max.y - _radius;
+
+        bool isBounced = false;
+
+        // 좌/우 벽 검사
+        if (currentPos.x < minX)
+        {
+            currentPos.x = minX;
+            if (currentVel.x < 0)
+            {
+                currentVel.x *= -1;
+                isBounced = true;
+            }
+        }
+        else if (currentPos.x > maxX)
+        {
+            currentPos.x = maxX;
+            if (currentVel.x > 0)
+            {
+                currentVel.x *= -1;
+                isBounced = true;
+            }
+        }
+
+        // 상/하 벽 검사
+        if (currentPos.y < minY)
+        {
+            currentPos.y = minY;
+            if (currentVel.y < 0)
+            {
+                currentVel.y *= -1;
+                isBounced = true;
+            }
+        }
+        else if (currentPos.y > maxY)
+        {
+            currentPos.y = maxY;
+            if (currentVel.y > 0)
+            {
+                currentVel.y *= -1;
+                isBounced = true;
+            }
+        }
+
+        if (isBounced)
+        {
+            _rigidbody.position = currentPos; // 위치 보정
+            _rigidbody.linearVelocity = currentVel; // 속도 보정
+
+            ApplyRandomRotation();
+        }
+    }
+
+    void DropAndDestroy()
     {
         // 필요 시 확률 기반 드롭 카운트 배율 적용 (업그레이드 항목 고려)
         int dropCount = _dropCount;
@@ -83,7 +158,13 @@ public class SpaceDebris : MonoBehaviour, IDamagable
             Vector2 spawnOffset = Random.insideUnitCircle * _radius;
             Vector2 spawnPosition = (Vector2)transform.position + spawnOffset;
 
-            Instantiate(_resourcePrefab, spawnPosition, Quaternion.identity);
+            var resourceObject = Instantiate(_resourcePrefab, spawnPosition, Quaternion.identity);
+            if (!resourceObject.TryGetComponent<ResourceItem>(out var resource))
+            {
+                Debug.LogWarning($"{resourceObject} is not a ResourceItem object");
+                return;
+            }
+            resource.InitDrop();
         }
 
         StageManager.Instance.OnDebrisDestroy(gameObject);
@@ -106,6 +187,29 @@ public class SpaceDebris : MonoBehaviour, IDamagable
 
     void HandleDebrisCollision(SpaceDebris other)
     {
+        // 충돌 해결
+        Transform myTransform = this.transform;
+        Transform otherTransform = other.transform;
+
+        Vector2 deltaPosition = myTransform.position - otherTransform.position;
+        float distance = deltaPosition.magnitude;
+
+        float radiusSum = this._radius + other._radius;
+        float overlap = radiusSum - distance;
+
+        // 겹쳐있다면 서로 반대 방향으로 절반씩 밀어냄
+        // 만약 정가운데에 겹쳐서 생성됐다면 랜덤한 방향으로 밀어냄
+        Vector2 direction = (distance == 0f) ? Random.insideUnitCircle.normalized : deltaPosition / distance;
+
+        if (overlap > 0f)
+        {
+            // 정규화된 방향 벡터 * (겹친 만큼 / 2)
+            Vector2 separationVector = 0.5f * overlap * direction;
+
+            this._rigidbody.position += separationVector;
+            other._rigidbody.position -= separationVector;
+        }
+
         // 단순 속도 교환
         Vector2 thisVelocity = _rigidbody.linearVelocity;
         Vector2 otherVelocity = other._rigidbody.linearVelocity;
@@ -138,9 +242,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable
         _currentHealth -= damage;
         _targetHealthRatio = Mathf.Clamp01(_currentHealth / (float)_maxHealth);
 
+        SessionManager.Instance.DealDamage(damage);
+
         if (_currentHealth <= 0)
         {
-            Die();
+            DropAndDestroy();
         }
     }
 

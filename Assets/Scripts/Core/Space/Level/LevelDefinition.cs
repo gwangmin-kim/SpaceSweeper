@@ -15,6 +15,15 @@ public struct DebrisSpawnData
     public int count; // 소환할 개수
 }
 
+[System.Serializable]
+public struct StageGimick
+{
+    public bool isEnabled;
+    public GameObject GimickPrefab;
+    public float interval;
+    public float probability;
+}
+
 [CreateAssetMenu(fileName = "NewLevelDefinition", menuName = "Stage/LevelDefinition")]
 public class LevelDefinition : ScriptableObject
 {
@@ -23,9 +32,8 @@ public class LevelDefinition : ScriptableObject
 
     [Header("Spawn Settings")]
     public ResourceSpawnData resourceSpawnData;
-    public List<DebrisSpawnData> debrisDataList;
+    public List<DebrisSpawnData> debrisList;
 
     [Header("Gimicks (Optional)")]
-    public bool enableMeteors;
-    public bool enableBlackholes;
+    public List<StageGimick> gimickList;
 }

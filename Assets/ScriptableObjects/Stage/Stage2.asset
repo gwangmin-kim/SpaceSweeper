@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6022cdda2c2ee954a9b04968ef26be02, type: 3}
+  m_Name: Stage2
+  m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
+  mapPrefab: {fileID: 7779516437347261427, guid: eeb4dd61da6d9ef458740f0ddab1f06a, type: 3}
+  resourceSpawnData:
+    resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
+    count: 50
+  debrisList:
+  - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
+    count: 30
+  - debrisPrefab: {fileID: 3042997265853864001, guid: a9148a98fc886c943a9372342df71dc7, type: 3}
+    count: 10
+  gimickList: []

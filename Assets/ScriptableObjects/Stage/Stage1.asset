@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6022cdda2c2ee954a9b04968ef26be02, type: 3}
-  m_Name: Stage0
+  m_Name: Stage1
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   mapPrefab: {fileID: 7779516437347261427, guid: 4952956078fb5d24ab1d6bcdd6fc65af, type: 3}
   resourceSpawnData:
     resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
     count: 30
-  debrisDataList:
+  debrisList:
   - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
     count: 10
-  enableMeteors: 0
-  enableBlackholes: 0
+  gimickList: []

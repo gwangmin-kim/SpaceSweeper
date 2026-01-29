@@ -21,11 +21,13 @@ public class PlayerMoveStat
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class SpacePlayerController : MonoBehaviour
 {
     // Singleton
     public static SpacePlayerController Instance { get; private set; }
 
+    Collider2D _collider;
     Rigidbody2D _rigidbody;
 
     [Header("Movement")]
@@ -88,6 +90,7 @@ public class SpacePlayerController : MonoBehaviour
     {
         Instance = this;
 
+        _collider = GetComponent<Collider2D>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _rigidbody.gravityScale = 0f;
     }
@@ -108,6 +111,14 @@ public class SpacePlayerController : MonoBehaviour
             SendAttack();
         }
         if (_attackCommandTimer > 0f) _attackCommandTimer -= Time.fixedDeltaTime;
+
+        ConstrainPosition();
+    }
+
+    void OnDisable()
+    {
+        _currentVelocity = Vector2.zero;
+        _rigidbody.linearVelocity = Vector2.zero;
     }
 
     void GetPlayerSpec()
@@ -194,6 +205,32 @@ public class SpacePlayerController : MonoBehaviour
         _rigidbody.linearVelocity = _currentVelocity;
     }
 
+    void ConstrainPosition()
+    {
+        if (StageManager.Instance == null) return;
+
+        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+
+        Vector2 playerHalfSize = _collider.bounds.extents;
+        // Debug.Log($"player half size: {playerHalfSize}");
+
+        float minX = mapBounds.min.x + playerHalfSize.x;
+        float maxX = mapBounds.max.x - playerHalfSize.x;
+        float minY = mapBounds.min.y;
+        float maxY = mapBounds.max.y - playerHalfSize.y * 2f; // 플레이어의 피벗은 항상 발끝에 있음
+
+        Vector2 currentPos = _rigidbody.position;
+        float clampedX = Mathf.Clamp(currentPos.x, minX, maxX);
+        float clampedY = Mathf.Clamp(currentPos.y, minY, maxY);
+
+        Vector2 clampedPos = new Vector2(clampedX, clampedY);
+
+        if (currentPos != clampedPos)
+        {
+            _rigidbody.position = clampedPos;
+        }
+    }
+
     void StartDash()
     {
         // 추가 조건 검사 로직 필요 (해금 여부)
@@ -234,7 +271,7 @@ public class SpacePlayerController : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log($"collision with {collision.gameObject}");
+        // Debug.Log($"collision with {collision.gameObject}");
         if (((1 << collision.gameObject.layer) & _collisionLayer) != 0)
         {
             // 법선 방향으로 튕겨남
