@@ -4,8 +4,8 @@ using UnityEngine;
 [System.Serializable]
 public struct MeteorData
 {
-    public float hitTime;
-    public float hitRadius;
+    public float delay;
+    public float radius;
 
     public int damageToDamagable;
     public float knockbackFactor;
@@ -25,8 +25,8 @@ public class MeteorController : MonoBehaviour
     Vector2 _startPosition;
     Vector2 _hitPosition;
 
-    float _hitTimer;
-    float _hitTimeInverse;
+    float _timer;
+    float _delayInverse;
 
     bool _isHit = true;
 
@@ -49,11 +49,11 @@ public class MeteorController : MonoBehaviour
     {
         if (_isHit) return;
 
-        if (_hitTimer > 0)
+        if (_timer > 0)
         {
-            _hitTimer -= Time.deltaTime;
+            _timer -= Time.deltaTime;
 
-            float t = Mathf.Clamp01(1f - _hitTimer * _hitTimeInverse);
+            float t = Mathf.Clamp01(1f - _timer * _delayInverse);
             _rigidbody.position = Vector2.Lerp(_startPosition, _hitPosition, t);
         }
         else
@@ -66,8 +66,8 @@ public class MeteorController : MonoBehaviour
     {
         _data = data;
 
-        _hitTimer = _data.hitTime;
-        _hitTimeInverse = 1f / _data.hitTime;
+        _timer = _data.delay;
+        _delayInverse = 1f / _data.delay;
 
         _isHit = false;
 
@@ -82,22 +82,22 @@ public class MeteorController : MonoBehaviour
 
     void InitPosition()
     {
-        Camera cam = Camera.main;
+        Camera camera = Camera.main;
 
         // 도착 지점: 화면 내 랜덤한 위치
-        Vector2 randomViewportPos = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
-        _hitPosition = cam.ViewportToWorldPoint(randomViewportPos);
+        Vector2 randomViewportPosition = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
+        _hitPosition = camera.ViewportToWorldPoint(randomViewportPosition);
 
         // 시작 지점: 화면 중심에서 랜덤 방향으로 화면 밖까지 이동
-        Vector2 camCenter = cam.transform.position;
+        Vector2 cameraCenter = camera.transform.position;
         // 화면 대각선 길이 계산
-        Vector2 screenBottomLeft = cam.ViewportToWorldPoint(new Vector3(0, 0, 0));
-        Vector2 screenTopRight = cam.ViewportToWorldPoint(new Vector3(1, 1, 0));
+        Vector2 screenBottomLeft = camera.ViewportToWorldPoint(new Vector3(0, 0, 0));
+        Vector2 screenTopRight = camera.ViewportToWorldPoint(new Vector3(1, 1, 0));
         float screenDiagonalRadius = Vector2.Distance(screenBottomLeft, screenTopRight) * 0.5f;
         // 화면 반지름 + 추가 여유 거리 만큼 떨어진 곳을 시작점으로 설정
-        Vector2 randomDir = Random.insideUnitCircle.normalized;
+        Vector2 randomDirection = Random.insideUnitCircle.normalized;
         float totalDistance = screenDiagonalRadius + _spawnOffsetDistance;
-        _startPosition = camCenter + (randomDir * totalDistance);
+        _startPosition = cameraCenter + (randomDirection * totalDistance);
 
         // 시작 위치로 즉시 이동
         _rigidbody.position = _startPosition;
@@ -112,7 +112,7 @@ public class MeteorController : MonoBehaviour
         if (_isHit) return;
         _isHit = true;
 
-        int hitCount = Physics2D.OverlapCircle(_hitPosition, _data.hitRadius, _filter, _hitBuffer);
+        int hitCount = Physics2D.OverlapCircle(_hitPosition, _data.radius, _filter, _hitBuffer);
 
         for (int i = 0; i < hitCount; i++)
         {
@@ -138,6 +138,6 @@ public class MeteorController : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_hitPosition, _data.hitRadius);
+        Gizmos.DrawWireSphere(_hitPosition, _data.radius);
     }
 }

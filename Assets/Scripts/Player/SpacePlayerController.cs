@@ -22,7 +22,7 @@ public class PlayerMoveStat
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class SpacePlayerController : MonoBehaviour
+public class SpacePlayerController : MonoBehaviour, IGimickAffectable
 {
     // Singleton
     public static SpacePlayerController Instance { get; private set; }
@@ -71,6 +71,9 @@ public class SpacePlayerController : MonoBehaviour
     // knock back
     float _knockbackTimer = 0f;
 
+    // blackhole gimick
+    Vector2 _externalVelocity = Vector2.zero;
+
     // need for visual control
     public PlayerState State => _state;
     public Vector2 AimPosition => _aimPosition;
@@ -85,6 +88,30 @@ public class SpacePlayerController : MonoBehaviour
     }
 
     PlayerState _state = PlayerState.Move;
+
+    void GetPlayerSpec()
+    {
+        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
+        if (GameManager.Instance == null)
+        {
+            Debug.LogError("GameManager is not initialized");
+            return;
+        }
+
+        // move status
+        _moveStat = GameManager.Instance.CurrentData.playerSpec.moveStat;
+        _dashDuration = _moveStat.dashDistance / _moveStat.dashSpeed;
+        _isDashUnlocked = GameManager.Instance.CurrentData.playerSpec.moveStat.isDashUnlocked;
+
+        // weapon
+        var weaponPrefab = WeaponManager.Instance.GetCurrentWeapon();
+        if (weaponPrefab != null)
+        {
+            _currentWeapon = Instantiate(weaponPrefab, _weaponSocket);
+            _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
+            _currentWeapon.GetComponent<IWeapon>()?.Initialize();
+        }
+    }
 
     void Awake()
     {
@@ -119,30 +146,6 @@ public class SpacePlayerController : MonoBehaviour
     {
         _currentVelocity = Vector2.zero;
         _rigidbody.linearVelocity = Vector2.zero;
-    }
-
-    void GetPlayerSpec()
-    {
-        // 매니저로부터 현재 상태를 받아와서 플레이어 상태 초기화
-        if (GameManager.Instance == null)
-        {
-            Debug.LogError("GameManager is not initialized");
-            return;
-        }
-
-        // move status
-        _moveStat = GameManager.Instance.CurrentData.playerSpec.moveStat;
-        _dashDuration = _moveStat.dashDistance / _moveStat.dashSpeed;
-        _isDashUnlocked = GameManager.Instance.CurrentData.playerSpec.moveStat.isDashUnlocked;
-
-        // weapon
-        var weaponPrefab = WeaponManager.Instance.GetCurrentWeapon();
-        if (weaponPrefab != null)
-        {
-            _currentWeapon = Instantiate(weaponPrefab, _weaponSocket);
-            _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            _currentWeapon.GetComponent<IWeapon>()?.Initialize();
-        }
     }
 
     void SetState(PlayerState state)
@@ -202,7 +205,16 @@ public class SpacePlayerController : MonoBehaviour
         if (_state != PlayerState.Dash && _dashCooldownTimer > 0f)
             _dashCooldownTimer -= Time.fixedDeltaTime;
 
+        ApplyExternalVelocity();
+
         _rigidbody.linearVelocity = _currentVelocity;
+    }
+
+    void ApplyExternalVelocity()
+    {
+        if (_state == PlayerState.Dash) return;
+        _currentVelocity += _externalVelocity;
+        _externalVelocity = Vector2.zero;
     }
 
     void ConstrainPosition()
@@ -339,5 +351,10 @@ public class SpacePlayerController : MonoBehaviour
     {
         Gizmos.color = Color.blueViolet;
         Gizmos.DrawLine(transform.position, _aimPosition);
+    }
+
+    public void AddExternalVelocity(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
     }
 }

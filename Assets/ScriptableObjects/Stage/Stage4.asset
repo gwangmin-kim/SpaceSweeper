@@ -10,20 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6022cdda2c2ee954a9b04968ef26be02, type: 3}
-  m_Name: Stage3
+  m_Name: Stage4
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
-  mapPrefab: {fileID: 7779516437347261427, guid: 5c8d13f608a34e140853a4ea8bb38f7d, type: 3}
+  mapPrefab: {fileID: 7779516437347261427, guid: f30917e78f4688840a1038326d2de45b, type: 3}
   resourceSpawnData:
     resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
-    count: 50
+    count: 0
   debrisList:
   - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
-    count: 20
+    count: 0
   - debrisPrefab: {fileID: 3042997265853864001, guid: a9148a98fc886c943a9372342df71dc7, type: 3}
-    count: 40
+    count: 0
   gimickList:
   - isEnabled: 1
     GimickPrefab: {fileID: 646261281379050948, guid: ae3d16c218f2c3348915fd92fd289d02, type: 3}
-    minInterval: 1
-    maxInterval: 5
+    minInterval: 3
+    maxInterval: 10
     probability: 0.8
+  - isEnabled: 1
+    GimickPrefab: {fileID: 646261281379050948, guid: 02900ab6006bdad4980748bd28cfa54e, type: 3}
+    minInterval: 1
+    maxInterval: 2
+    probability: 1

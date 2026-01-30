@@ -32,6 +32,7 @@ public class PlayerSpec
 public class GimickSpec
 {
     public MeteorData meteorData;
+    public BlackholeData blackholeData;
 }
 
 [System.Serializable]

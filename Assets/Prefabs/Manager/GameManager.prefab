@@ -51,14 +51,18 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevel: {fileID: 11400000, guid: 78ecc31c0c20f744d95f25b7e48efb60, type: 2}
+    currentLevel: {fileID: 11400000, guid: c4412179024387040899ed17e7b3098a, type: 2}
     gimickSpec:
       meteorData:
-        hitTime: 5
-        hitRadius: 2.5
+        delay: 0
+        radius: 0
         damageToDamagable: 1
         knockbackFactor: 1
         damageToPlayer: 1
+      blackholeData:
+        pullForce: 0.1
+        scale: 10
+        duration: 10
     unlockedUpgrades: []
     playerSpec:
       moveStat:
