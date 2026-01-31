@@ -51,18 +51,7 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevel: {fileID: 11400000, guid: c4412179024387040899ed17e7b3098a, type: 2}
-    gimickSpec:
-      meteorData:
-        delay: 0
-        radius: 0
-        damageToDamagable: 1
-        knockbackFactor: 1
-        damageToPlayer: 1
-      blackholeData:
-        pullForce: 0.1
-        scale: 10
-        duration: 10
+    currentLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
     unlockedUpgrades: []
     playerSpec:
       moveStat:
@@ -76,7 +65,7 @@ MonoBehaviour:
         knockbackFactor: 2
         knockbackDuration: 0.3
       magnetRange: 0
-      oxygenAmount: 100
+      oxygenAmount: 10
       currentWeapon: 0
       pickaxeStat:
         damage: 1
@@ -104,3 +93,22 @@ MonoBehaviour:
         transitionCount: 3
         transitionRange: 3
       resourceLossRatio: 0
+    gimickSpec:
+      meteorData:
+        delay: 0
+        radius: 0
+        damageToDamagable: 1
+        knockbackFactor: 1
+        damageToPlayer: 1
+      blackholeData:
+        force: 0.1
+        scale: 10
+        duration: 10
+      magneticStormData:
+        force: 0.2
+        width: 5
+        duration: 5
+        debrisSpawnList:
+        - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
+          count: 3
+      overloadDropRate: 2

@@ -50,6 +50,17 @@ public class StageManager : MonoBehaviour
         _remainingDebrisCount = 0;
     }
 
+    public void LoadLevel()
+    {
+        InitLevel();
+
+        SpawnInitialObjects();
+
+        SetCameraBounds();
+
+        StartGimicks(_currentLevel.gimickList);
+    }
+
     void SpawnInitialObjects()
     {
         for (int i = 0; i < _currentLevel.resourceSpawnData.count; i++)
@@ -79,17 +90,6 @@ public class StageManager : MonoBehaviour
         _cameraConfiner.InvalidateBoundingShapeCache();
     }
 
-    public void LoadLevel()
-    {
-        InitLevel();
-
-        SpawnInitialObjects();
-
-        SetCameraBounds();
-
-        StartGimicks(_currentLevel.gimickList);
-    }
-
     public void SpawnSingleResource(GameObject resourcePrefab)
     {
         Vector2 spawnPosition = GetRandomPositionInSpawnZone();
@@ -107,7 +107,7 @@ public class StageManager : MonoBehaviour
         component.InitFloating(floatingDirection);
     }
 
-    public void SpawnSingleDebris(GameObject debrisPrefab)
+    void SpawnSingleDebris(GameObject debrisPrefab)
     {
         Vector2 spawnPosition = GetRandomPositionInSpawnZone();
 
@@ -122,6 +122,22 @@ public class StageManager : MonoBehaviour
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
         debris.InitMovement(floatingDirection);
+
+        _remainingDebrisCount++;
+    }
+
+    public void SpawnSingleDebris(GameObject debrisPrefab, Vector2 spawnPosition, Vector2 initialVelocity)
+    {
+        GameObject debrisObject = Instantiate(debrisPrefab, _mapRoot);
+        debrisObject.transform.position = spawnPosition;
+
+        if (!debrisObject.TryGetComponent<SpaceDebris>(out var debris))
+        {
+            Debug.LogWarning($"{debrisObject} is not a SpaceDebris object");
+            return;
+        }
+
+        debris.InitMovement(initialVelocity);
 
         _remainingDebrisCount++;
     }

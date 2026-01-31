@@ -3,7 +3,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Collider2D))]
 [RequireComponent(typeof(Rigidbody2D))]
-public class ResourceItem : MonoBehaviour
+public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormAffectable
 {
     public enum ResourceState
     {
@@ -45,6 +45,10 @@ public class ResourceItem : MonoBehaviour
     Transform _target;
     float _attractTimer = 0f;
 
+    // blackhole gimick
+    Vector2 _externalVelocity = Vector2.zero;
+    float _gimickLifeTimer = 0.5f;
+
     void Awake()
     {
         // set random rotation
@@ -56,7 +60,7 @@ public class ResourceItem : MonoBehaviour
 
     // ! 움직이는 콜라이더는 Rigidbody를 달아주는 것이 효율적이라고 함. (https://docs.unity3d.com/6000.3/Documentation/Manual/CollidersOverview.html)
     // ! transform.position을 직접 수정하는 것에서 Rigidbody 기반 속도 제어로 변경 고려
-    void Update()
+    void FixedUpdate()
     {
         switch (_currentState)
         {
@@ -70,13 +74,33 @@ public class ResourceItem : MonoBehaviour
                 HandleAttracted();
                 break;
         }
+
+        ApplyExternalVelocity();
+
+        if (_gimickLifeTimer <= 0f)
+        {
+            _collider.enabled = false;
+            Destroy(gameObject);
+        }
+    }
+
+    void ApplyExternalVelocity()
+    {
+        _rigidbody.linearVelocity += _externalVelocity;
+
+        if (_externalVelocity.sqrMagnitude > 0f)
+        {
+            _gimickLifeTimer -= Time.fixedDeltaTime;
+        }
+
+        _externalVelocity = Vector2.zero;
     }
 
     // 폐기물에서 드롭된 직후
     void HandleSpawning()
     {
-        _standbyTimer -= Time.deltaTime;
-        transform.position = Vector2.Lerp(transform.position, _dropPosition, _explodeSpeedFactor * Time.deltaTime);
+        _standbyTimer -= Time.fixedDeltaTime;
+        _rigidbody.position = Vector2.Lerp(_rigidbody.position, _dropPosition, _explodeSpeedFactor * Time.fixedDeltaTime);
 
         if (_standbyTimer <= 0f)
         {
@@ -91,7 +115,7 @@ public class ResourceItem : MonoBehaviour
 
     void HandleAttracted()
     {
-        _attractTimer += Time.deltaTime;
+        _attractTimer += Time.fixedDeltaTime;
 
         // 플레이어 쪽으로 유도
         Vector2 deltaPosition = _target.position - transform.position;
@@ -144,5 +168,15 @@ public class ResourceItem : MonoBehaviour
 
             Destroy(gameObject);
         }
+    }
+
+    public void ApplyBlackhole(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
+    }
+
+    public void ApplyMagneticStorm(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
     }
 }

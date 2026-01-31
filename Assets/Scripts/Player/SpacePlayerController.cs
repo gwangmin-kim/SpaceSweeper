@@ -22,7 +22,7 @@ public class PlayerMoveStat
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(Collider2D))]
-public class SpacePlayerController : MonoBehaviour, IGimickAffectable
+public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagneticStormAffectable
 {
     // Singleton
     public static SpacePlayerController Instance { get; private set; }
@@ -353,7 +353,12 @@ public class SpacePlayerController : MonoBehaviour, IGimickAffectable
         Gizmos.DrawLine(transform.position, _aimPosition);
     }
 
-    public void AddExternalVelocity(Vector2 velocity)
+    public void ApplyBlackhole(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
+    }
+
+    public void ApplyMagneticStorm(Vector2 velocity)
     {
         _externalVelocity += velocity;
     }

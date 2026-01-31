@@ -3,12 +3,12 @@ using UnityEngine;
 [System.Serializable]
 public struct BlackholeData
 {
-    public float pullForce;
+    public float force;
     public float scale;
     public float duration;
 }
 
-public class BlackHoleController : MonoBehaviour
+public class BlackholeController : MonoBehaviour
 {
     BlackholeData _data;
 
@@ -45,7 +45,7 @@ public class BlackHoleController : MonoBehaviour
     void InitPosition()
     {
         Camera camera = Camera.main;
-        Vector2 randomViewportPosition = new Vector2(Random.Range(-0.5f, 1.5f), Random.Range(-0.5f, 1.5f));
+        Vector2 randomViewportPosition = new Vector2(Random.Range(0f, 1f), Random.Range(0f, 1f));
         Vector2 worldPosition = camera.ViewportToWorldPoint(randomViewportPosition);
 
         transform.position = worldPosition;
@@ -53,12 +53,13 @@ public class BlackHoleController : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D collision)
     {
-        if (!collision.TryGetComponent<IGimickAffectable>(out var target)) return;
+        if (collision.TryGetComponent<IBlackholeAffectable>(out var target))
+        {
+            Vector2 deltaPosition = transform.position - collision.transform.position;
 
-        Vector2 direction = transform.position - collision.transform.position;
-
-        // ? 나중에 거리에 따라 힘 조절하는 경우도 고려
-        target.AddExternalVelocity(direction.normalized * _data.pullForce);
+            // ? 나중에 거리에 따라 힘 조절하는 경우도 고려
+            target.ApplyBlackhole(deltaPosition.normalized * _data.force);
+        }
     }
 
     void OnDrawGizmos()

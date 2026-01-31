@@ -33,6 +33,8 @@ public class GimickSpec
 {
     public MeteorData meteorData;
     public BlackholeData blackholeData;
+    public MagneticStormData magneticStormData;
+    public float overloadDropRate;
 }
 
 [System.Serializable]
@@ -44,15 +46,15 @@ public class GameData
 
     // stage
     public LevelDefinition currentLevel;
-    public GimickSpec gimickSpec;
 
     // upgrade
     public List<string> unlockedUpgrades;
+    public PlayerSpec playerSpec;
+    public GimickSpec gimickSpec;
 
     // setting
 
     // player specification
-    public PlayerSpec playerSpec;
 
     public GameData()
     {

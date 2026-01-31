@@ -1,9 +1,7 @@
-using Mono.Cecil;
 using UnityEngine;
-using UnityEngine.UI;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class SpaceDebris : MonoBehaviour, IDamagable
+public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMagneticStormAffectable
 {
     Rigidbody2D _rigidbody;
 
@@ -11,6 +9,9 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     [SerializeField] int _maxHealth;
     [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
     [SerializeField] float _varianceRate; // 이 수치에 따라 크기/체력이 일정 범위 내에서 랜덤하게 생성
+
+    [Header("Gimick")]
+    [SerializeField] bool _isOverloaded = false;
 
     [Header("Drop Settings")]
     [SerializeField] GameObject _resourcePrefab;
@@ -42,6 +43,9 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     bool _isInteracted = false; // 처음에는 감쇠 없이 초기 설정된 속도로 이동, 플레이어에 의한 첫 충돌 발생 시 감쇠 적용
     Vector2 _dampingReference = Vector2.zero;
 
+    // blackhole gimick
+    Vector2 _externalVelocity = Vector2.zero;
+
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -71,12 +75,20 @@ public class SpaceDebris : MonoBehaviour, IDamagable
                 ref _dampingReference, _velocityDampingTime);
         }
 
+        ApplyExternalVelocity();
+
         ConstrainPosition();
     }
 
     void Update()
     {
         SetHealthVisual();
+    }
+
+    void ApplyExternalVelocity()
+    {
+        _rigidbody.linearVelocity += _externalVelocity * _knockbackFactor;
+        _externalVelocity = Vector2.zero;
     }
 
     void ConstrainPosition()
@@ -147,10 +159,17 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     {
         // 필요 시 확률 기반 드롭 카운트 배율 적용 (업그레이드 항목 고려)
         int dropCount = _dropCount;
+
+        var data = GameManager.Instance.CurrentData;
         // 우선 곡괭이만 배율 업그레이드 적용
-        if (GameManager.Instance.CurrentData.playerSpec.currentWeapon == WeaponType.Pickaxe)
+        if (data.playerSpec.currentWeapon == WeaponType.Pickaxe)
         {
-            dropCount = (int)(dropCount * GameManager.Instance.CurrentData.playerSpec.pickaxeStat.dropIncreseRate);
+            dropCount = (int)(dropCount * data.playerSpec.pickaxeStat.dropIncreseRate);
+        }
+
+        if (_isOverloaded)
+        {
+            dropCount = (int)(dropCount * data.gimickSpec.overloadDropRate);
         }
 
         for (int i = 0; i < dropCount; i++)
@@ -244,7 +263,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable
 
         SessionManager.Instance.DealDamage(damage);
 
-        if (_currentHealth <= 0)
+        if (_currentHealth <= 0 || _isOverloaded)
         {
             DropAndDestroy();
         }
@@ -276,5 +295,21 @@ public class SpaceDebris : MonoBehaviour, IDamagable
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radius);
+    }
+
+    public void ApplyBlackhole(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
+    }
+
+    public void ApplyMagneticStorm(Vector2 velocity)
+    {
+        _externalVelocity += velocity;
+        ApplyOverload();
+    }
+
+    public void ApplyOverload()
+    {
+        _isOverloaded = true;
     }
 }

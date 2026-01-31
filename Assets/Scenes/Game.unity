@@ -2488,6 +2488,58 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.currentLevel
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dbdbe5f33bc42a48954c275e1004f75, type: 2}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.magnetRange
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.oxygenAmount
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.currentWeapon
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.pickaxeStat.range
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.dashSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.dampingTime
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.pickaxeStat.cooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.dashCooldown
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.dashDistance
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.moveStat.isDashUnlocked
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2317842838998482945, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
+      propertyPath: CurrentData.playerSpec.pickaxeStat.isMultiHitUnlocked
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5505537835904787288, guid: 63771a2ed99495648b370bd204cd6b9d, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
