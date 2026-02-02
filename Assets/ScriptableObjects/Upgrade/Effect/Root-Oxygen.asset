@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 107cf0579a884c843ab83ee842605ce6, type: 3}
-  m_Name: Magnet1(Root)
+  m_Name: Root-Oxygen
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeEffect
-  statType: 7
-  value: 1.5
+  statType: 8
+  value: 10

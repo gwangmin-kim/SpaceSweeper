@@ -155,22 +155,30 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         }
     }
 
-    void DropAndDestroy()
+    int GetDropCount()
     {
-        // 필요 시 확률 기반 드롭 카운트 배율 적용 (업그레이드 항목 고려)
-        int dropCount = _dropCount;
-
         var data = GameManager.Instance.CurrentData;
-        // 우선 곡괭이만 배율 업그레이드 적용
-        if (data.playerSpec.currentWeapon == WeaponType.Pickaxe)
-        {
-            dropCount = (int)(dropCount * data.playerSpec.pickaxeStat.dropIncreseRate);
-        }
+
+        float dropRate = data.resourceSpec.dropRate;
 
         if (_isOverloaded)
         {
-            dropCount = (int)(dropCount * data.gimickSpec.overloadDropRate);
+            dropRate *= data.resourceSpec.overloadDropRate;
         }
+
+        if (data.playerSpec.currentWeapon == WeaponType.Pickaxe)
+        {
+            dropRate *= data.playerSpec.pickaxeStat.dropIncreseRate;
+        }
+
+        int dropCount = (int)(_dropCount * dropRate);
+
+        return dropCount;
+    }
+
+    void DropAndDestroy()
+    {
+        int dropCount = GetDropCount();
 
         for (int i = 0; i < dropCount; i++)
         {

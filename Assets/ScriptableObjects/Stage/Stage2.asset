@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6022cdda2c2ee954a9b04968ef26be02, type: 3}
   m_Name: Stage2
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
+  id: 2
   mapPrefab: {fileID: 7779516437347261427, guid: eeb4dd61da6d9ef458740f0ddab1f06a, type: 3}
   resourceSpawnData:
     resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}

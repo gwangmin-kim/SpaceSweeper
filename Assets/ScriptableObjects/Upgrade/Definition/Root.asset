@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   id: ROOT
   effect: {fileID: 11400000, guid: 8ffd7976f9e67a04993f31f32ef70d03, type: 2}
-  upgradeName: "\uC790\uC11D \uC218\uC9D1\uAE30"
-  description: "\uB5A0\uB2E4\uB2C8\uB294 \uAE08\uC18D \uD30C\uD3B8\uB4E4\uC744 \uC218\uC9D1\uD569\uB2C8\uB2E4."
+  upgradeName: "\uC0B0\uC18C\uD1B5"
+  description: "\uC774\uC81C \uC6B0\uC8FC \uACF5\uAC04\uC744 \uD0D0\uD5D8\uD560 \uC218
+    \uC788\uC2B5\uB2C8\uB2E4!"
   icon: {fileID: 0}
   costString: 0
   parent: {fileID: 0}

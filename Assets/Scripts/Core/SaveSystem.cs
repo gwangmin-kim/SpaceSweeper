@@ -4,6 +4,7 @@ using System.IO;
 public static class SaveSystem
 {
     static string _saveFileName = "SaveData.json";
+    public static string SaveFileName => _saveFileName;
     public static string SaveFilePath => Path.Combine(Application.persistentDataPath, _saveFileName);
 
     public static void Save(GameData data)
@@ -24,7 +25,7 @@ public static class SaveSystem
         if (!File.Exists(path))
         {
             Debug.Log($"No save data found at: {path}");
-            return new GameData();
+            return null;
         }
         else
         {

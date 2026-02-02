@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a236c0b4218dad4a95a5b46d6392e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  _defaultDataTemplate: {fileID: 11400000, guid: 6bcbb14ff68e51c42ae2d78db607a200, type: 2}
   CurrentData:
     resource:
       mantissa: 0
@@ -51,64 +52,66 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
+    currentLevel: {fileID: 0}
+    lastUnlockedLevel: {fileID: 0}
     unlockedUpgrades: []
     playerSpec:
       moveStat:
-        speed: 3
-        dampingTime: 0.5
+        speed: 0
+        dampingTime: 0
         isDashUnlocked: 0
-        dashSpeed: 5
-        dashDistance: 2
-        dashCooldown: 1
-        bounceFactor: 1
-        knockbackFactor: 2
-        knockbackDuration: 0.3
+        dashSpeed: 0
+        dashDistance: 0
+        dashCooldown: 0
+        bounceFactor: 0
+        knockbackFactor: 0
+        knockbackDuration: 0
       magnetRange: 0
-      oxygenAmount: 10
+      oxygenAmount: 0
       currentWeapon: 0
       pickaxeStat:
-        damage: 1
-        cooldown: 1
-        range: 1
+        damage: 0
+        cooldown: 0
+        range: 0
         isMultiHitUnlocked: 0
-        knockbackIntensity: 1
-        dropIncreseRate: 1
+        knockbackIntensity: 0
+        dropIncreseRate: 0
       shotgunStat:
-        cooldown: 1.5
-        spreadAngle: 60
-        reboundIntensity: 1
+        cooldown: 0
+        spreadAngle: 0
+        reboundIntensity: 0
         bulletData:
-          damage: 1
-          speed: 5
-          duration: 1
+          damage: 0
+          speed: 0
+          duration: 0
           isPenetrationUnlocked: 0
-        bulletCount: 10
-        bulletSpeedVariation: 0.2
+        bulletCount: 0
+        bulletSpeedVariation: 0
       lasergunStat:
-        damage: 1
-        cooldown: 0.5
-        range: 5
+        damage: 0
+        cooldown: 0
+        range: 0
         isTransitionUnlocked: 0
-        transitionCount: 3
-        transitionRange: 3
+        transitionCount: 0
+        transitionRange: 0
       resourceLossRatio: 0
+    resourceSpec:
+      healthRate: 0
+      dropRate: 0
+      overloadDropRate: 0
     gimickSpec:
       meteorData:
         delay: 0
         radius: 0
-        damageToDamagable: 1
-        knockbackFactor: 1
-        damageToPlayer: 1
+        damageToDamagable: 0
+        knockbackFactor: 0
+        damageToPlayer: 0
       blackholeData:
-        force: 0.1
-        scale: 10
-        duration: 10
+        force: 0
+        scale: 0
+        duration: 0
       magneticStormData:
-        force: 0.2
-        width: 5
-        duration: 5
-        debrisSpawnList:
-        - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
-          count: 3
-      overloadDropRate: 2
+        force: 0
+        width: 0
+        duration: 0
+        debrisSpawnList: []

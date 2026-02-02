@@ -28,6 +28,9 @@ public struct StageGimick
 [CreateAssetMenu(fileName = "NewLevelDefinition", menuName = "Stage/LevelDefinition")]
 public class LevelDefinition : ScriptableObject
 {
+    [Header("ID")]
+    public int id; // 레벨 순서대로
+
     [Header("Map Settings")]
     public GameObject mapPrefab;
 

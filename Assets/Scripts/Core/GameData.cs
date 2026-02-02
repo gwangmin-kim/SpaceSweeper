@@ -29,12 +29,19 @@ public class PlayerSpec
 }
 
 [System.Serializable]
+public class ResourceSpec
+{
+    public float healthRate;
+    public float dropRate;
+    public float overloadDropRate;
+}
+
+[System.Serializable]
 public class GimickSpec
 {
     public MeteorData meteorData;
     public BlackholeData blackholeData;
     public MagneticStormData magneticStormData;
-    public float overloadDropRate;
 }
 
 [System.Serializable]
@@ -46,21 +53,16 @@ public class GameData
 
     // stage
     public LevelDefinition currentLevel;
+    public LevelDefinition lastUnlockedLevel;
 
     // upgrade
     public List<string> unlockedUpgrades;
     public PlayerSpec playerSpec;
+    public ResourceSpec resourceSpec;
     public GimickSpec gimickSpec;
 
     // setting
 
     // player specification
 
-    public GameData()
-    {
-        resource = 0;
-        gold = 0;
-
-        unlockedUpgrades = new List<string>();
-    }
 }
