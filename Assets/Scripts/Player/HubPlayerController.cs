@@ -62,36 +62,36 @@ public class HubPlayerController : MonoBehaviour
 
     void FixedUpdate()
     {
-        CheckGround();
+        // CheckGround();
         ApplyGravity();
         UpdateHorizontalMoveFactor();
         Move();
     }
 
-    void CheckGround()
-    {
-        if (_minJumpTimer > 0f)
-        {
-            _minJumpTimer -= Time.fixedDeltaTime;
-            return;
-        }
+    // void CheckGround()
+    // {
+    //     if (_minJumpTimer > 0f)
+    //     {
+    //         _minJumpTimer -= Time.fixedDeltaTime;
+    //         return;
+    //     }
 
-        // 현재 이중 적용된 로직 (이 조건 검사는 불필요할 수 있음)
-        // 다만, 점프해서 상승 도중에 착지되는 감각이 거슬린다면 이 조건도 고려해볼 수 있다
-        // if (_currentVerticalSpeed > 0f) return;
+    //     // 현재 이중 적용된 로직 (이 조건 검사는 불필요할 수 있음)
+    //     // 다만, 점프해서 상승 도중에 착지되는 감각이 거슬린다면 이 조건도 고려해볼 수 있다
+    //     // if (_currentVerticalSpeed > 0f) return;
 
-        bool wasGrounded = _isGrounded;
-        _isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + _groundCheckOffset, _groundCheckRadius, _groundLayer);
+    //     bool wasGrounded = _isGrounded;
+    //     _isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + _groundCheckOffset, _groundCheckRadius, _groundLayer);
 
-        // on land
-        if (_isGrounded && !wasGrounded && _currentVerticalSpeed < 0f)
-        {
-            _currentVerticalSpeed = -0.1f;
+    //     // on land
+    //     if (_isGrounded && !wasGrounded && _currentVerticalSpeed < 0f)
+    //     {
+    //         _currentVerticalSpeed = -0.1f;
 
-            // float distance = Physics2D.Raycast((Vector2)transform.position + _groundCheckOffset, Vector2.down, _groundCheckRadius, _environmentLayer).distance;
-            // _rigidbody.MovePosition((Vector2)transform.position + distance * Vector2.down);
-        }
-    }
+    //         // float distance = Physics2D.Raycast((Vector2)transform.position + _groundCheckOffset, Vector2.down, _groundCheckRadius, _environmentLayer).distance;
+    //         // _rigidbody.MovePosition((Vector2)transform.position + distance * Vector2.down);
+    //     }
+    // }
 
     void ApplyGravity()
     {
@@ -174,11 +174,25 @@ public class HubPlayerController : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + _groundCheckOffset, _groundCheckRadius);
     }
 
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (((1 << collision.gameObject.layer) & _groundLayer) != 0)
+        {
+            Vector2 normal = collision.GetContact(0).normal;
+            if (normal.y > 0f)
+            {
+                _isGrounded = true;
+                _currentVerticalSpeed = 0f;
+            }
+        }
+    }
+
     void OnTriggerEnter2D(Collider2D collision)
     {
         if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var interactable))
         {
-            if (_isInteractPressed) interactable?.Interact(true);
+            if (_isInteractPressed)
+                interactable?.Interact(true);
             _currentInteractableOn = interactable;
         }
     }
@@ -188,7 +202,8 @@ public class HubPlayerController : MonoBehaviour
         if ((((1 << collision.gameObject.layer) & _interactableLayer) != 0) && collision.gameObject.TryGetComponent<IInteractable>(out var interactable))
         {
             interactable?.Interact(false);
-            _currentInteractableOn = null;
+            if (_currentInteractableOn == interactable)
+                _currentInteractableOn = null;
         }
     }
 }

@@ -19,5 +19,5 @@ MonoBehaviour:
     count: 30
   debrisList:
   - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
-    count: 5
+    count: 15
   gimickList: []

@@ -25,7 +25,7 @@ MonoBehaviour:
     playerSpec:
       moveStat:
         speed: 3
-        dampingTime: 1
+        dampingTime: 0.7
         isDashUnlocked: 0
         dashSpeed: 5
         dashDistance: 3
@@ -33,16 +33,15 @@ MonoBehaviour:
         bounceFactor: 1
         knockbackFactor: 2
         knockbackDuration: 0.3
-      magnetRange: 0
+      magnetRange: 1
       oxygenAmount: 0
       currentWeapon: 0
       pickaxeStat:
         damage: 1
         cooldown: 1
-        range: 1
+        range: 0.8
         isMultiHitUnlocked: 0
         knockbackIntensity: 1
-        dropIncreseRate: 1
       shotgunStat:
         cooldown: 1.5
         spreadAngle: 60
@@ -61,6 +60,9 @@ MonoBehaviour:
         isTransitionUnlocked: 0
         transitionCount: 0
         transitionRange: 0
+      exchangeAmount: 1
+      exchangeInterval: 0.3
+      goldPerResource: 3
       resourceLossRatio: 1
     resourceSpec:
       healthRate: 1

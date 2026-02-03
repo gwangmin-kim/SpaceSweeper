@@ -12,7 +12,7 @@ public class LasergunStat
     public float transitionRange;
 }
 
-public class Lasergun : MonoBehaviour, IWeapon
+public class LasergunController : MonoBehaviour, IWeapon
 {
     [Header("Attack Status")]
     [SerializeField] LasergunStat _stat;

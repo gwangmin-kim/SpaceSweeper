@@ -21,7 +21,7 @@ public class ShotgunStat
     public float bulletSpeedVariation; // 탄환 속도 변위 값: 예를 들어 0.1이면 +-10%
 }
 
-public class Shotgun : MonoBehaviour, IWeapon
+public class ShotgunController : MonoBehaviour, IWeapon
 {
     [Header("Attack Status")]
     [SerializeField] ShotgunStat _stat;
@@ -55,7 +55,7 @@ public class Shotgun : MonoBehaviour, IWeapon
             Vector2 fireDirection = fireRotation * aimDirection;
 
             GameObject bulletObject = Instantiate(_bulletPrefab, _bulletSpawnPoint.position, _bulletSpawnPoint.rotation * fireRotation);
-            if (bulletObject.TryGetComponent<Bullet>(out var bullet))
+            if (bulletObject.TryGetComponent<BulletController>(out var bullet))
             {
                 bullet.Initialize(_stat.bulletData, speed * fireDirection);
             }
