@@ -112,9 +112,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpaceFloatingObject
   _maxHealth: 3
   _radius: 0.4
-  _varianceRate: 0.3
+  _varianceRate: 0.4
+  _isOverloaded: 0
   _resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
-  _dropCount: 5
+  _dropCount: 10
   _minDriftSpeed: 0
   _maxDriftSpeed: 1
   _maxRotationAnglePerSecond: 60
@@ -200,8 +201,8 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1079695753
-  m_SortingLayer: 2
+  m_SortingLayerID: -41759575
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 56ea02f76fa8bfd41a49eba9f23d99c8, type: 3}
@@ -291,9 +292,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 339120605
-  m_SortingLayer: 6
-  m_SortingOrder: 0
+  m_SortingLayerID: -41759575
+  m_SortingLayer: 3
+  m_SortingOrder: 1
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 56ea02f76fa8bfd41a49eba9f23d99c8, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

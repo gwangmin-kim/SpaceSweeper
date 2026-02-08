@@ -50,11 +50,17 @@ TagManager:
   - name: Object
     uniqueID: 1079695753
     locked: 0
+  - name: Debris
+    uniqueID: 4253207721
+    locked: 0
   - name: Player
     uniqueID: 991321613
     locked: 0
   - name: Weapon
     uniqueID: 2790999597
+    locked: 0
+  - name: Resource
+    uniqueID: 146780113
     locked: 0
   - name: Gimick
     uniqueID: 3068373185

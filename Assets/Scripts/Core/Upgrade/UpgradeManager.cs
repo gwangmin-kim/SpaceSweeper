@@ -66,7 +66,10 @@ public class UpgradeManager : MonoBehaviour
 
         GameManager.Instance.CurrentData.unlockedUpgrades.Add(upgradeDefinition.id);
 
-        upgradeDefinition.effect.Apply();
+        foreach (var effect in upgradeDefinition.effects)
+        {
+            effect.Apply();
+        }
 
         GameManager.Instance.SaveGame();
         return true;

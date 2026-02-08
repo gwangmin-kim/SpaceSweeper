@@ -21,11 +21,23 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
 #if UNITY_EDITOR
-        LoadGame();
+        CreateNewGameData();
 #endif
     }
+
+#if UNITY_EDITOR
+    void Update()
+    {
+        if (UnityEngine.InputSystem.Keyboard.current != null)
+        {
+            if (UnityEngine.InputSystem.Keyboard.current.lKey.wasPressedThisFrame)
+            {
+                LoadGame();
+            }
+        }
+    }
+#endif
 
     public void SaveGame()
     {

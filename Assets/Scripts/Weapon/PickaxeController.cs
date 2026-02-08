@@ -5,9 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class PickaxeStat
 {
-    public int damage;
+    public float damage;
     public float cooldown;
-    public float range; // 원형 공격 범위
+    public float rangeRate; // 원형 공격 범위 계수
+    public int hitCount; // 한 번에 타격하는 대상 최대 개수
     public bool isMultiHitUnlocked; // 광역 공격 해금 여부
     public float knockbackIntensity; // 타격 시 타격 대상이 밀려나는 정도
 }
@@ -15,6 +16,7 @@ public class PickaxeStat
 public class PickaxeController : MonoBehaviour, IWeapon
 {
     [Header("Attack Status")]
+    [SerializeField] float _defaultRange;
     [SerializeField] PickaxeStat _stat;
     [SerializeField] Transform _attackOffset;
     [SerializeField] float _attackDelayRatio; // 0.0 ~ 1.0, 공격 딜레이 중 어느 시점에 실제 타격을 일으킬지 결정
@@ -46,7 +48,7 @@ public class PickaxeController : MonoBehaviour, IWeapon
         _filter.SetLayerMask(TargetLayer);
         _filter.useTriggers = false;
 
-        float scaleRatio = _stat.range;
+        float scaleRatio = _stat.rangeRate;
         _visualRoot.localScale = new Vector3(scaleRatio, scaleRatio, 1f);
     }
 
@@ -78,17 +80,21 @@ public class PickaxeController : MonoBehaviour, IWeapon
     {
         yield return new WaitForSeconds(_attackDelayRatio * _stat.cooldown);
 
+        float range = _defaultRange * _stat.rangeRate;
+
         if (!_stat.isMultiHitUnlocked)
         {
             Collider2D hit = Physics2D.OverlapCircle(
-                _attackOffset.position, _stat.range, TargetLayer);
+                _attackOffset.position, range, TargetLayer);
 
             ProcessHit(hit);
         }
         else
         {
             int count = Physics2D.OverlapCircle(
-                _attackOffset.position, _stat.range, _filter, _hitBuffer);
+                _attackOffset.position, range, _filter, _hitBuffer);
+
+            if (count > _stat.hitCount) count = _stat.hitCount;
 
             for (int i = 0; i < count; i++)
             {
@@ -112,6 +118,6 @@ public class PickaxeController : MonoBehaviour, IWeapon
     {
         // draw attack range
         Gizmos.color = Color.softRed;
-        Gizmos.DrawWireSphere(_attackOffset.position, _stat.range);
+        Gizmos.DrawWireSphere(_attackOffset.position, _defaultRange * _stat.rangeRate);
     }
 }

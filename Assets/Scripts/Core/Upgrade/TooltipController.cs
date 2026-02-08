@@ -1,6 +1,7 @@
 using UnityEngine;
 using TMPro;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class TooltipController : MonoBehaviour
 {
@@ -9,11 +10,13 @@ public class TooltipController : MonoBehaviour
     [Header("UI Components")]
     [SerializeField] GameObject _tooltipPanel;
     [SerializeField] TextMeshProUGUI _nameText;
+    [SerializeField] Image _costIcon;
     [SerializeField] TextMeshProUGUI _costText;
     [SerializeField] TextMeshProUGUI _descriptionText;
 
     [Header("Settings")]
     [SerializeField] Vector2 _offset;
+    [SerializeField] Color _unlockedColor;
     [SerializeField] Color _cantUpgradeColor;
 
     void Awake()
@@ -42,12 +45,18 @@ public class TooltipController : MonoBehaviour
         _nameText.text = upgradeDefinition.upgradeName;
         _descriptionText.text = upgradeDefinition.description;
 
-        if (isUnlocked) { }
+        if (isUnlocked)
+        {
+            _costIcon.enabled = false;
+            _costText.text = "해금됨";
+            _costText.color = _unlockedColor;
+        }
         else
         {
+            _costIcon.enabled = true;
+            _costText.text = upgradeDefinition.costString;
             _costText.color = (ResourceManager.Instance.Gold >= upgradeDefinition.Cost)
                 ? Color.white : _cantUpgradeColor;
-            _costText.text = upgradeDefinition.costString;
         }
     }
 

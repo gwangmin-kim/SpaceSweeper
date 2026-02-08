@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class LasergunStat
 {
-    public int damage;
+    public float damage;
     public float cooldown;
     public float range;
     public bool isTransitionUnlocked;

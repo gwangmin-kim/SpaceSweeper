@@ -63,6 +63,8 @@ public class StageManager : MonoBehaviour
 
     void SpawnInitialObjects()
     {
+        var debrisSpec = GameManager.Instance.CurrentData.debrisSpec;
+
         for (int i = 0; i < _currentLevel.resourceSpawnData.count; i++)
         {
             SpawnSingleResource(_currentLevel.resourceSpawnData.resourcePrefab);
@@ -70,7 +72,8 @@ public class StageManager : MonoBehaviour
 
         foreach (var spawnData in _currentLevel.debrisList)
         {
-            for (int i = 0; i < spawnData.count; i++)
+            int count = (int)(spawnData.count * debrisSpec.spawnRate);
+            for (int i = 0; i < count; i++)
             {
                 SpawnSingleDebris(spawnData.debrisPrefab);
             }

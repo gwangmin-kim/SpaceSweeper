@@ -1,15 +1,16 @@
 // using System.Collections.Generic;
 using UnityEngine;
 using BreakInfinity;
+using System.Collections.Generic;
 
-[CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/Upgrade Definition", order = 0)]
+[CreateAssetMenu(fileName = "NewUpgrade", menuName = "Upgrades/Upgrade Definition")]
 public class UpgradeDefinition : ScriptableObject
 {
     [Header("ID")]
     public string id;
 
     [Header("Behavior")]
-    public UpgradeEffect effect;
+    public List<UpgradeEffect> effects;
 
     [Header("Display")]
     public string upgradeName;

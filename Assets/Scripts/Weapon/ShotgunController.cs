@@ -3,7 +3,7 @@ using UnityEngine;
 [System.Serializable]
 public class BulletData
 {
-    public int damage;
+    public float damage;
     public float speed;
     public float duration;
     public bool isPenetrationUnlocked;

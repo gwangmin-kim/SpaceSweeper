@@ -29,7 +29,7 @@ public class PickaxeAnimation : MonoBehaviour
         // 이전 애니메이션이 돌고 있다면 강제 종료 (중복 실행 방지)
         if (_currentSequence != null && _currentSequence.IsActive())
         {
-            _currentSequence.Kill();
+            CancelAnimation();
         }
 
         _currentSequence = DOTween.Sequence();

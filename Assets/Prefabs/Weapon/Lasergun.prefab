@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4119343920667426220}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: 0.15, z: 0}
+  m_LocalPosition: {x: 0.3, y: 0.075, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -57,8 +57,8 @@ Transform:
   m_GameObject: {fileID: 4817335716606496221}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.15, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1850800235328941196}
@@ -109,7 +109,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -1503967699
-  m_SortingLayer: 2
+  m_SortingLayer: 5
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 49da94882a93c724eb9728066f74823e, type: 3}
@@ -147,8 +147,8 @@ Transform:
   m_GameObject: {fileID: 5263194331950606435}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.45, y: 0, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
+  m_LocalPosition: {x: 0.17, y: 0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2911316668329039520}
@@ -200,14 +200,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6dfeae1024a15f144a7b80b8ce7758bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Lasergun
-  _attackDamage: 1
-  _attackInterval: 0.1
-  _attackDistance: 5
+  _stat:
+    damage: 0
+    cooldown: 0
+    range: 0
+    isTransitionUnlocked: 0
+    transitionCount: 0
+    transitionRange: 0
   _detectHalfWidth: 1
   _detectOrigin: {fileID: 2911316668329039520}
-  _isTransitionUnlocked: 1
-  _maxTransitionCount: 3
-  _transitionRadius: 3
-  _targetLayer:
-    serializedVersion: 2
-    m_Bits: 256

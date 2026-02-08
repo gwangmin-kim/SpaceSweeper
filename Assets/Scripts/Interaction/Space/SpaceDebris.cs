@@ -6,7 +6,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     Rigidbody2D _rigidbody;
 
     [Header("Status")]
-    [SerializeField] int _maxHealth;
+    [SerializeField] float _maxHealth;
     [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
     [SerializeField] float _varianceRate; // 이 수치에 따라 크기/체력이 일정 범위 내에서 랜덤하게 생성
 
@@ -30,7 +30,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     [SerializeField] SpriteRenderer _fillRenderer; // Health_Fill 오브젝트 연결
     [SerializeField] float _healthBarDampingTime;
 
-    int _currentHealth;
+    float _currentHealth;
 
     // HealthBar Shader
     float _currentHealthRatio = 1f;
@@ -159,16 +159,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     {
         var data = GameManager.Instance.CurrentData;
 
-        float dropRate = data.resourceSpec.dropRate;
+        float dropRate = data.debrisSpec.dropRate;
 
         if (_isOverloaded)
         {
-            dropRate *= data.resourceSpec.overloadDropRate;
-        }
-
-        if (data.playerSpec.currentWeapon == WeaponType.Pickaxe)
-        {
-            dropRate *= data.playerSpec.pickaxeStat.dropIncreseRate;
+            dropRate *= data.debrisSpec.overloadDropRate;
         }
 
         int dropCount = (int)(_dropCount * dropRate);
@@ -264,7 +259,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         ApplyRandomRotation();
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
         _targetHealthRatio = Mathf.Clamp01(_currentHealth / (float)_maxHealth);

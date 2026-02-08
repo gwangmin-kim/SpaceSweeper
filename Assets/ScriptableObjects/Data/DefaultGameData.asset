@@ -39,7 +39,8 @@ MonoBehaviour:
       pickaxeStat:
         damage: 1
         cooldown: 1
-        range: 0.8
+        rangeRate: 1
+        hitCount: 1
         isMultiHitUnlocked: 0
         knockbackIntensity: 1
       shotgunStat:
@@ -60,11 +61,17 @@ MonoBehaviour:
         isTransitionUnlocked: 0
         transitionCount: 0
         transitionRange: 0
-      exchangeAmount: 1
-      exchangeInterval: 0.3
-      goldPerResource: 3
-      resourceLossRatio: 1
     resourceSpec:
+      exchangeInterval: 0.2
+      exchangeAmount:
+        mantissa: 1
+        exponent: 0
+      goldPerResource:
+        mantissa: 1
+        exponent: 0
+      lossRatio: 1
+    debrisSpec:
+      spawnRate: 1
       healthRate: 1
       dropRate: 1
       overloadDropRate: 2

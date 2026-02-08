@@ -9,6 +9,7 @@ public class UpgradeUIController : MonoBehaviour
     [Header("Viewport")]
     [SerializeField] GameObject _upgradePanel;
     [SerializeField] Transform _viewportContentRoot;
+    [SerializeField] TooltipController _tooltip;
 
     List<UpgradeSlot> _upgradeSlots;
 
@@ -57,5 +58,6 @@ public class UpgradeUIController : MonoBehaviour
     public void OnPanelCloseButton()
     {
         _upgradePanel.SetActive(false);
+        _tooltip.HideTooltip();
     }
 }

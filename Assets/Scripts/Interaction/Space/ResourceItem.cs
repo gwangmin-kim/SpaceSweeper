@@ -110,7 +110,36 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
 
     void HandleIdle()
     {
+        ConstrainPosition();
+    }
 
+    void ConstrainPosition()
+    {
+        if (StageManager.Instance == null) return;
+
+        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+        Vector2 currentPos = _rigidbody.position;
+
+        // 맵 반대편으로 텔레포트
+        if (currentPos.x < mapBounds.min.x)
+        {
+            currentPos.x = mapBounds.max.x;
+        }
+        else if (currentPos.x > mapBounds.max.x)
+        {
+            currentPos.x = mapBounds.min.x;
+        }
+
+        if (currentPos.y < mapBounds.min.y)
+        {
+            currentPos.y = mapBounds.max.y;
+        }
+        else if (currentPos.y > mapBounds.max.y)
+        {
+            currentPos.y = mapBounds.min.y;
+        }
+
+        _rigidbody.position = currentPos;
     }
 
     void HandleAttracted()

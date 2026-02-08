@@ -8,7 +8,7 @@ public class SessionInformation
     public float timer;
     public BigDouble lootAmount;
     public float damageReceived; // 잃은 산소량
-    public int damageDealt; // 폐기물에 가한 피해량
+    public float damageDealt; // 폐기물에 가한 피해량
 }
 
 public class SessionManager : MonoBehaviour
@@ -45,9 +45,9 @@ public class SessionManager : MonoBehaviour
         if (_info.isOngoing && _currentOxygenAmount > 0f)
         {
             _currentOxygenAmount -= Time.deltaTime * _oxygenConsumptionPerSec;
-            float oxygenRatio = Mathf.Clamp01(_currentOxygenAmount * _totalOxygenAmountInverse);
-
             _info.timer += Time.deltaTime;
+
+            float oxygenRatio = Mathf.Clamp01(_currentOxygenAmount * _totalOxygenAmountInverse);
 
             SessionUIController.Instance.SetOxygen(_currentOxygenAmount, oxygenRatio);
         }
@@ -89,7 +89,7 @@ public class SessionManager : MonoBehaviour
         else
         {
             // 산소 고갈: 강제 종료
-            float resourceLossRatio = GameManager.Instance.CurrentData.playerSpec.resourceLossRatio;
+            float resourceLossRatio = GameManager.Instance.CurrentData.resourceSpec.lossRatio;
 
             _info.lootAmount *= 1f - resourceLossRatio;
         }
@@ -110,7 +110,7 @@ public class SessionManager : MonoBehaviour
         _info.damageReceived += amount;
     }
 
-    public void DealDamage(int amount)
+    public void DealDamage(float amount)
     {
         _info.damageDealt += amount;
     }

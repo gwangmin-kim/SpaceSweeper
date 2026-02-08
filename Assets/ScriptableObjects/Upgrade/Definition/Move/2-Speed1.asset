@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: 2-Speed1
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  id: Speed1
+  effects:
+  - {fileID: 11400000, guid: 42add655c7a661442b19bb8534775960, type: 2}
+  upgradeName: "\uC720\uC555\uC2DD \uCD94\uC9C4\uAE30"
+  description: "\uC774\uB3D9\uC18D\uB3C4\uAC00 \uC870\uAE08 \uBE68\uB77C\uC9D1\uB2C8\uB2E4.
+    (+1)"
+  icon: {fileID: 21300000, guid: b95e4e63ea0570b4e8d76bbf8b6e450b, type: 3}
+  costString: 15
+  parent: {fileID: 11400000, guid: 8ebd5005c9bdac64ebe0f958c4f4543e, type: 2}

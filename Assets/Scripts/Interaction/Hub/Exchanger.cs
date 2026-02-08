@@ -10,9 +10,9 @@ public class Exchanger : MonoBehaviour, IInteractable
     [SerializeField] GameObject _uiExchangeIndicator;
 
     [Header("Exchange Status")]
-    [SerializeField] int _exchangeAmount; // 한 번에 교환하는 자원량
     [SerializeField] float _exchangeInterval; // 교환 속도 (매 횟수 발동 간격)
-    [SerializeField] int _goldPerResource; // 교환비
+    [SerializeField] BigDouble _exchangeAmount; // 한 번에 교환하는 자원량
+    [SerializeField] BigDouble _goldPerResource; // 교환비
 
     bool _isInteracting = false;
 
@@ -21,6 +21,14 @@ public class Exchanger : MonoBehaviour, IInteractable
     void Awake()
     {
         _uiExchangeIndicator.SetActive(false);
+    }
+
+    void Start()
+    {
+        var data = GameManager.Instance.CurrentData;
+        _exchangeAmount = data.resourceSpec.exchangeAmount;
+        _exchangeInterval = data.resourceSpec.exchangeInterval;
+        _goldPerResource = data.resourceSpec.goldPerResource;
     }
 
     void Update()

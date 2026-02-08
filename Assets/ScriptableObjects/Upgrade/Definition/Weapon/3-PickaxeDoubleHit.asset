@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: 3-PickaxeDoubleHit
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  id: PickaxeDoubleHit
+  effects:
+  - {fileID: 11400000, guid: c92cc32c70bdb4e499785f7d1ad0978c, type: 2}
+  - {fileID: 11400000, guid: c762a4209cea0f54da7a508fc97ab317, type: 2}
+  upgradeName: "\uC77C\uD0C0\uC30D\uD53C"
+  description: "\uC774\uC81C \uD55C \uBC88\uC5D0 \uB450 \uAC1C\uC758 \uB300\uC0C1\uC744
+    \uD0C0\uACA9\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 1180447b29a43914e83da7a851d79a63, type: 3}
+  costString: 100
+  parent: {fileID: 11400000, guid: 93fe901a34a7c1b42b9c31c7c68cf692, type: 2}

@@ -114,7 +114,7 @@ SpriteRenderer:
   m_SortingLayer: 5
   m_SortingOrder: -1
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: c74a4aa0b67e45747ae901fd1464d778, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8898dc7bd1a196546b0051c709f00d3a, type: 3}
   m_Color: {r: 1, g: 0.7673603, b: 0, a: 0.5882353}
   m_FlipX: 0
   m_FlipY: 0
@@ -261,10 +261,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8d934317506a6943a5a85b1343a92d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Pickaxe
+  _defaultRange: 0.8
   _stat:
     damage: 0
     cooldown: 0
-    range: 0
+    rangeRate: 0
+    hitCount: 0
     isMultiHitUnlocked: 0
     knockbackIntensity: 0
   _attackOffset: {fileID: 4036471113018415590}

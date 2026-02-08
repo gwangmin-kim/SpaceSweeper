@@ -12,6 +12,8 @@ public class ExitDoor : MonoBehaviour, IInteractable
     [SerializeField] GameObject _upgradeWarningIndicator;
     [SerializeField] float _warningTime;
 
+    Coroutine _warningRoutine;
+
     // 산소가 있어야 탐사 가능
     bool IsAvailable => GameManager.Instance.CurrentData.playerSpec.oxygenAmount > 0f;
 
@@ -52,7 +54,8 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (!IsAvailable)
         {
             _upgradeWarningIndicator.SetActive(true);
-            StartCoroutine(WarningUIRoutine());
+            if (_warningRoutine != null) StopCoroutine(_warningRoutine);
+            _warningRoutine = StartCoroutine(WarningUIRoutine());
             return;
         }
 
