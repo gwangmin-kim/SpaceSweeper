@@ -263,14 +263,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Pickaxe
   _defaultRange: 0.8
   _stat:
-    damage: 0
-    cooldown: 0
-    rangeRate: 0
+    attackDamage: 0
+    attackSpeed: 0
+    attackRange: 0
     hitCount: 0
     isMultiHitUnlocked: 0
     knockbackIntensity: 0
   _attackOffset: {fileID: 4036471113018415590}
-  _attackDelayRatio: 0.6
+  _attackDelayRatio: 0.5
   _visualRoot: {fileID: 4036471113018415590}
   _animation: {fileID: 7457020123344681526}
 --- !u!114 &7457020123344681526

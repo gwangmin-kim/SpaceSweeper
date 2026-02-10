@@ -43,6 +43,8 @@ public class DebrisSpec
     public float healthRate;
     public float dropRate;
     public float overloadDropRate;
+
+    public float sizeRate;
 }
 
 [System.Serializable]

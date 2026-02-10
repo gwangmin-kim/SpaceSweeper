@@ -36,12 +36,20 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 
     void OnValidate()
     {
+#if UNITY_EDITOR
         if (_iconImage == null) return;
         if (_upgradeDefinition != null)
         {
             _iconImage.sprite = _upgradeDefinition.icon;
-            gameObject.name = $"Slot_{_upgradeDefinition.name}";
+            gameObject.name = $"Slot_{_upgradeDefinition.Depth}_{_upgradeDefinition.name}";
         }
+#endif
+    }
+
+    void OnEnable()
+    {
+        transform.localScale = Vector3.zero;
+        transform.DOScale(1.0f, 0.15f);
     }
 
     void SetTransparency(float alpha)
@@ -111,10 +119,11 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             {
                 _currentSequence.Kill();
             }
+            transform.rotation = Quaternion.identity;
             _currentSequence = DOTween.Sequence();
-            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 10f), 0.2f));
-            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, -10f), 0.2f));
-            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.2f));
+            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 10f), 0.1f));
+            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, -10f), 0.1f));
+            _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.1f));
         }
     }
 
@@ -126,25 +135,19 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             return;
         }
 
-        bool isUnlocked = UpgradeManager.Instance.IsUnlocked(_upgradeDefinition.id);
+        bool isUnlocked = UpgradeManager.Instance.IsUnlocked(_upgradeDefinition.ID);
         TooltipController.Instance.ShowTooltip(_upgradeDefinition, isUnlocked);
 
-        if (_currentSequence == null || !_currentSequence.IsActive())
-        {
-            if (UpgradeManager.Instance.GetUpgradeState(_upgradeDefinition)
+        if (UpgradeManager.Instance.GetUpgradeState(_upgradeDefinition)
                 == UpgradeManager.UpgradeState.Available)
-                transform.DOScale(2.0f, 0.1f);
-        }
+            transform.DOScale(2.0f, 0.1f);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
         TooltipController.Instance.HideTooltip();
 
-        if (_currentSequence == null || !_currentSequence.IsActive())
-        {
-            transform.DOScale(1.0f, 0.1f);
-        }
+        transform.DOScale(1.0f, 0.1f);
     }
 
     // 에디터 씬 뷰에서만 작동

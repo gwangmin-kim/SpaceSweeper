@@ -3,8 +3,11 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(RectTransform))]
 public class TooltipController : MonoBehaviour
 {
+    RectTransform _rectTransform;
+
     public static TooltipController Instance { get; private set; }
 
     [Header("UI Components")]
@@ -22,6 +25,8 @@ public class TooltipController : MonoBehaviour
     void Awake()
     {
         Instance = this;
+
+        _rectTransform = GetComponent<RectTransform>();
         HideTooltip();
     }
 
@@ -32,8 +37,27 @@ public class TooltipController : MonoBehaviour
         {
             if (Mouse.current != null)
             {
-                Vector2 mousePos = Mouse.current.position.ReadValue();
-                transform.position = (Vector3)mousePos + (Vector3)_offset;
+                Vector2 mousePosition = Mouse.current.position.ReadValue();
+                // Debug.Log($"mouse position: {mousePosition}");
+
+                // 기본 오프셋은 툴팁 좌상단 기준
+                // 만약 툴팁이 카메라를 벗어난다면 (오른쪽 혹은 아래쪽으로)
+                // 툴팁의 크기에 따라 위치를 이동
+                Vector2 finalPosition = mousePosition + _offset;
+
+                float width = _rectTransform.rect.width;
+                float height = _rectTransform.rect.height;
+
+                if (finalPosition.x + width > Screen.width)
+                {
+                    finalPosition.x = mousePosition.x - width - _offset.x;
+                }
+                if (finalPosition.y - height < 0)
+                {
+                    finalPosition.y = mousePosition.y + height + _offset.y;
+                }
+
+                transform.position = finalPosition;
             }
         }
     }

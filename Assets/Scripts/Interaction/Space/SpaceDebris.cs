@@ -53,12 +53,15 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         // 최적화를 위한 프로퍼티 블록 생성
         _materialPropertyBlock = new MaterialPropertyBlock();
 
+        var spec = GameManager.Instance.CurrentData.debrisSpec;
+
         // 랜덤성 부여
-        float sizeRate = Random.Range(1f - _varianceRate, 1f + _varianceRate);
-        transform.localScale *= sizeRate;
-        _radius *= sizeRate;
-        _maxHealth = (int)(_maxHealth * sizeRate);
-        _dropCount = (int)(_dropCount * sizeRate);
+        float variationRate = Random.Range(1f - _varianceRate, 1f + _varianceRate);
+        transform.localScale *= variationRate * spec.sizeRate;
+        _radius *= variationRate * spec.sizeRate;
+
+        _maxHealth = _maxHealth * variationRate * spec.healthRate;
+        _dropCount = (int)(_dropCount * variationRate);
 
         _currentHealth = _maxHealth;
         _currentHealthRatio = 1f;

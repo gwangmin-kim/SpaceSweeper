@@ -54,7 +54,8 @@ public class SessionManager : MonoBehaviour
         else
         {
             SessionUIController.Instance.SetOxygen(0f, 0f);
-            EndSession();
+            // 종료 시점에 우주선과 닿아있으면 세이프
+            if (!TryReturn()) EndSession(false);
         }
     }
 
@@ -76,11 +77,11 @@ public class SessionManager : MonoBehaviour
         SpacePlayerController.Instance.enabled = true;
     }
 
-    void EndSession()
+    void EndSession(bool isSuccessful)
     {
         if (!_info.isOngoing) return;
 
-        if (_currentOxygenAmount > 0f)
+        if (isSuccessful)
         {
             // 플레이어 자발적 귀환: 성공
             if (ResourceManager.Instance != null) ResourceManager.Instance.StoreResources(_info.lootAmount);
@@ -121,11 +122,12 @@ public class SessionManager : MonoBehaviour
         SessionUIController.Instance.SetResource(_info.lootAmount);
     }
 
-    public void TryReturn()
+    public bool TryReturn()
     {
-        if (!_returnArea.IsPlayerOn) return;
+        if (!_returnArea.IsPlayerOn) return false;
 
-        EndSession();
+        EndSession(true);
+        return true;
     }
 
     public void ReturnToHub()

@@ -2,10 +2,12 @@ using UnityEngine;
 
 public enum DebrisUpgradeType
 {
-    SpawnRate,
+    SpawnCount,
     Health,
-    DropRate,
-    OverloadDropRate,
+    DropCount,
+    OverloadDropInc,
+
+    Size,
 }
 
 [CreateAssetMenu(fileName = "NewDebrisUpgradeEffect", menuName = "Upgrades/Effects/Debris Upgrade Effect")]
@@ -20,17 +22,20 @@ public class DebrisUpgradeEffect : UpgradeEffect
 
         switch (type)
         {
-            case DebrisUpgradeType.SpawnRate:
+            case DebrisUpgradeType.SpawnCount:
                 spec.spawnRate *= value;
                 break;
             case DebrisUpgradeType.Health:
                 spec.healthRate *= value;
                 break;
-            case DebrisUpgradeType.DropRate:
+            case DebrisUpgradeType.DropCount:
                 spec.dropRate *= value;
                 break;
-            case DebrisUpgradeType.OverloadDropRate:
+            case DebrisUpgradeType.OverloadDropInc:
                 spec.overloadDropRate *= value;
+                break;
+            case DebrisUpgradeType.Size:
+                spec.sizeRate *= value;
                 break;
             default:
                 Debug.LogWarning("Invalid stat type for debris");

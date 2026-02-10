@@ -60,7 +60,7 @@ public class LasergunController : MonoBehaviour, IWeapon
         return nearestTarget;
     }
 
-    public void Initialize()
+    public void InitWeapon()
     {
         _stat = GameManager.Instance.CurrentData.playerSpec.lasergunStat;
 

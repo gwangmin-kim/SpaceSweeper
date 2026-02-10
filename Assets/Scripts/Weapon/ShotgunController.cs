@@ -36,7 +36,7 @@ public class ShotgunController : MonoBehaviour, IWeapon
         if (_attackCooldownTimer > 0f) _attackCooldownTimer -= Time.fixedDeltaTime;
     }
 
-    public void Initialize()
+    public void InitWeapon()
     {
         _stat = GameManager.Instance.CurrentData.playerSpec.shotgunStat;
     }

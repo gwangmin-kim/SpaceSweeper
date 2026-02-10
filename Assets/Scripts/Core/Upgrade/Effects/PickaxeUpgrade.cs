@@ -5,12 +5,15 @@ public enum PickaxeUpgradeType
     Unlock,
 
     Damage,
-    Cooldown,
+    AttackSpeed,
     Range,
 
     KnockbackIntensity,
     MultiHit,
-    HitCount,
+    SetHitCount,
+
+    PlusCriticalChance,
+    CriticalDamage,
 }
 
 [CreateAssetMenu(fileName = "NewPickaxeUpgradeEffect", menuName = "Upgrades/Effects/Pickaxe Upgrade Effect")]
@@ -31,13 +34,13 @@ public class PickaxeUpgradeEffect : UpgradeEffect
                     spec.currentWeapon = WeaponType.Pickaxe;
                 break;
             case PickaxeUpgradeType.Damage:
-                stat.damage *= value;
+                stat.attackDamage *= value;
                 break;
-            case PickaxeUpgradeType.Cooldown:
-                stat.cooldown *= value;
+            case PickaxeUpgradeType.AttackSpeed:
+                stat.attackSpeed *= value;
                 break;
             case PickaxeUpgradeType.Range:
-                stat.rangeRate *= value;
+                stat.attackRange *= value;
                 break;
             case PickaxeUpgradeType.KnockbackIntensity:
                 stat.knockbackIntensity *= value;
@@ -45,9 +48,15 @@ public class PickaxeUpgradeEffect : UpgradeEffect
             case PickaxeUpgradeType.MultiHit:
                 stat.isMultiHitUnlocked = true;
                 break;
-            case PickaxeUpgradeType.HitCount:
+            case PickaxeUpgradeType.SetHitCount:
                 if (stat.hitCount < value)
                     stat.hitCount = (int)value;
+                break;
+            case PickaxeUpgradeType.PlusCriticalChance:
+                stat.criticalChance = Mathf.Clamp01(stat.criticalChance + value);
+                break;
+            case PickaxeUpgradeType.CriticalDamage:
+                stat.criticalDamage *= value;
                 break;
             default:
                 Debug.LogWarning("Invalid stat type for pickaxe");

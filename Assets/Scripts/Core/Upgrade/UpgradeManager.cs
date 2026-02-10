@@ -6,11 +6,11 @@ public class UpgradeManager : MonoBehaviour
     // Singleton
     public static UpgradeManager Instance { get; private set; }
 
-    [Header("All Upgrades")]
-    [SerializeField] List<UpgradeDefinition> _allUpgrades;
+    // [Header("All Upgrades")]
+    // [SerializeField] List<UpgradeDefinition> _allUpgrades;
 
-    // 검색 효율 위한 딕셔너리 (ID -> SO)
-    Dictionary<string, UpgradeDefinition> _upgradeMap;
+    // // 검색 효율 위한 딕셔너리 (ID -> SO)
+    // Dictionary<string, UpgradeDefinition> _upgradeMap;
 
     public enum UpgradeState { Locked, Available, Unlocked };
 
@@ -26,18 +26,18 @@ public class UpgradeManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        InitializeDictionary();
+        // InitializeDictionary();
     }
 
-    void InitializeDictionary()
-    {
-        _upgradeMap = new Dictionary<string, UpgradeDefinition>();
+    // void InitializeDictionary()
+    // {
+    //     _upgradeMap = new Dictionary<string, UpgradeDefinition>();
 
-        foreach (var upgrade in _allUpgrades)
-        {
-            _upgradeMap.Add(upgrade.id, upgrade);
-        }
-    }
+    //     foreach (var upgrade in _allUpgrades)
+    //     {
+    //         _upgradeMap.Add(upgrade.ID, upgrade);
+    //     }
+    // }
 
     public bool IsUnlocked(string id)
     {
@@ -46,10 +46,10 @@ public class UpgradeManager : MonoBehaviour
 
     public UpgradeState GetUpgradeState(UpgradeDefinition upgradeDefinition)
     {
-        if (IsUnlocked(upgradeDefinition.id))
+        if (IsUnlocked(upgradeDefinition.ID))
             return UpgradeState.Unlocked;
 
-        if (upgradeDefinition.parent != null && !IsUnlocked(upgradeDefinition.parent.id))
+        if (upgradeDefinition.parent != null && !IsUnlocked(upgradeDefinition.parent.ID))
             return UpgradeState.Locked;
 
         return UpgradeState.Available;
@@ -64,7 +64,7 @@ public class UpgradeManager : MonoBehaviour
         HubUIController.Instance.SetResource(ResourceManager.Instance.Resource);
         HubUIController.Instance.SetGold(ResourceManager.Instance.Gold);
 
-        GameManager.Instance.CurrentData.unlockedUpgrades.Add(upgradeDefinition.id);
+        GameManager.Instance.CurrentData.unlockedUpgrades.Add(upgradeDefinition.ID);
 
         foreach (var effect in upgradeDefinition.effects)
         {

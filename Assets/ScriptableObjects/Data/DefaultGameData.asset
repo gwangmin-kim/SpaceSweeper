@@ -37,9 +37,11 @@ MonoBehaviour:
       oxygenAmount: 0
       currentWeapon: 0
       pickaxeStat:
-        damage: 1
-        cooldown: 1
-        rangeRate: 1
+        attackDamage: 1
+        attackSpeed: 0.8
+        attackRange: 1
+        criticalChance: 0
+        criticalDamage: 2
         hitCount: 1
         isMultiHitUnlocked: 0
         knockbackIntensity: 1
@@ -75,6 +77,7 @@ MonoBehaviour:
       healthRate: 1
       dropRate: 1
       overloadDropRate: 2
+      sizeRate: 1
     gimickSpec:
       meteorData:
         delay: 3

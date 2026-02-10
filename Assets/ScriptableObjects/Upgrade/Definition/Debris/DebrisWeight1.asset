@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: DebrisWeight1
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: a254c3562582b744fbccc035d12dfe4e
+  effects:
+  - {fileID: 11400000, guid: 81004876e59bed5458e73ddab5482bb9, type: 2}
+  - {fileID: 11400000, guid: e00ed368021e3b84f9aae6ff22256d95, type: 2}
+  - {fileID: 11400000, guid: 47862f6aae34fac45ab4705d8fd3c386, type: 2}
+  upgradeName: "\uC9C8\uB7C9 \uC99D\uAC00"
+  description: "\uACE0\uCCA0 \uB369\uC5B4\uB9AC\uAC00 \uB354 \uD06C\uACE0 \uB2E8\uB2E8\uD574\uC9C0\uB294
+    \uB300\uC2E0, \uB354 \uB9CE\uC740 \uAE08\uC18D\uC744 \uB5A8\uC5B4\uB728\uB9BD\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 38728df568e95924f8d6a11881542a77, type: 3}
+  costString: 30
+  parent: {fileID: 11400000, guid: 5a7e397e4c0fc094cb0c8776a5733677, type: 2}

@@ -115,10 +115,10 @@ MonoBehaviour:
   _varianceRate: 0.4
   _isOverloaded: 0
   _resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
-  _dropCount: 10
+  _dropCount: 8
   _minDriftSpeed: 0
   _maxDriftSpeed: 1
-  _maxRotationAnglePerSecond: 60
+  _maxRotationAnglePerSecond: 120
   _knockbackFactor: 1
   _velocityDampingTime: 3
   _fillRenderer: {fileID: 2138380181092663995}

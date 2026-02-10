@@ -109,7 +109,9 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
         {
             _currentWeapon = Instantiate(weaponPrefab, _weaponSocket);
             _currentWeapon.transform.SetLocalPositionAndRotation(Vector3.zero, Quaternion.identity);
-            _currentWeapon.GetComponent<IWeapon>()?.Initialize();
+            _currentWeapon.GetComponent<IWeapon>()?.InitWeapon();
+
+            // Debug.Log($"prefab: {weaponPrefab}/instance: {_currentWeapon}");
         }
     }
 
