@@ -189,6 +189,7 @@ GameObject:
   - component: {fileID: 904343407109773028}
   - component: {fileID: 1442674872253086712}
   - component: {fileID: 9051142364490284775}
+  - component: {fileID: 5693420264397923041}
   m_Layer: 5
   m_Name: WarningText
   m_TagString: Untagged
@@ -316,6 +317,19 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
+--- !u!114 &5693420264397923041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2582566971287988431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7094e74584a85946913c3f12990f63c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizeTextUI
+  _localizationKey: OxygenWarning
 --- !u!1 &2628858854508538699
 GameObject:
   m_ObjectHideFlags: 0

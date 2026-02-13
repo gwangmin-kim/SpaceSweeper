@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
   _defaultDataTemplate: {fileID: 11400000, guid: 6bcbb14ff68e51c42ae2d78db607a200, type: 2}
+  _defaultSettingTemplate: {fileID: 11400000, guid: 46d22632f6eecc143bfc0d1346f44a86, type: 2}
   CurrentData:
     resource:
       mantissa: 0
@@ -60,7 +61,7 @@ MonoBehaviour:
         speed: 0
         dampingTime: 0
         isDashUnlocked: 0
-        dashSpeed: 0
+        dashSpeedFactor: 0
         dashDistance: 0
         dashCooldown: 0
         bounceFactor: 0
@@ -70,12 +71,14 @@ MonoBehaviour:
       oxygenAmount: 0
       currentWeapon: 0
       pickaxeStat:
-        damage: 0
-        cooldown: 0
-        range: 0
+        attackDamage: 0
+        attackSpeed: 0
+        attackRange: 0
+        criticalChance: 0
+        criticalDamage: 0
+        hitCount: 0
         isMultiHitUnlocked: 0
         knockbackIntensity: 0
-        dropIncreseRate: 0
       shotgunStat:
         cooldown: 0
         spreadAngle: 0
@@ -94,11 +97,23 @@ MonoBehaviour:
         isTransitionUnlocked: 0
         transitionCount: 0
         transitionRange: 0
-      resourceLossRatio: 0
     resourceSpec:
+      exchangeInterval: 0
+      exchangeAmount:
+        mantissa: 0
+        exponent: 0
+      goldPerResource:
+        mantissa: 0
+        exponent: 0
+      lossRatio: 0
+    debrisSpec:
+      spawnRate: 0
+      sizeRate: 0
       healthRate: 0
-      dropRate: 0
+      valueRate: 0
       overloadDropRate: 0
+      oxygenRestoreAmount: 0
+      oxygenRestoreChance: 0
     gimickSpec:
       meteorData:
         delay: 0
@@ -115,3 +130,10 @@ MonoBehaviour:
         width: 0
         duration: 0
         debrisSpawnList: []
+    eventData:
+      hasUnlockedOnce: 0
+      hasExploredOnce: 0
+      hasExchangedOnce: 0
+      hasUsedWeaponOnce: 0
+  CurrentSetting:
+    language: {fileID: 0}

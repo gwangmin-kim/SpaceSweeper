@@ -40,11 +40,13 @@ public class ResourceSpec
 public class DebrisSpec
 {
     public float spawnRate;
+    public float sizeRate;
     public float healthRate;
-    public float dropRate;
+    public float valueRate;
     public float overloadDropRate;
 
-    public float sizeRate;
+    public float oxygenRestoreAmount; // 파괴 시 일정 확률로 충전되는 산소량
+    public float oxygenRestoreChance; // 산소 재충전 확률
 }
 
 [System.Serializable]
@@ -53,6 +55,15 @@ public class GimickSpec
     public MeteorData meteorData;
     public BlackholeData blackholeData;
     public MagneticStormData magneticStormData;
+}
+
+[System.Serializable]
+public class EventData
+{
+    public bool hasUnlockedOnce; // 최초 업그레이드 안내
+    public bool hasExploredOnce; // 최초 탐사 (자원 획득 안내)
+    public bool hasExchangedOnce; // 최초 자원 교환 안내
+    public bool hasUsedWeaponOnce; // 최초 무기 획득 후 탐사 (공격 안내)
 }
 
 [System.Serializable]
@@ -73,6 +84,6 @@ public class GameData
     public DebrisSpec debrisSpec;
     public GimickSpec gimickSpec;
 
-    // setting
-
+    // event history
+    public EventData eventData;
 }

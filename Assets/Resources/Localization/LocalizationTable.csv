@@ -1,0 +1,68 @@
+key, KO, EN
+
+NewGame,새 게임,New Game
+Continue,이어하기,Continue
+Setting,설정,Setting
+ExitGame,게임 종료,Quit Game
+Loading,로딩 중...,Loading...
+
+Upgrader,장비 업그레이드,Upgrade Equipment
+Exchanger,수집한 파편 판매,Sell collected Metal
+MapSelector,탐사 위치 변경,Change Exploration location
+ExitDoor,탐사하러 나가기,Go out to Explore
+ExitDoorWarning,산소통이 없어 탐사가 불가능합니다!,Exploration is impossible without an Oxygen Tank!
+
+SessionResult,세션 결과,Session Result
+TimeSpent,걸린 시간,Time Spent
+LootAmount,획득한 파편,Resource Earned
+LossAmount,잃어버린 파편,Resource Lost
+DamageReceived,받은 피해량,Damage Received
+DamageDealt,입힌 피해량,Damage Dealt
+
+SessionReturn,우주선으로 복귀,Back to the Spaceship
+
+OxygenWarning,산소가 고갈되기 전에 우주선으로 복귀하세요!,Get back to the spaceship before you run out of oxygen!
+
+CurrentStatus,현재 능력치,Current Status
+
+MoveSpeed,이동 속도,Move Speed
+DampingTime,관성,Inerita
+Dash,대시,Dash
+Speed,속도,Speed
+MoveDistance,이동 거리,Move Distance
+Cooldown,쿨다운,Cooldown
+BounceFactor,반동 강도,Bounce Intensity
+KnockbackFactor,넉백 강도,Knockback Intensity
+KnockbackTime,넉백 시간,Knockback Time
+
+MagnetRange,수집 범위,
+OxygenAmount,산소통 용량,Oxygen Amount
+LossRatio,유실 비율,Loss Rate
+
+GoldPerResource,고철 판매 가격,Selling Price
+ExchangeAmount,동시 판매 개수,Selling Amount
+
+CurrentWeapon,장비,Current Equipment
+Damage,공격력,Damage
+AttackSpeed,공격속도,Attack Speed
+Range,범위,Range
+CriticalChange,치명타 확률,Critical Hit Chance
+CriticalDamage,치명타 피해,Critical Damage
+MultiHit,동시 타격,Multiple Strike
+HitCount,타격 대상 수,Target Count
+
+SpreadAngle,탄 퍼짐,Spread Angle
+Penetration,관통,Penetration
+
+Transition,전이,Trasition
+TransitionCount,전이 횟수,Transition Count
+TransitionRange,전이 범위,Transition Range
+
+DebrisHealth,고철 체력,
+DebrisSize,고철 크기,
+DebrisCount,고철 개수,
+DropCount,드롭 개수,
+OverloadDrop,과부하 드롭,
+
+OxygenRestoreChance,산소 재충전 확률,Oxygen Restore Chance
+OxygenRestoreAmount,재충전량,Oxygen Restore Amount

@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5b64d5f641716dc48955cb65496ae89e, type: 3}
+  m_Name: EN
+  m_EditorClassIdentifier: Assembly-CSharp::LanguageData
+  entries:
+  - key: NewGame
+    value: New Game
+  - key: Continue
+    value: Continue
+  - key: Setting
+    value: Setting
+  - key: ExitGame
+    value: Quit Game
+  - key: Loading
+    value: Loading...
+  - key: Upgrader
+    value: Upgrade Equipment
+  - key: Exchanger
+    value: Sell collected Metal
+  - key: MapSelector
+    value: Change Exploration location
+  - key: ExitDoor
+    value: Go out to Explore
+  - key: ExitDoorWarning
+    value: Exploration is impossible without an Oxygen Tank!
+  - key: SessionResult
+    value: Session Result
+  - key: TimeSpent
+    value: Time Spent
+  - key: LootAmount
+    value: Resource Earned
+  - key: LossAmount
+    value: Resource Lost
+  - key: DamageReceived
+    value: Damage Received
+  - key: DamageDealt
+    value: Damage Dealt
+  - key: SessionReturn
+    value: Back to the Spaceship
+  - key: OxygenWarning
+    value: Get back to the spaceship before you run out of oxygen!
+  - key: CurrentStatus
+    value: Current Status
+  - key: MoveSpeed
+    value: Move Speed
+  - key: DampingTime
+    value: Inerita
+  - key: Dash
+    value: Dash
+  - key: Speed
+    value: Speed
+  - key: MoveDistance
+    value: Move Distance
+  - key: Cooldown
+    value: Cooldown
+  - key: BounceFactor
+    value: Bounce Intensity
+  - key: KnockbackFactor
+    value: Knockback Intensity
+  - key: KnockbackTime
+    value: Knockback Time
+  - key: MagnetRange
+    value: 
+  - key: OxygenAmount
+    value: Oxygen Amount
+  - key: LossRatio
+    value: Loss Rate
+  - key: GoldPerResource
+    value: Selling Price
+  - key: ExchangeAmount
+    value: Selling Amount
+  - key: CurrentWeapon
+    value: Current Equipment
+  - key: Damage
+    value: Damage
+  - key: AttackSpeed
+    value: Attack Speed
+  - key: Range
+    value: Range
+  - key: CriticalChange
+    value: Critical Hit Chance
+  - key: CriticalDamage
+    value: Critical Damage
+  - key: MultiHit
+    value: Multiple Strike
+  - key: HitCount
+    value: Target Count
+  - key: SpreadAngle
+    value: Spread Angle
+  - key: Penetration
+    value: Penetration
+  - key: Transition
+    value: Trasition
+  - key: TransitionCount
+    value: Transition Count
+  - key: TransitionRange
+    value: Transition Range
+  - key: DebrisHealth
+    value: 
+  - key: DebrisSize
+    value: 
+  - key: DebrisCount
+    value: 
+  - key: DropCount
+    value: 
+  - key: OverloadDrop
+    value: 
+  - key: OxygenRestoreChance
+    value: Oxygen Restore Chance
+  - key: OxygenRestoreAmount
+    value: Oxygen Restore Amount

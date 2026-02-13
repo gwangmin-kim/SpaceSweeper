@@ -690,6 +690,7 @@ GameObject:
   - component: {fileID: 1288586575}
   - component: {fileID: 1288586577}
   - component: {fileID: 1288586576}
+  - component: {fileID: 1288586578}
   m_Layer: 5
   m_Name: LoadingText
   m_TagString: Untagged
@@ -740,8 +741,8 @@ MonoBehaviour:
 
 '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 4bb5e4b97985e1d4d90e5f3a645caf71, type: 2}
+  m_sharedMaterial: {fileID: -8267933882908723801, guid: 4bb5e4b97985e1d4d90e5f3a645caf71, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -818,6 +819,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1288586574}
   m_CullTransparentMesh: 1
+--- !u!114 &1288586578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1288586574}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7094e74584a85946913c3f12990f63c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LocalizeTextUI
+  _localizationKey: Loading
 --- !u!1 &1358947185
 GameObject:
   m_ObjectHideFlags: 0

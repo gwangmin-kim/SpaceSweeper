@@ -38,7 +38,7 @@ public class SaveDataViewer : EditorWindow
     {
         GUILayout.Label("Save File Manager", EditorStyles.boldLabel);
 
-        string savePath = Path.Combine(Application.persistentDataPath, SaveSystem.SaveFileName);
+        string savePath = Path.Combine(Application.persistentDataPath, SaveSystem.SAVE_FILE_NAME);
         EditorGUILayout.HelpBox($"Path: {savePath}", MessageType.Info);
 
         GUILayout.Space(5);
