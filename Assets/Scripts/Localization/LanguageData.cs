@@ -1,6 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+public enum LanguageType
+{
+    KO,
+    EN,
+    JP,
+}
+
 [System.Serializable]
 public class LocalizationEntry
 {
@@ -11,6 +18,7 @@ public class LocalizationEntry
 [CreateAssetMenu(fileName = "LangData", menuName = "Localization/Language Data")]
 public class LanguageData : ScriptableObject
 {
+    public LanguageType language;
     public List<LocalizationEntry> entries = new List<LocalizationEntry>();
 
     private Dictionary<string, string> _cache;

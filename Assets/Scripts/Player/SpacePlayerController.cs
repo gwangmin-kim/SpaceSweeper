@@ -221,9 +221,9 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
 
     void ConstrainPosition()
     {
-        if (StageManager.Instance == null) return;
+        if (InGameRoutineManager.Instance == null) return;
 
-        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+        Bounds mapBounds = InGameRoutineManager.Instance.CurrentMapBounds;
 
         Vector2 playerHalfSize = _collider.bounds.extents;
         // Debug.Log($"player half size: {playerHalfSize}");

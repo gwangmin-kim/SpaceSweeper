@@ -9,7 +9,8 @@ public class SessionInformation
     public float timer;
     public BigDouble lootAmount;
     public BigDouble lossAmount;
-    public float damageReceived; // 잃은 산소량
+    public float oxygenLost; // 잃은 산소량
+    public float oxygenRestored; // 복구한 산소량
     public float damageDealt; // 폐기물에 가한 피해량
 }
 
@@ -74,7 +75,7 @@ public class SessionManager : MonoBehaviour
         SessionUIController.Instance.SetOxygen(_currentOxygenAmount, 1f);
         SessionUIController.Instance.SetResource(_info.lootAmount);
 
-        StageManager.Instance.LoadLevel();
+        InGameRoutineManager.Instance.LoadLevel();
 
         SpacePlayerController.Instance.enabled = true;
     }
@@ -104,7 +105,7 @@ public class SessionManager : MonoBehaviour
 
         SessionUIController.Instance.SessionSummary(_info);
 
-        StageManager.Instance.StopAllGimickRoutines();
+        InGameRoutineManager.Instance.StopAllGimickRoutines();
 
         SpacePlayerController.Instance.enabled = false;
     }
@@ -113,7 +114,7 @@ public class SessionManager : MonoBehaviour
     {
         // 플레이어가 공격 받아 산소를 잃음
         _currentOxygenAmount -= amount;
-        _info.damageReceived += amount;
+        _info.oxygenLost += amount;
     }
 
     public void DealDamage(float amount)
@@ -121,9 +122,10 @@ public class SessionManager : MonoBehaviour
         _info.damageDealt += amount;
     }
 
-    public void AddOxygen(float amount)
+    public void RestoreOxygen(float amount)
     {
         _currentOxygenAmount += amount;
+        _info.oxygenRestored += amount;
     }
 
     public void LootResource(BigDouble amount)

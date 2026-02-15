@@ -19,8 +19,8 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
-    lastUnlockedLevel: {fileID: 11400000, guid: 90d7b2a3297da284baa72a097baba9c3, type: 2}
+    currentLevelID: 1
+    lastUnlockedLevelID: 1
     unlockedUpgrades: []
     playerSpec:
       moveStat:

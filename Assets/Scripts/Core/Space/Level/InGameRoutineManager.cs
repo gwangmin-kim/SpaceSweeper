@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using Unity.Cinemachine;
 using UnityEngine;
 
-public class StageManager : MonoBehaviour
+public class InGameRoutineManager : MonoBehaviour
 {
-    public static StageManager Instance { get; private set; }
+    public static InGameRoutineManager Instance { get; private set; }
 
     [Header("References")]
     [SerializeField] Transform _mapRoot; // 맵이 생성될 부모 오브젝트
@@ -37,7 +37,8 @@ public class StageManager : MonoBehaviour
     void InitLevel()
     {
         // foreach (Transform child in _mapRoot) Destroy(child.gameObject);
-        _currentLevel = GameManager.Instance.CurrentData.currentLevel;
+        int currentLevelID = GameManager.Instance.CurrentData.currentLevelID;
+        _currentLevel = LevelManager.Instance.GetLevel(currentLevelID);
 
         // 맵 프리팹(_currentLevel.mapPrefab) 안에 SpawnZone이라는 이름의 오브젝트를 포함시켜야 함.
         GameObject mapObject = Instantiate(_currentLevel.mapPrefab, _mapRoot);
@@ -153,7 +154,7 @@ public class StageManager : MonoBehaviour
         var debrisSpec = GameManager.Instance.CurrentData.debrisSpec;
         if (debrisSpec.oxygenRestoreChance > 0f && Random.value < debrisSpec.oxygenRestoreChance)
         {
-            SessionManager.Instance.AddOxygen(debrisSpec.oxygenRestoreAmount);
+            SessionManager.Instance.RestoreOxygen(debrisSpec.oxygenRestoreAmount);
         }
 
         Destroy(debrisObject);

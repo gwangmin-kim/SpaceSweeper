@@ -42,14 +42,16 @@ public class LocalizeImporter
 
             if (langData == null) continue;
 
+            string langName = langData.language.ToString();
+
             // 에셋 이름과 일치하는 컬럼이 CSV에 있는지 확인
-            if (!languageColumnMap.ContainsKey(langData.name))
+            if (!languageColumnMap.ContainsKey(langName))
             {
-                Debug.LogWarning($"[Localize] CSV 헤더에 '{langData.name}' 컬럼이 없어 스킵합니다.");
+                Debug.LogWarning($"[Localize] CSV 헤더에 '{langName}' 컬럼이 없어 스킵합니다.");
                 continue;
             }
 
-            int targetColumnIndex = languageColumnMap[langData.name];
+            int targetColumnIndex = languageColumnMap[langName];
             langData.entries.Clear();
 
             // 4. 데이터 파싱 및 할당
@@ -68,7 +70,7 @@ public class LocalizeImporter
             }
 
             EditorUtility.SetDirty(langData);
-            Debug.Log($"[Localize] {langData.name} 업데이트 완료: {langData.entries.Count}개 항목");
+            Debug.Log($"[Localize] {langName} 업데이트 완료: {langData.entries.Count}개 항목");
         }
 
         AssetDatabase.SaveAssets();

@@ -72,7 +72,7 @@ public class MeteorController : MonoBehaviour
         _isHit = false;
 
         _filter = new ContactFilter2D();
-        _filter.SetLayerMask(StageManager.Instance.GimickTargetLayer);
+        _filter.SetLayerMask(InGameRoutineManager.Instance.GimickTargetLayer);
         _filter.useTriggers = true;
 
         _hitBuffer = new List<Collider2D>(10);

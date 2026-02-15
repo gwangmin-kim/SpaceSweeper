@@ -106,9 +106,9 @@ public class GameData
     public BigDouble resource;
     public BigDouble gold;
 
-    // stage
-    public LevelDefinition currentLevel;
-    public LevelDefinition lastUnlockedLevel;
+    // stage id
+    public int currentLevelID;
+    public int lastUnlockedLevelID;
 
     // upgrade
     public List<string> unlockedUpgrades;

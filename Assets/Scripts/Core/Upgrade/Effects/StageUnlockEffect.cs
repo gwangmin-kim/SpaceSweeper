@@ -7,6 +7,6 @@ public class StageUnlockEffect : UpgradeEffect
 
     public override void Apply()
     {
-        if (HubManager.Instance != null) HubManager.Instance.UnlockLevel(level.id);
+        if (LevelManager.Instance != null) LevelManager.Instance.UnlockLevel(level.id);
     }
 }

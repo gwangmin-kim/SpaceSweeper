@@ -115,9 +115,9 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
 
     void ConstrainPosition()
     {
-        if (StageManager.Instance == null) return;
+        if (InGameRoutineManager.Instance == null) return;
 
-        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+        Bounds mapBounds = InGameRoutineManager.Instance.CurrentMapBounds;
         Vector2 currentPos = _rigidbody.position;
 
         // 맵 반대편으로 텔레포트

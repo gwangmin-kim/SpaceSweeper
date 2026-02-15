@@ -73,7 +73,7 @@ public class MagneticStormController : MonoBehaviour
         {
             for (int i = 0; i < spawnData.count; i++)
             {
-                StageManager.Instance.SpawnSingleDebris(
+                InGameRoutineManager.Instance.SpawnSingleDebris(
                     spawnData.debrisPrefab, _spawnPoint.position, Vector2.zero);
             }
         }

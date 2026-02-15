@@ -96,9 +96,9 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     void ConstrainPosition()
     {
-        if (StageManager.Instance == null) return;
+        if (InGameRoutineManager.Instance == null) return;
 
-        Bounds mapBounds = StageManager.Instance.CurrentMapBounds;
+        Bounds mapBounds = InGameRoutineManager.Instance.CurrentMapBounds;
         Vector2 currentPos = _rigidbody.position;
         Vector2 currentVel = _rigidbody.linearVelocity;
 
@@ -193,7 +193,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
             resource.InitDrop(valueRate, dropRate);
         }
 
-        StageManager.Instance.OnDebrisDestroy(gameObject);
+        InGameRoutineManager.Instance.OnDebrisDestroy(gameObject);
     }
 
     void SetHealthVisual()
