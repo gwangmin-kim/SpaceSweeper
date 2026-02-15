@@ -22,7 +22,7 @@ public enum PlayerStatType
     PlusOxygenAmount,
 }
 
-[CreateAssetMenu(fileName = "NewStatUpgradeEffect", menuName = "Upgrades/Effects/Stat Upgrade Effect")]
+[CreateAssetMenu(fileName = "NewStatUpgradeEffect", menuName = "Upgrades/Effects/Stat Upgrade")]
 public class StatUpgradeEffect : UpgradeEffect
 {
 
@@ -45,7 +45,7 @@ public class StatUpgradeEffect : UpgradeEffect
                 spec.moveStat.isDashUnlocked = true;
                 break;
             case PlayerStatType.DashSpeed:
-                spec.moveStat.dashSpeed *= value;
+                spec.moveStat.dashSpeedFactor *= value;
                 break;
             case PlayerStatType.DashDistance:
                 spec.moveStat.dashDistance *= value;

@@ -41,7 +41,7 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         if (_upgradeDefinition != null)
         {
             _iconImage.sprite = _upgradeDefinition.icon;
-            gameObject.name = $"Slot_{_upgradeDefinition.Depth}_{_upgradeDefinition.name}";
+            gameObject.name = $"Slot_{_upgradeDefinition.Depth}_{_upgradeDefinition.name}_{_upgradeDefinition.costString}";
         }
 #endif
     }

@@ -53,7 +53,7 @@ public class PickaxeController : MonoBehaviour, IWeapon
         _filter.useTriggers = false;
 
         float scaleRatio = _stat.attackRange;
-        _visualRoot.localScale = new Vector3(scaleRatio, scaleRatio, 1f);
+        transform.localScale = new Vector3(scaleRatio, scaleRatio, 1f);
     }
 
     public void Attack(Vector2 _)
@@ -80,7 +80,7 @@ public class PickaxeController : MonoBehaviour, IWeapon
         {
             // Debug.Log($"hit detected: {hit}");
 
-            component.TakeDamage(_stat.attackDamage);
+            component.TakeDamage(damage);
 
             Vector2 knockbackDirection = (hit.transform.position - _attackOffset.position).normalized;
             component.ApplyKnockback(knockbackDirection, _stat.knockbackIntensity);

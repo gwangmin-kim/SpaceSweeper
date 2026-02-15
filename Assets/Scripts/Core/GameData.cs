@@ -23,6 +23,39 @@ public class PlayerSpec
     public PickaxeStat pickaxeStat;
     public ShotgunStat shotgunStat;
     public LasergunStat lasergunStat;
+
+    public string GetAttackDamageString()
+    {
+        return currentWeapon switch
+        {
+            WeaponType.Pickaxe => pickaxeStat.attackDamage.ToString(),
+            WeaponType.Shotgun => $"{shotgunStat.bulletData.damage}×{shotgunStat.bulletCount}",
+            WeaponType.Lasergun => lasergunStat.damage.ToString(),
+            _ => "0"
+        };
+    }
+
+    public string GetAttackSpeedString()
+    {
+        return currentWeapon switch
+        {
+            WeaponType.Pickaxe => pickaxeStat.attackSpeed.ToString(),
+            WeaponType.Shotgun => (1f / shotgunStat.cooldown).ToString(),
+            WeaponType.Lasergun => (1f / lasergunStat.hitInterval).ToString(),
+            _ => "0"
+        };
+    }
+
+    public string GetAttackRangeString()
+    {
+        return currentWeapon switch
+        {
+            WeaponType.Pickaxe => pickaxeStat.attackRange.ToString(),
+            WeaponType.Shotgun => (shotgunStat.bulletData.speed * shotgunStat.bulletData.duration).ToString(),
+            WeaponType.Lasergun => lasergunStat.range.ToString(),
+            _ => "0"
+        };
+    }
 }
 
 [System.Serializable]

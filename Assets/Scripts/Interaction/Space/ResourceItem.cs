@@ -169,13 +169,15 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
     }
 
     // 폐기물 파괴로 생성 시 호출
-    public void InitDrop()
+    public void InitDrop(float valueRate, float intensity)
     {
+        _value = valueRate;
+
         _currentState = ResourceState.Spawning;
         _collider.enabled = false;
 
         _standbyTimer = _standbyDuration;
-        _dropPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle;
+        _dropPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle * intensity;
     }
 
     public void SetTarget(Transform target)

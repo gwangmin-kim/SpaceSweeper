@@ -149,6 +149,13 @@ public class StageManager : MonoBehaviour
     {
         _remainingDebrisCount--;
 
+        // 산소량 복구 로직
+        var debrisSpec = GameManager.Instance.CurrentData.debrisSpec;
+        if (debrisSpec.oxygenRestoreChance > 0f && Random.value < debrisSpec.oxygenRestoreChance)
+        {
+            SessionManager.Instance.AddOxygen(debrisSpec.oxygenRestoreAmount);
+        }
+
         Destroy(debrisObject);
     }
 

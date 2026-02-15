@@ -28,14 +28,14 @@ CurrentStatus,현재 능력치,Current Status
 MoveSpeed,이동 속도,Move Speed
 DampingTime,관성,Inerita
 Dash,대시,Dash
-Speed,속도,Speed
-MoveDistance,이동 거리,Move Distance
-Cooldown,쿨다운,Cooldown
+DashSpeed,대시 속도,Dash Speed
+DashDistance,대시 거리,Dash Distance
+DashCooldown,대시 쿨다운,Dash Cooldown
 BounceFactor,반동 강도,Bounce Intensity
 KnockbackFactor,넉백 강도,Knockback Intensity
 KnockbackTime,넉백 시간,Knockback Time
 
-MagnetRange,수집 범위,
+MagnetRange,수집 범위,Collect Range
 OxygenAmount,산소통 용량,Oxygen Amount
 LossRatio,유실 비율,Loss Rate
 
@@ -43,9 +43,14 @@ GoldPerResource,고철 판매 가격,Selling Price
 ExchangeAmount,동시 판매 개수,Selling Amount
 
 CurrentWeapon,장비,Current Equipment
-Damage,공격력,Damage
+Pickaxe,곡괭이,Pickaxe
+Shotgun,샷건,Shotgun
+Lasergun,레이저건,Lasergun
+
+AttackDamage,공격력,Damage
 AttackSpeed,공격속도,Attack Speed
-Range,범위,Range
+AttackRange,범위,Range
+
 CriticalChange,치명타 확률,Critical Hit Chance
 CriticalDamage,치명타 피해,Critical Damage
 MultiHit,동시 타격,Multiple Strike
@@ -61,8 +66,10 @@ TransitionRange,전이 범위,Transition Range
 DebrisHealth,고철 체력,
 DebrisSize,고철 크기,
 DebrisCount,고철 개수,
-DropCount,드롭 개수,
+DropValue,파편 가치,
 OverloadDrop,과부하 드롭,
 
 OxygenRestoreChance,산소 재충전 확률,Oxygen Restore Chance
 OxygenRestoreAmount,재충전량,Oxygen Restore Amount
+
+Unlocked,해금됨,Unlocked

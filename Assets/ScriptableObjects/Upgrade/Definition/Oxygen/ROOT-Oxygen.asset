@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: ROOT-Oxygen
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: 83d7e0708f1075d41993f08b2884ea26
+  effects:
+  - {fileID: 11400000, guid: a5dd4af15f2c52e40a7c69a3b3c98c66, type: 2}
+  upgradeName: "\uC0B0\uC18C\uD1B5"
+  description: "\uC774\uC81C \uC6B0\uC8FC \uACF5\uAC04\uC744 \uD0D0\uD5D8\uD560 \uC218
+    \uC788\uC2B5\uB2C8\uB2E4!"
+  icon: {fileID: 21300000, guid: 7ac880061e367c44f8a94b502d7b4f18, type: 3}
+  costString: 0
+  parent: {fileID: 0}

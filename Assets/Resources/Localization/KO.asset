@@ -58,12 +58,12 @@ MonoBehaviour:
     value: "\uAD00\uC131"
   - key: Dash
     value: "\uB300\uC2DC"
-  - key: Speed
-    value: "\uC18D\uB3C4"
-  - key: MoveDistance
-    value: "\uC774\uB3D9 \uAC70\uB9AC"
-  - key: Cooldown
-    value: "\uCFE8\uB2E4\uC6B4"
+  - key: DashSpeed
+    value: "\uB300\uC2DC \uC18D\uB3C4"
+  - key: DashDistance
+    value: "\uB300\uC2DC \uAC70\uB9AC"
+  - key: DashCooldown
+    value: "\uB300\uC2DC \uCFE8\uB2E4\uC6B4"
   - key: BounceFactor
     value: "\uBC18\uB3D9 \uAC15\uB3C4"
   - key: KnockbackFactor
@@ -82,11 +82,11 @@ MonoBehaviour:
     value: "\uB3D9\uC2DC \uD310\uB9E4 \uAC1C\uC218"
   - key: CurrentWeapon
     value: "\uC7A5\uBE44"
-  - key: Damage
+  - key: AttackDamage
     value: "\uACF5\uACA9\uB825"
   - key: AttackSpeed
     value: "\uACF5\uACA9\uC18D\uB3C4"
-  - key: Range
+  - key: AttackRange
     value: "\uBC94\uC704"
   - key: CriticalChange
     value: "\uCE58\uBA85\uD0C0 \uD655\uB960"
@@ -120,3 +120,5 @@ MonoBehaviour:
     value: "\uC0B0\uC18C \uC7AC\uCDA9\uC804 \uD655\uB960"
   - key: OxygenRestoreAmount
     value: "\uC7AC\uCDA9\uC804\uB7C9"
+  - key: Unlocked
+    value: "\uD574\uAE08\uB428"

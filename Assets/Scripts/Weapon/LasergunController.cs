@@ -5,7 +5,7 @@ using UnityEngine;
 public class LasergunStat
 {
     public float damage;
-    public float cooldown;
+    public float hitInterval;
     public float range;
     public bool isTransitionUnlocked;
     public int transitionCount;
@@ -73,7 +73,7 @@ public class LasergunController : MonoBehaviour, IWeapon
     {
         if (!IsAttackable) return;
 
-        _attackCooldownTimer = _stat.cooldown;
+        _attackCooldownTimer = _stat.hitInterval;
 
         _currentTargets.Clear();
 

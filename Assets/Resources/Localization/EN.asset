@@ -57,12 +57,12 @@ MonoBehaviour:
     value: Inerita
   - key: Dash
     value: Dash
-  - key: Speed
-    value: Speed
-  - key: MoveDistance
-    value: Move Distance
-  - key: Cooldown
-    value: Cooldown
+  - key: DashSpeed
+    value: Dash Speed
+  - key: DashDistance
+    value: Dash Distance
+  - key: DashCooldown
+    value: Dash Cooldown
   - key: BounceFactor
     value: Bounce Intensity
   - key: KnockbackFactor
@@ -70,7 +70,7 @@ MonoBehaviour:
   - key: KnockbackTime
     value: Knockback Time
   - key: MagnetRange
-    value: 
+    value: Collect Range
   - key: OxygenAmount
     value: Oxygen Amount
   - key: LossRatio
@@ -81,11 +81,11 @@ MonoBehaviour:
     value: Selling Amount
   - key: CurrentWeapon
     value: Current Equipment
-  - key: Damage
+  - key: AttackDamage
     value: Damage
   - key: AttackSpeed
     value: Attack Speed
-  - key: Range
+  - key: AttackRange
     value: Range
   - key: CriticalChange
     value: Critical Hit Chance
@@ -119,3 +119,5 @@ MonoBehaviour:
     value: Oxygen Restore Chance
   - key: OxygenRestoreAmount
     value: Oxygen Restore Amount
+  - key: Unlocked
+    value: Unlocked

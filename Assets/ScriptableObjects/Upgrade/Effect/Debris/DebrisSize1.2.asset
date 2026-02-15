@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745c1340156e2c141bf82697a424e4fe, type: 3}
   m_Name: DebrisSize1.2
   m_EditorClassIdentifier: Assembly-CSharp::DebrisUpgradeEffect
-  type: 4
+  type: 1
   value: 1.2

@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour
 
         LoadSetting();
 
-        // #if UNITY_EDITOR
-        //         CreateNewGameData();
-        // #endif
+#if UNITY_EDITOR
+        CreateNewGameData();
+#endif
     }
 
     // #if UNITY_EDITOR

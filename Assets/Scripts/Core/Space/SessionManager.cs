@@ -5,8 +5,10 @@ using BreakInfinity;
 public class SessionInformation
 {
     public bool isOngoing;
+    public bool isSuccessful; // 산소 고갈 전에 복귀했는지
     public float timer;
     public BigDouble lootAmount;
+    public BigDouble lossAmount;
     public float damageReceived; // 잃은 산소량
     public float damageDealt; // 폐기물에 가한 피해량
 }
@@ -80,6 +82,7 @@ public class SessionManager : MonoBehaviour
     void EndSession(bool isSuccessful)
     {
         if (!_info.isOngoing) return;
+        _info.isSuccessful = isSuccessful;
 
         if (isSuccessful)
         {
@@ -90,9 +93,11 @@ public class SessionManager : MonoBehaviour
         else
         {
             // 산소 고갈: 강제 종료
+            // 자원 손실
             float resourceLossRatio = GameManager.Instance.CurrentData.resourceSpec.lossRatio;
 
-            _info.lootAmount *= 1f - resourceLossRatio;
+            _info.lootAmount = _info.lootAmount * (1f - resourceLossRatio);
+            _info.lossAmount = _info.lootAmount * resourceLossRatio;
         }
 
         _info.isOngoing = false;
@@ -114,6 +119,11 @@ public class SessionManager : MonoBehaviour
     public void DealDamage(float amount)
     {
         _info.damageDealt += amount;
+    }
+
+    public void AddOxygen(float amount)
+    {
+        _currentOxygenAmount += amount;
     }
 
     public void LootResource(BigDouble amount)

@@ -4,15 +4,15 @@ using TMPro;
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class LocalizeTextUI : MonoBehaviour
 {
-    [SerializeField] private string _localizationKey;
-    private TextMeshProUGUI _text;
+    [SerializeField] string _localizationKey;
+    TextMeshProUGUI _text;
 
-    private void Awake()
+    void Awake()
     {
         _text = GetComponent<TextMeshProUGUI>();
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
         // 매니저의 언어 변경 이벤트 구독
         if (LocalizationManager.Instance != null)
@@ -22,7 +22,7 @@ public class LocalizeTextUI : MonoBehaviour
         RefreshText();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         // 메모리 누수 방지를 위한 구독 해제
         if (LocalizationManager.Instance != null)
@@ -31,10 +31,15 @@ public class LocalizeTextUI : MonoBehaviour
         }
     }
 
+    public void SetLocalizationKey(string key)
+    {
+        _localizationKey = key;
+    }
+
     // 실제 텍스트 갱신 로직
     public void RefreshText()
     {
-        if (string.IsNullOrEmpty(_localizationKey)) return;
+        if (LocalizationManager.Instance == null || string.IsNullOrEmpty(_localizationKey)) return;
         _text.text = LocalizationManager.Instance.GetLocalizedText(_localizationKey);
     }
 }

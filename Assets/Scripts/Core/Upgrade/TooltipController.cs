@@ -3,7 +3,6 @@ using TMPro;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(RectTransform))]
 public class TooltipController : MonoBehaviour
 {
     RectTransform _rectTransform;
@@ -26,7 +25,7 @@ public class TooltipController : MonoBehaviour
     {
         Instance = this;
 
-        _rectTransform = GetComponent<RectTransform>();
+        _rectTransform = _tooltipPanel.GetComponent<RectTransform>();
         HideTooltip();
     }
 
@@ -47,6 +46,9 @@ public class TooltipController : MonoBehaviour
 
                 float width = _rectTransform.rect.width;
                 float height = _rectTransform.rect.height;
+
+                // Debug.Log($"width: {width}, height: {height}");
+                // Debug.Log($"screen width: {Screen.width}, height: {Screen.height}");
 
                 if (finalPosition.x + width > Screen.width)
                 {
@@ -72,13 +74,13 @@ public class TooltipController : MonoBehaviour
         if (isUnlocked)
         {
             _costIcon.enabled = false;
-            _costText.text = "해금됨";
+            _costText.text = LocalizationManager.Instance.GetLocalizedText("Unlocked");
             _costText.color = _unlockedColor;
         }
         else
         {
             _costIcon.enabled = true;
-            _costText.text = upgradeDefinition.costString;
+            _costText.text = BigDoubleFormatter.Format(upgradeDefinition.Cost);
             _costText.color = (ResourceManager.Instance.Gold >= upgradeDefinition.Cost)
                 ? Color.white : _cantUpgradeColor;
         }

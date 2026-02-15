@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1517999c56bdedb4894f23b67b9e3149, type: 3}
   m_Name: PickaxeSetHitCount2
   m_EditorClassIdentifier: Assembly-CSharp::PickaxeUpgradeEffect
-  type: 6
+  type: 22
   value: 2

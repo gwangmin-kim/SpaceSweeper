@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 745c1340156e2c141bf82697a424e4fe, type: 3}
   m_Name: DebrisDrop3
   m_EditorClassIdentifier: Assembly-CSharp::DebrisUpgradeEffect
-  type: 2
+  type: 11
   value: 3

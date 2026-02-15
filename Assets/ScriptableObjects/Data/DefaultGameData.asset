@@ -25,7 +25,7 @@ MonoBehaviour:
     playerSpec:
       moveStat:
         speed: 3
-        dampingTime: 0.7
+        dampingTime: 1
         isDashUnlocked: 0
         dashSpeedFactor: 1.5
         dashDistance: 3
@@ -58,7 +58,7 @@ MonoBehaviour:
         bulletSpeedVariation: 0.1
       lasergunStat:
         damage: 1
-        cooldown: 0.3
+        hitInterval: 0
         range: 10
         isTransitionUnlocked: 0
         transitionCount: 0
@@ -76,7 +76,7 @@ MonoBehaviour:
       spawnRate: 1
       sizeRate: 1
       healthRate: 1
-      valueRate: 0
+      valueRate: 1
       overloadDropRate: 2
       oxygenRestoreAmount: 0
       oxygenRestoreChance: 0
@@ -103,4 +103,3 @@ MonoBehaviour:
       hasExploredOnce: 0
       hasExchangedOnce: 0
       hasUsedWeaponOnce: 0
-    language: {fileID: 11400000, guid: 0f2fed892b68b524aa11ba113d514bca, type: 2}

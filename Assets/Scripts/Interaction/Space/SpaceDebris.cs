@@ -158,25 +158,26 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         }
     }
 
-    int GetDropCount()
+    float GetDropRate()
     {
         var data = GameManager.Instance.CurrentData;
 
-        float dropRate = data.debrisSpec.dropRate;
+        float dropRate = 1f;
 
         if (_isOverloaded)
         {
             dropRate *= data.debrisSpec.overloadDropRate;
         }
 
-        int dropCount = (int)(_dropCount * dropRate);
-
-        return dropCount;
+        return dropRate;
     }
 
     void DropAndDestroy()
     {
-        int dropCount = GetDropCount();
+        float dropRate = GetDropRate();
+        float valueRate = GameManager.Instance.CurrentData.debrisSpec.valueRate;
+
+        int dropCount = (int)(_dropCount * dropRate);
 
         for (int i = 0; i < dropCount; i++)
         {
@@ -189,7 +190,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
                 Debug.LogWarning($"{resourceObject} is not a ResourceItem object");
                 return;
             }
-            resource.InitDrop();
+            resource.InitDrop(valueRate, dropRate);
         }
 
         StageManager.Instance.OnDebrisDestroy(gameObject);
@@ -245,8 +246,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         this.ApplyRandomRotation();
         other.ApplyRandomRotation();
 
-        this._isInteracted = true;
-        other._isInteracted = true;
+        // this._isInteracted = true;
+        // other._isInteracted = true;
     }
 
     void ApplyRandomRotation()
@@ -265,7 +266,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     public void TakeDamage(float damage)
     {
         _currentHealth -= damage;
-        _targetHealthRatio = Mathf.Clamp01(_currentHealth / (float)_maxHealth);
+        _targetHealthRatio = Mathf.Clamp01(_currentHealth / _maxHealth);
 
         SessionManager.Instance.DealDamage(damage);
 

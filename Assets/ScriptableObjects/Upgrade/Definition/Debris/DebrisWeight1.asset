@@ -19,7 +19,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 47862f6aae34fac45ab4705d8fd3c386, type: 2}
   upgradeName: "\uC9C8\uB7C9 \uC99D\uAC00"
   description: "\uACE0\uCCA0 \uB369\uC5B4\uB9AC\uAC00 \uB354 \uD06C\uACE0 \uB2E8\uB2E8\uD574\uC9C0\uB294
-    \uB300\uC2E0, \uB354 \uB9CE\uC740 \uAE08\uC18D\uC744 \uB5A8\uC5B4\uB728\uB9BD\uB2C8\uB2E4."
+    \uB300\uC2E0, \uB5A8\uC5B4\uB728\uB9AC\uB294 \uAE08\uC18D \uD30C\uD3B8\uC758
+    \uAC00\uCE58\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 38728df568e95924f8d6a11881542a77, type: 3}
-  costString: 30
+  costString: 50
   parent: {fileID: 11400000, guid: 5a7e397e4c0fc094cb0c8776a5733677, type: 2}

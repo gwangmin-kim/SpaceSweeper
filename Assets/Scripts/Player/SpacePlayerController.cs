@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [System.Serializable]
-public class PlayerMoveStat
+public struct PlayerMoveStat
 {
     [Header("Movement")]
     public float speed;
@@ -10,7 +10,7 @@ public class PlayerMoveStat
 
     [Header("Dash")]
     public bool isDashUnlocked;
-    public float dashSpeed;
+    public float dashSpeedFactor;
     public float dashDistance;
     public float dashCooldown;
 
@@ -100,7 +100,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
 
         // move status
         _moveStat = GameManager.Instance.CurrentData.playerSpec.moveStat;
-        _dashDuration = _moveStat.dashDistance / _moveStat.dashSpeed;
+        _dashDuration = _moveStat.dashDistance / (_moveStat.dashSpeedFactor * _moveStat.speed);
         _isDashUnlocked = GameManager.Instance.CurrentData.playerSpec.moveStat.isDashUnlocked;
 
         // weapon
@@ -251,7 +251,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
         if (IsDashing || !IsDashReady) return;
 
         _dashDirection = (_moveInput.sqrMagnitude > 0f) ? _moveInput : _currentVelocity.normalized;
-        _currentVelocity = _moveStat.dashSpeed * _dashDirection;
+        _currentVelocity = _moveStat.dashSpeedFactor * _moveStat.speed * _dashDirection;
 
         SetState(PlayerState.Dash);
     }
@@ -297,7 +297,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
             // 상대도 밀려날 수 있는 경우
             if (collision.gameObject.TryGetComponent<IDamagable>(out var component))
             {
-                component.ApplyKnockback(-normal, _moveStat.knockbackFactor);
+                component.ApplyKnockback(-normal, _moveStat.bounceFactor);
             }
 
             // cancel dash or knockback state

@@ -19,5 +19,5 @@ MonoBehaviour:
   description: "\uB354 \uBE60\uB974\uAC8C \uACE1\uAD2D\uC774\uB97C \uD718\uB450\uB97C
     \uC218 \uC788\uC2B5\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 501d75a570abe104589d16c466e64dcc, type: 3}
-  costString: 40
-  parent: {fileID: 11400000, guid: abe083796aa6cf04c88cf4e0064b881d, type: 2}
+  costString: 50
+  parent: {fileID: 11400000, guid: 51e084ae215112046bd4583c25404b60, type: 2}

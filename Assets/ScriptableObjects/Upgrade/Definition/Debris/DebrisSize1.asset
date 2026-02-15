@@ -15,8 +15,10 @@ MonoBehaviour:
   _id: 152853c0e3f28e9448ee54189c72991f
   effects:
   - {fileID: 11400000, guid: ceef40e7316751c4fb5e325dc9d0ceea, type: 2}
+  - {fileID: 11400000, guid: c0ed40fd4b856094dab5b8747ea833cf, type: 2}
   upgradeName: "\uC555\uCD95"
-  description: "\uACE0\uCCA0 \uB369\uC5B4\uB9AC\uC758 \uD06C\uAE30\uAC00 \uC791\uC544\uC9D1\uB2C8\uB2E4."
+  description: "\uACE0\uCCA0 \uB369\uC5B4\uB9AC\uC758 \uD06C\uAE30\uAC00 \uC870\uAE08
+    \uC791\uC544\uC9C0\uACE0, \uB300\uC2E0 \uC870\uAE08 \uB354 \uB9CE\uC774 \uB4F1\uC7A5\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: c3d7556f82643ba4eb8eb4aeb0dbb360, type: 3}
-  costString: 35
+  costString: 50
   parent: {fileID: 11400000, guid: 8d8d8a900055e7941ad26e6cf69268e2, type: 2}

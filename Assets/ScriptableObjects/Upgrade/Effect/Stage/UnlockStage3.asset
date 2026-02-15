@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9813de959bd41048841c969333a3c75, type: 3}
+  m_Name: UnlockStage3
+  m_EditorClassIdentifier: Assembly-CSharp::StageUnlockEffect
+  level: {fileID: 11400000, guid: 78ecc31c0c20f744d95f25b7e48efb60, type: 2}

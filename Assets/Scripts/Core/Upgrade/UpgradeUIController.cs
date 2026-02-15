@@ -6,7 +6,7 @@ public class UpgradeUIController : MonoBehaviour
 {
     public static UpgradeUIController Instance { get; private set; }
 
-    [Header("Viewport")]
+    [Header("Upgrade Tree Viewport")]
     [SerializeField] GameObject _upgradePanel;
     [SerializeField] Transform _viewportContentRoot;
     [SerializeField] TooltipController _tooltip;

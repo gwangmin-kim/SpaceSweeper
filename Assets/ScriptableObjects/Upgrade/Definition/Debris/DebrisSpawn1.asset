@@ -18,5 +18,5 @@ MonoBehaviour:
   upgradeName: "\uAE08\uC18D \uBC00\uC9D1\uB3C4 \uD0D0\uC9C0"
   description: "\uACE0\uCCA0 \uB369\uC5B4\uB9AC\uAC00 \uB354 \uB9CE\uC774 \uB4F1\uC7A5\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 8a0bfe3740e18c24c9c81b3ad70ce6ae, type: 3}
-  costString: 20
+  costString: 25
   parent: {fileID: 11400000, guid: 51e084ae215112046bd4583c25404b60, type: 2}

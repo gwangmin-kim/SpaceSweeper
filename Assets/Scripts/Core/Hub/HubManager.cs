@@ -66,9 +66,10 @@ public class HubManager : MonoBehaviour
     {
         var levelState = _levelMaps[levelDefinition.id];
 
-        if (levelState.isUnlocked)
+        if (!levelState.isUnlocked)
         {
-            GameManager.Instance.CurrentData.currentLevel = levelState.levelDefinition;
+            Debug.LogWarning($"{levelDefinition.name} is not unlocked");
         }
+        GameManager.Instance.CurrentData.currentLevel = levelState.levelDefinition;
     }
 }

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1517999c56bdedb4894f23b67b9e3149, type: 3}
   m_Name: PickaxeDmg1.5
   m_EditorClassIdentifier: Assembly-CSharp::PickaxeUpgradeEffect
-  type: 1
+  type: 10
   value: 1.5
