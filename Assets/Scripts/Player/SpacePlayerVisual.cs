@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 
 [RequireComponent(typeof(SpacePlayerController))]
@@ -36,6 +37,9 @@ public class SpacePlayerVisual : MonoBehaviour
     void Awake()
     {
         if (_playerController == null) _playerController = GetComponent<SpacePlayerController>();
+
+        _visualRoot.localScale = Vector3.zero;
+        _visualRoot.DOScale(1.0f, 0.5f);
     }
 
     void Update()

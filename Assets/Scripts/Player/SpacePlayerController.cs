@@ -297,7 +297,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
             // 상대도 밀려날 수 있는 경우
             if (collision.gameObject.TryGetComponent<IDamagable>(out var component))
             {
-                component.ApplyKnockback(-normal, _moveStat.bounceFactor);
+                component.ApplyKnockback(-normal, _currentVelocity.magnitude);
             }
 
             // cancel dash or knockback state

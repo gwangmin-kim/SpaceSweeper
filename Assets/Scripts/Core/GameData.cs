@@ -76,6 +76,8 @@ public class DebrisSpec
     public float sizeRate;
     public float healthRate;
     public float valueRate;
+
+    public float overloadChance;
     public float overloadDropRate;
 
     public float oxygenRestoreAmount; // 파괴 시 일정 확률로 충전되는 산소량
@@ -97,6 +99,15 @@ public class EventData
     public bool hasExploredOnce; // 최초 탐사 (자원 획득 안내)
     public bool hasExchangedOnce; // 최초 자원 교환 안내
     public bool hasUsedWeaponOnce; // 최초 무기 획득 후 탐사 (공격 안내)
+    public bool hasUnlockedNextLevel; // 2스테이지 해금 (맵 변경 안내)
+}
+
+[System.Serializable]
+public class RecordData
+{
+    public BigDouble bestLootAmount; // 단일 세션 최고 획득량
+    public BigDouble bestExplorationTime; // 단일 세션 최장 탐사 시간
+    public BigDouble bestDamageInflicted; // 단일 세션 최고 가한 피해량
 }
 
 [System.Serializable]

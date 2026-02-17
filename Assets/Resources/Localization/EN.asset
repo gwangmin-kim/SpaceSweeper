@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b64d5f641716dc48955cb65496ae89e, type: 3}
   m_Name: EN
   m_EditorClassIdentifier: Assembly-CSharp::LanguageData
+  language: 1
   entries:
   - key: NewGame
     value: New Game
@@ -44,6 +45,8 @@ MonoBehaviour:
   - key: DamageReceived
     value: Damage Received
   - key: DamageDealt
+    value: Damage Dealt
+  - key: CriticalDamageDealt
     value: Damage Dealt
   - key: SessionReturn
     value: Back to the Spaceship
@@ -81,20 +84,28 @@ MonoBehaviour:
     value: Selling Amount
   - key: CurrentWeapon
     value: Current Equipment
+  - key: None
+    value: None
+  - key: Pickaxe
+    value: Pickaxe
+  - key: Shotgun
+    value: Shotgun
+  - key: Lasergun
+    value: Lasergun
   - key: AttackDamage
     value: Damage
   - key: AttackSpeed
     value: Attack Speed
   - key: AttackRange
     value: Range
-  - key: CriticalChange
+  - key: CriticalChance
     value: Critical Hit Chance
   - key: CriticalDamage
     value: Critical Damage
   - key: MultiHit
     value: Multiple Strike
-  - key: HitCount
-    value: Target Count
+  - key: Infinity
+    value: "\u221E"
   - key: SpreadAngle
     value: Spread Angle
   - key: Penetration
@@ -111,7 +122,7 @@ MonoBehaviour:
     value: 
   - key: DebrisCount
     value: 
-  - key: DropCount
+  - key: DropValue
     value: 
   - key: OverloadDrop
     value: 
@@ -121,3 +132,5 @@ MonoBehaviour:
     value: Oxygen Restore Amount
   - key: Unlocked
     value: Unlocked
+  - key: Locked
+    value: Locked

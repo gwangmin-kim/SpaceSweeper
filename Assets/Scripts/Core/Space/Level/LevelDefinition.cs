@@ -34,6 +34,9 @@ public class LevelDefinition : ScriptableObject
     [Header("Map Settings")]
     public GameObject mapPrefab;
 
+    [Header("Stage Settings")]
+    public float oxygenPerSecond; // 초당 산소 소모량
+
     [Header("Spawn Settings")]
     public ResourceSpawnData resourceSpawnData;
     public List<DebrisSpawnData> debrisList;

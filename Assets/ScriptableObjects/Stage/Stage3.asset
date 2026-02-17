@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   id: 3
   mapPrefab: {fileID: 7779516437347261427, guid: 5c8d13f608a34e140853a4ea8bb38f7d, type: 3}
+  oxygenPerSecond: 1
   resourceSpawnData:
     resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
     count: 50

@@ -28,6 +28,8 @@ public class SessionManager : MonoBehaviour
     [Header("Session Information")]
     [SerializeField] SessionInformation _info;
 
+    public SessionInformation Information => _info;
+
     // Oxygen
     float _totalOxygenAmountInverse = 0f; // 산소 총량의 역수 (연산 효율성 위해 역수로 저장)
     float _currentOxygenAmount = 0f; // 현재 산소량
@@ -83,12 +85,13 @@ public class SessionManager : MonoBehaviour
     void EndSession(bool isSuccessful)
     {
         if (!_info.isOngoing) return;
+
         _info.isSuccessful = isSuccessful;
 
         if (isSuccessful)
         {
             // 플레이어 자발적 귀환: 성공
-            if (ResourceManager.Instance != null) ResourceManager.Instance.StoreResources(_info.lootAmount);
+
 
         }
         else
@@ -97,11 +100,14 @@ public class SessionManager : MonoBehaviour
             // 자원 손실
             float resourceLossRatio = GameManager.Instance.CurrentData.resourceSpec.lossRatio;
 
-            _info.lootAmount = _info.lootAmount * (1f - resourceLossRatio);
             _info.lossAmount = _info.lootAmount * resourceLossRatio;
+            // _info.lootAmount -= _info.lossAmount;
+            LootResource(-_info.lossAmount);
         }
 
         _info.isOngoing = false;
+
+        if (ResourceManager.Instance != null) ResourceManager.Instance.StoreResources(_info.lootAmount);
 
         SessionUIController.Instance.SessionSummary(_info);
 
@@ -112,6 +118,8 @@ public class SessionManager : MonoBehaviour
 
     public void ReceiveDamage(float amount)
     {
+        if (!_info.isOngoing) return;
+
         // 플레이어가 공격 받아 산소를 잃음
         _currentOxygenAmount -= amount;
         _info.oxygenLost += amount;
@@ -119,17 +127,23 @@ public class SessionManager : MonoBehaviour
 
     public void DealDamage(float amount)
     {
+        if (!_info.isOngoing) return;
+
         _info.damageDealt += amount;
     }
 
     public void RestoreOxygen(float amount)
     {
+        if (!_info.isOngoing) return;
+
         _currentOxygenAmount += amount;
         _info.oxygenRestored += amount;
     }
 
     public void LootResource(BigDouble amount)
     {
+        if (!_info.isOngoing) return;
+
         _info.lootAmount += amount;
         SessionUIController.Instance.SetResource(_info.lootAmount);
     }

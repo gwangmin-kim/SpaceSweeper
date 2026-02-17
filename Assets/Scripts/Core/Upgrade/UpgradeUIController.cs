@@ -11,6 +11,9 @@ public class UpgradeUIController : MonoBehaviour
     [SerializeField] Transform _viewportContentRoot;
     [SerializeField] TooltipController _tooltip;
 
+    [Header("Status Viewport")]
+    [SerializeField] StatusPanelController _statusPanel;
+
     List<UpgradeSlot> _upgradeSlots;
 
     void Awake()
@@ -48,6 +51,7 @@ public class UpgradeUIController : MonoBehaviour
         {
             slot.RefreshState();
         }
+        _statusPanel.RefreshAll();
     }
 
     public void ActivatePanel()

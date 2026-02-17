@@ -71,6 +71,8 @@ public class UpgradeManager : MonoBehaviour
             effect.Apply();
         }
 
+        UpgradeUIController.Instance.RefreshAllSlots();
+
         GameManager.Instance.SaveGame();
         return true;
     }

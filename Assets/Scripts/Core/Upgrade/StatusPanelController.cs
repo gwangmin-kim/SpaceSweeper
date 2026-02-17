@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 public class StatusPanelController : MonoBehaviour
 {
-    [SerializeField] List<StatusFieldTextUI> _statusSlots = new List<StatusFieldTextUI>();
+    [SerializeField] List<StatusFieldTextUI> _statusFieldList = new List<StatusFieldTextUI>();
 
     void Awake()
     {
-        _statusSlots.AddRange(GetComponentsInChildren<StatusFieldTextUI>(true));
+        _statusFieldList.AddRange(GetComponentsInChildren<StatusFieldTextUI>(true));
     }
 
     void OnEnable()
@@ -21,7 +21,7 @@ public class StatusPanelController : MonoBehaviour
 
         UpdateVisibility(data.playerSpec);
 
-        foreach (var slot in _statusSlots)
+        foreach (var slot in _statusFieldList)
         {
             if (slot.gameObject.activeSelf)
             {

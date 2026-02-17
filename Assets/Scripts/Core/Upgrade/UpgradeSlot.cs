@@ -100,8 +100,6 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     {
         if (UpgradeManager.Instance.TryPurchaseUpgrade(_upgradeDefinition))
         {
-            UpgradeUIController.Instance.RefreshAllSlots();
-
             if (_currentSequence != null && _currentSequence.IsActive())
             {
                 _currentSequence.Kill();

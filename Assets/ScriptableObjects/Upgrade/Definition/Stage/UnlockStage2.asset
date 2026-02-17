@@ -16,8 +16,8 @@ MonoBehaviour:
   effects:
   - {fileID: 11400000, guid: 21fc87cbf06beb949aa3e575b8fe411c, type: 2}
   upgradeName: "\uC88C\uD45C \uACC4\uC0B0 \uC644\uB8CC"
-  description: "\uB2E4\uC74C \uC9C0\uC5ED\uC744 \uD0D0\uC0AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
-    \uC0B0\uC18C \uACB0\uD54D\uC5D0 \uC8FC\uC758\uD558\uC138\uC694!"
+  description: "\uB2E4\uC74C \uC9C0\uC5ED\uC744 \uD0D0\uC0AC\uD560 \uC218 \uC788\uAC8C
+    \uB429\uB2C8\uB2E4. \uC0B0\uC18C \uBD80\uC871\uC5D0 \uC8FC\uC758\uD558\uC138\uC694!"
   icon: {fileID: 21300000, guid: f99a0acf017b0864fb1c540a7dac3b98, type: 3}
   costString: 30K
   parent: {fileID: 11400000, guid: 83d7e0708f1075d41993f08b2884ea26, type: 2}

@@ -12,6 +12,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     [Header("Gimick")]
     [SerializeField] bool _isOverloaded = false;
+    [SerializeField] bool _isOverloadableBySpawn = false;
 
     [Header("Drop Settings")]
     [SerializeField] GameObject _resourcePrefab;
@@ -172,10 +173,19 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         return dropRate;
     }
 
+    float GetValueRate()
+    {
+        var data = GameManager.Instance.CurrentData;
+
+        float valueRate = data.debrisSpec.valueRate;
+
+        return valueRate;
+    }
+
     void DropAndDestroy()
     {
         float dropRate = GetDropRate();
-        float valueRate = GameManager.Instance.CurrentData.debrisSpec.valueRate;
+        float valueRate = GetValueRate();
 
         int dropCount = (int)(_dropCount * dropRate);
 
@@ -254,6 +264,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     {
         float rotationAnglePerSecond = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
         _rigidbody.angularVelocity = rotationAnglePerSecond;
+    }
+
+    public void SetResourceToDrop(GameObject resourcePrefab)
+    {
+        _resourcePrefab = resourcePrefab;
     }
 
     public void InitMovement(Vector2 direction)

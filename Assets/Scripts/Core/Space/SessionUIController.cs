@@ -26,8 +26,6 @@ public class SessionUIController : MonoBehaviour
 
     [Header("Summary")]
     [SerializeField] GameObject _summaryPanel;
-    [SerializeField] TextMeshProUGUI _summaryFieldText;
-    [SerializeField] TextMeshProUGUI _summaryValueText;
 
     bool _isWarningActive = false;
     float _warningThresholdInverse = 0f;
@@ -46,24 +44,6 @@ public class SessionUIController : MonoBehaviour
     void Start()
     {
         _summaryPanel.SetActive(false);
-    }
-
-    string SummaryFieldString(SessionInformation sessionInformation)
-    {
-        string time = "탐사 시간";
-        string loot = "획득한 금속 파편";
-        string damage = (sessionInformation.damageDealt > 0f) ? "입힌 피해량" : "";
-
-        return $"{time}\n\n{loot}\n\n{damage}";
-    }
-
-    string SummaryValueString(SessionInformation sessionInformation)
-    {
-        string time = $"{sessionInformation.timer:F2}s";
-        string loot = BigDoubleFormatter.Format(sessionInformation.lootAmount);
-        string damage = (sessionInformation.damageDealt > 0f) ? $"{sessionInformation.damageDealt}" : "";
-
-        return $"{time}\n\n{loot}\n\n{damage}";
     }
 
     public void SetOxygen(float amount, float ratio)
@@ -122,15 +102,13 @@ public class SessionUIController : MonoBehaviour
 
     public void SetResource(BigDouble amount)
     {
-        _resourceAmount.text = $"{amount}";
+        _resourceAmount.text = BigDoubleFormatter.Format(amount);
     }
 
-    public void SessionSummary(SessionInformation sessionInformation)
+    public void SessionSummary(SessionInformation info)
     {
         if (_isWarningActive) OnWarningExit();
 
         _summaryPanel.SetActive(true);
-        _summaryFieldText.text = SummaryFieldString(sessionInformation);
-        _summaryValueText.text = SummaryValueString(sessionInformation);
     }
 }

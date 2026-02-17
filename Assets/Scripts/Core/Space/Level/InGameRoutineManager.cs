@@ -125,6 +125,7 @@ public class InGameRoutineManager : MonoBehaviour
         }
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
+        debris.SetResourceToDrop(_currentLevel.resourceSpawnData.resourcePrefab);
         debris.InitMovement(floatingDirection);
 
         _remainingDebrisCount++;

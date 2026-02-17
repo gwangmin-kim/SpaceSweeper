@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
-  m_Name: MagnetRange4
+  m_Name: MagnetRange5
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
-  _id: 98341d3311bde79419afce3fafe78ea5
+  _id: ff7525e5441ef4f41bd5f85ce294ef5c
   effects:
   - {fileID: 11400000, guid: c6af7cf175665bc4fbaffefa2756dbe9, type: 2}
   upgradeName: "\uC790\uB825 \uAC15\uD654"
   description: "\uC218\uC9D1 \uBC94\uC704\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 1c5307fe6464970478bb30537237f2f2, type: 3}
-  costString: 200
-  parent: {fileID: 11400000, guid: 0a83e914b7c47e44d94d3998f62a9541, type: 2}
+  costString: 500
+  parent: {fileID: 11400000, guid: 98341d3311bde79419afce3fafe78ea5, type: 2}
