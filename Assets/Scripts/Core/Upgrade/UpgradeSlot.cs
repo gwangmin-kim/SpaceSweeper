@@ -122,6 +122,7 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 10f), 0.1f));
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, -10f), 0.1f));
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.1f));
+            _currentSequence.Play();
         }
     }
 

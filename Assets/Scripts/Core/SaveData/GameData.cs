@@ -20,8 +20,7 @@ public class PlayerSpec
     public float oxygenLossRatio; // 피격 시 잃는 산소 비율
 
     [Header("Combat: Combo")]
-    public bool isComboUnlocked;
-    public float comboScoreRate;
+    public ComboSpec comboSpec;
 
     [Header("Weapon")]
     public WeaponType currentWeapon;
@@ -61,6 +60,18 @@ public class PlayerSpec
             _ => "0"
         };
     }
+}
+
+[System.Serializable]
+public class ComboSpec
+{
+    public bool isUnlocked;
+    public float holdTime;
+    public float scoreRate;
+
+    public float moveSpeedBonus;
+    public float AttackSpeedBonus;
+    public float AttackRangeBonus;
 }
 
 [System.Serializable]

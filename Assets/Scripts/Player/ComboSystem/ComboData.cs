@@ -14,5 +14,4 @@ public class ComboLevelData
 public class ComboData : ScriptableObject
 {
     public List<ComboLevelData> levelList;
-    public float holdTime; // 콤보가 갱신되었을 때 점수가 떨어지지 않는 시간 유예
 }

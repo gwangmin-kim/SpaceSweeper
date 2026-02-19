@@ -36,8 +36,13 @@ MonoBehaviour:
       magnetRange: 1
       oxygenAmount: 0
       oxygenLossRatio: 0.1
-      isComboUnlocked: 0
-      comboScoreRate: 1
+      comboSpec:
+        isUnlocked: 0
+        holdTime: 0.5
+        scoreRate: 1
+        moveSpeedBonus: 0
+        AttackSpeedBonus: 0
+        AttackRangeBonus: 0
       currentWeapon: 0
       pickaxeStat:
         attackDamage: 1

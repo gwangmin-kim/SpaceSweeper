@@ -14,7 +14,7 @@ public class ComboManager : MonoBehaviour
 
     float _holdTimer = 0f;
 
-    public event Action<string, float> OnComboChanged; // 레벨 스트링, 현재 점수 비율 전달
+    public event Action<int, float> OnComboChanged; // 레벨 인덱스, 현재 점수 비율 전달
 
 
     void Awake()
@@ -44,7 +44,7 @@ public class ComboManager : MonoBehaviour
                 ResetCombo();
             }
 
-            OnComboChanged?.Invoke(CurrentLevel.gradeName, GetLevelProgress());
+            OnComboChanged?.Invoke(_currentLevelIndex, GetLevelProgress());
         }
     }
 
@@ -71,8 +71,18 @@ public class ComboManager : MonoBehaviour
     public void AddScore(float amount)
     {
         _currentScore += amount;
-        _holdTimer = _comboData.holdTime;
+
+        var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        _holdTimer = comboSpec.holdTime;
+
         CheckLevelUp();
+    }
+
+    public string GetLevelString(int index)
+    {
+        if (index < 0 || index >= _comboData.levelList.Count) return null;
+
+        return _comboData.levelList[index].gradeName;
     }
 
     public float GetLevelProgress()

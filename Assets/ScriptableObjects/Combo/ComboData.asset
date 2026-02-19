@@ -37,8 +37,7 @@ MonoBehaviour:
     threshold: 2000
     decayRate: 1000
     minScoreRequired: 900
-  - gradeName: A
+  - gradeName: S
     threshold: 5000
     decayRate: 200
     minScoreRequired: 1800
-  holdTime: 0.5

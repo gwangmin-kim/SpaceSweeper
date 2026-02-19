@@ -135,10 +135,10 @@ public class SessionManager : MonoBehaviour
 
         _info.damageDealt += amount;
 
-        var playerSpec = GameManager.Instance.CurrentData.playerSpec;
-        if (playerSpec.isComboUnlocked)
+        var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        if (comboSpec.isUnlocked)
         {
-            float score = amount * playerSpec.comboScoreRate;
+            float score = amount * comboSpec.scoreRate;
             ComboManager.Instance.AddScore(score);
         }
     }

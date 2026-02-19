@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [System.Serializable]
-public struct PlayerMoveStat
+public class PlayerMoveStat
 {
     [Header("Movement")]
     public float speed;
@@ -71,6 +71,9 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
     // knock back
     float _knockbackTimer = 0f;
 
+    // combo bonus
+    float _bonusSpeedRate = 1f;
+
     // blackhole gimick
     Vector2 _externalVelocity = Vector2.zero;
 
@@ -124,9 +127,14 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
         _rigidbody.gravityScale = 0f;
     }
 
-    void Start()
+    void OnEnable()
     {
         GetPlayerSpec();
+
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged += SetComboBonus;
+        }
     }
 
     void FixedUpdate()
@@ -148,6 +156,11 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
     {
         _currentVelocity = Vector2.zero;
         _rigidbody.linearVelocity = Vector2.zero;
+
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged -= SetComboBonus;
+        }
     }
 
     void SetState(PlayerState state)
@@ -209,8 +222,15 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
 
         ApplyExternalVelocity();
 
-        _rigidbody.linearVelocity = _currentVelocity;
+        _rigidbody.linearVelocity = _currentVelocity * _bonusSpeedRate;
     }
+
+    void SetComboBonus(int levelIndex, float _)
+    {
+        var spec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        _bonusSpeedRate = 1f + spec.moveSpeedBonus * levelIndex;
+    }
+
 
     void ApplyExternalVelocity()
     {

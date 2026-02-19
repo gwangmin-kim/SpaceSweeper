@@ -11,8 +11,10 @@ public class ComboUIController : MonoBehaviour
     [SerializeField] float _fillDamping;
 
     float _targetFillAmount = 0f;
+    int _currentLevelIndex = 0;
 
-    Sequence _currentSequence;
+    Sequence _currentPopSequence;
+    Sequence _currentShakeSequence;
 
     void OnEnable()
     {
@@ -40,13 +42,22 @@ public class ComboUIController : MonoBehaviour
         ComboManager.Instance.OnComboChanged -= UpdateUI;
     }
 
-    void UpdateUI(string text, float progress)
+    void UpdateUI(int levelIndex, float progress)
     {
-        // 상승 중이라면 흔들리는 애니메이션
+        // 점수가 상승했다면 흔들리는 애니메이션
         if (_targetFillAmount < progress)
         {
             ShakeAnimation();
         }
+        // 단계가 상승했다면 튀어오르는 애니메이션
+        else if (_currentLevelIndex < levelIndex)
+        {
+            PopAnimation();
+        }
+
+
+        // 텍스트 갱신
+        string text = ComboManager.Instance.GetLevelString(levelIndex);
 
         _targetFillAmount = progress;
         _comboText.text = text;
@@ -55,17 +66,33 @@ public class ComboUIController : MonoBehaviour
         // Debug.Log("Combo UI Updated");
     }
 
+    void PopAnimation()
+    {
+        if (_currentPopSequence != null && _currentPopSequence.IsActive())
+        {
+            _currentPopSequence.Kill();
+        }
+        transform.localScale = Vector3.one;
+        _currentPopSequence = DOTween.Sequence()
+            .SetLink(gameObject)
+            .Append(transform.DOScale(1.5f, 0.01f))
+            .Append(transform.DOScale(1.0f, 0.5f)).SetEase(Ease.InCubic);
+        _currentPopSequence.Play();
+    }
+
     void ShakeAnimation()
     {
-        if (_currentSequence != null && _currentSequence.IsActive())
+        if (_currentShakeSequence != null && _currentShakeSequence.IsActive())
         {
-            _currentSequence.Kill();
+            _currentShakeSequence.Kill();
         }
         transform.rotation = Quaternion.identity;
-        _currentSequence = DOTween.Sequence();
-        _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 5f), 0.02f));
-        _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, -5f), 0.02f));
-        _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.02f));
+        _currentShakeSequence = DOTween.Sequence()
+            .SetLink(gameObject)
+            .Append(transform.DORotate(new Vector3(0f, 0f, -5f), 0.02f))
+            .Append(transform.DORotate(new Vector3(0f, 0f, 5f), 0.02f))
+            .Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.02f));
+        _currentShakeSequence.Play();
     }
 
     void Update()
