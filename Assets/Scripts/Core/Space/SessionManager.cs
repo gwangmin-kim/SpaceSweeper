@@ -12,6 +12,7 @@ public class SessionInformation
     public float oxygenLost; // 잃은 산소량
     public float oxygenRestored; // 복구한 산소량
     public float damageDealt; // 폐기물에 가한 피해량
+    public int destroyCount; // 파괴된 폐기물 수
 }
 
 public class SessionManager : MonoBehaviour
@@ -116,11 +117,14 @@ public class SessionManager : MonoBehaviour
         SpacePlayerController.Instance.enabled = false;
     }
 
-    public void ReceiveDamage(float amount)
+    public void ReceiveDamage()
     {
         if (!_info.isOngoing) return;
 
         // 플레이어가 공격 받아 산소를 잃음
+        var playerSpec = GameManager.Instance.CurrentData.playerSpec;
+        float amount = playerSpec.oxygenLossRatio * playerSpec.oxygenAmount;
+
         _currentOxygenAmount -= amount;
         _info.oxygenLost += amount;
     }
@@ -130,6 +134,20 @@ public class SessionManager : MonoBehaviour
         if (!_info.isOngoing) return;
 
         _info.damageDealt += amount;
+
+        var playerSpec = GameManager.Instance.CurrentData.playerSpec;
+        if (playerSpec.isComboUnlocked)
+        {
+            float score = amount * playerSpec.comboScoreRate;
+            ComboManager.Instance.AddScore(score);
+        }
+    }
+
+    public void DestroyDebris()
+    {
+        if (!_info.isOngoing) return;
+
+        _info.destroyCount++;
     }
 
     public void RestoreOxygen(float amount)

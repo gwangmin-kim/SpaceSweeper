@@ -150,6 +150,7 @@ public class InGameRoutineManager : MonoBehaviour
     public void OnDebrisDestroy(GameObject debrisObject)
     {
         _remainingDebrisCount--;
+        SessionManager.Instance.DestroyDebris();
 
         // 산소량 복구 로직
         var debrisSpec = GameManager.Instance.CurrentData.debrisSpec;

@@ -17,6 +17,11 @@ public class PlayerSpec
     public PlayerMoveStat moveStat;
     public float magnetRange;
     public float oxygenAmount;
+    public float oxygenLossRatio; // 피격 시 잃는 산소 비율
+
+    [Header("Combat: Combo")]
+    public bool isComboUnlocked;
+    public float comboScoreRate;
 
     [Header("Weapon")]
     public WeaponType currentWeapon;
@@ -79,6 +84,7 @@ public class DebrisSpec
 
     public float overloadChance;
     public float overloadDropRate;
+    public float overloadDamgeRate; // 최대 체력 비례 대미지, 예: 5.0이라면 최대 체력의 5배 대미지
 
     public float oxygenRestoreAmount; // 파괴 시 일정 확률로 충전되는 산소량
     public float oxygenRestoreChance; // 산소 재충전 확률

@@ -114,6 +114,13 @@ MonoBehaviour:
   _radius: 0.4
   _varianceRate: 0.4
   _isOverloaded: 0
+  _isOverloadableBySpawn: 1
+  _overloadKnockbackIntensity: 2
+  _overloadDestroyTime: 1
+  _explosionRadius: 2
+  _explosionTargetLayer:
+    serializedVersion: 2
+    m_Bits: 264
   _resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
   _dropCount: 8
   _minDriftSpeed: 0.5

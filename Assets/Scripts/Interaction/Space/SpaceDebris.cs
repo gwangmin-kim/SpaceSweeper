@@ -1,6 +1,9 @@
+using System.Collections;
 using UnityEngine;
+using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Collider2D))]
 public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMagneticStormAffectable
 {
     Rigidbody2D _rigidbody;
@@ -10,9 +13,16 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
     [SerializeField] float _varianceRate; // 이 수치에 따라 크기/체력이 일정 범위 내에서 랜덤하게 생성
 
-    [Header("Gimick")]
+    [Header("Gimick-Overload")]
     [SerializeField] bool _isOverloaded = false;
     [SerializeField] bool _isOverloadableBySpawn = false;
+    [SerializeField] float _overloadKnockbackIntensity;
+    [SerializeField] float _overloadDestroyTime;
+    [SerializeField] float _explosionRadius;
+    [SerializeField] LayerMask _explosionTargetLayer;
+    public bool IsOverloaded => _isOverloaded;
+    ContactFilter2D _explosionFilter;
+    List<Collider2D> _explosionHitBuffer;
 
     [Header("Drop Settings")]
     [SerializeField] GameObject _resourcePrefab;
@@ -32,6 +42,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     [SerializeField] float _healthBarDampingTime;
 
     float _currentHealth;
+    bool _isDestroyed = false;
+    public bool IsAffectable() => !_isDestroyed;
 
     // HealthBar Shader
     float _currentHealthRatio = 1f;
@@ -60,6 +72,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         float variationRate = Random.Range(1f - _varianceRate, 1f + _varianceRate);
         transform.localScale *= variationRate * spec.sizeRate;
         _radius *= variationRate * spec.sizeRate;
+        // _explosionRadius *= variationRate;
 
         _maxHealth = _maxHealth * variationRate * spec.healthRate;
         _dropCount = (int)(_dropCount * variationRate);
@@ -67,6 +80,12 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         _currentHealth = _maxHealth;
         _currentHealthRatio = 1f;
         _targetHealthRatio = 1f;
+
+        // 과부하 설정
+        if (_isOverloadableBySpawn && Random.value < spec.overloadChance)
+        {
+            ApplyOverload();
+        }
     }
 
     void FixedUpdate()
@@ -184,6 +203,9 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     void DropAndDestroy()
     {
+        if (_isDestroyed) return;
+        _isDestroyed = true;
+
         float dropRate = GetDropRate();
         float valueRate = GetValueRate();
 
@@ -266,40 +288,39 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         _rigidbody.angularVelocity = rotationAnglePerSecond;
     }
 
-    public void SetResourceToDrop(GameObject resourcePrefab)
+    void Explode()
     {
-        _resourcePrefab = resourcePrefab;
-    }
+        int count = Physics2D.OverlapCircle(
+                        transform.position, _explosionRadius, _explosionFilter, _explosionHitBuffer);
 
-    public void InitMovement(Vector2 direction)
-    {
-        float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
-        _rigidbody.linearVelocity = floatingSpeed * direction;
-        ApplyRandomRotation();
-    }
-
-    public void TakeDamage(float damage)
-    {
-        _currentHealth -= damage;
-        _targetHealthRatio = Mathf.Clamp01(_currentHealth / _maxHealth);
-
-        SessionManager.Instance.DealDamage(damage);
-
-        if (_currentHealth <= 0 || _isOverloaded)
+        for (int i = 0; i < count; i++)
         {
-            DropAndDestroy();
+            var hit = _explosionHitBuffer[i];
+
+            if (hit.gameObject.TryGetComponent<SpaceDebris>(out var debris))
+            {
+                var spec = GameManager.Instance.CurrentData.debrisSpec;
+                float damage = _maxHealth * spec.overloadDamgeRate;
+
+                Vector2 deltaPosition = debris.transform.position - transform.position;
+
+                debris.ApplyKnockback(deltaPosition.normalized, _overloadKnockbackIntensity);
+                debris.TakeDamage(damage);
+            }
+            else if (hit.gameObject.TryGetComponent<SpacePlayerController>(out var player))
+            {
+                Vector2 deltaPosition = player.transform.position - transform.position;
+                player.ApplyKnockback(deltaPosition.normalized, _overloadKnockbackIntensity);
+                SessionManager.Instance.ReceiveDamage();
+            }
         }
     }
 
-    public void ApplyKnockback(Vector2 direction, float intensity)
+    IEnumerator OverloadExplosionRoutine()
     {
-        Vector2 knockbackVelocity = intensity * _knockbackFactor * direction;
-        _rigidbody.linearVelocity = knockbackVelocity;
-
-        _isInteracted = true;
-
-        // 회전은 랜덤하게 재적용
-        ApplyRandomRotation();
+        yield return new WaitForSeconds(_overloadDestroyTime);
+        Explode();
+        DropAndDestroy();
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -317,6 +338,67 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, _radius);
+        if (_isOverloaded)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+        }
+    }
+
+    public void SetResourceToDrop(GameObject resourcePrefab)
+    {
+        _resourcePrefab = resourcePrefab;
+    }
+
+    public void InitMovement(Vector2 direction)
+    {
+        float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
+        _rigidbody.linearVelocity = floatingSpeed * direction;
+        ApplyRandomRotation();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        if (_isDestroyed) return;
+
+        SessionManager.Instance.DealDamage(damage);
+
+        if (_isOverloaded)
+        {
+            _currentHealth = 0f;
+            _targetHealthRatio = 0f;
+
+            if (TryGetComponent<Collider2D>(out var collider))
+            {
+                collider.enabled = false;
+            }
+
+            StartCoroutine(OverloadExplosionRoutine());
+
+            return;
+        }
+
+        _currentHealth -= damage;
+        _targetHealthRatio = Mathf.Clamp01(_currentHealth / _maxHealth);
+
+        if (_currentHealth <= 0)
+        {
+            DropAndDestroy();
+        }
+    }
+
+    public void ApplyKnockback(Vector2 direction, float intensity)
+    {
+        if (_isDestroyed) return;
+
+        float knockbackSpeed = _isOverloaded ? _overloadKnockbackIntensity : intensity * _knockbackFactor;
+        Vector2 knockbackVelocity = knockbackSpeed * direction;
+        _rigidbody.linearVelocity = knockbackVelocity;
+
+        _isInteracted = true;
+
+        // 회전은 랜덤하게 재적용
+        ApplyRandomRotation();
     }
 
     public void ApplyBlackhole(Vector2 velocity)
@@ -332,6 +414,15 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     public void ApplyOverload()
     {
+        if (_isOverloaded) return;
+
         _isOverloaded = true;
+
+        _explosionFilter = new ContactFilter2D();
+        _explosionFilter.SetLayerMask(_explosionTargetLayer);
+        _explosionFilter.useTriggers = false;
+
+        int hitCountPreset = 10;
+        _explosionHitBuffer = new List<Collider2D>(hitCountPreset);
     }
 }

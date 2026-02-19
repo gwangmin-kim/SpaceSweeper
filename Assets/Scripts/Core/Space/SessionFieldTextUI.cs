@@ -8,6 +8,7 @@ public enum SessionInfoType
     LossAmount,
     DamageReceived,
     DamageDealt,
+    DestroyCount,
     OxygenRestored,
 }
 
@@ -48,6 +49,7 @@ public class SessionFieldTextUI : MonoBehaviour
             SessionInfoType.LossAmount => BigDoubleFormatter.Format(info.lossAmount),
             SessionInfoType.DamageReceived => info.oxygenLost.ToString("F2"),
             SessionInfoType.DamageDealt => info.damageDealt.ToString("F2"),
+            SessionInfoType.DestroyCount => info.destroyCount.ToString(),
             SessionInfoType.OxygenRestored => info.oxygenRestored.ToString("F2"),
 
             // ...
@@ -66,6 +68,7 @@ public class SessionFieldTextUI : MonoBehaviour
             SessionInfoType.LossAmount => !info.isSuccessful,
             SessionInfoType.DamageReceived => info.oxygenLost > 0f,
             SessionInfoType.DamageDealt => info.damageDealt > 0f,
+            SessionInfoType.DestroyCount => info.destroyCount > 0,
             SessionInfoType.OxygenRestored => info.oxygenRestored > 0f,
 
             // ...

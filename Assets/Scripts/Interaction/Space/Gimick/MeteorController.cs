@@ -9,7 +9,6 @@ public struct MeteorData
 
     public int damageToDamagable;
     public float knockbackFactor;
-    public float damageToPlayer;
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -126,7 +125,7 @@ public class MeteorController : MonoBehaviour
             }
             else if (hit.CompareTag("Player"))
             {
-                SessionManager.Instance.ReceiveDamage(_data.damageToPlayer);
+                SessionManager.Instance.ReceiveDamage();
                 Vector2 knockbackDirection = (Vector2)hit.transform.position - _hitPosition;
                 hit.GetComponent<SpacePlayerController>().ApplyKnockback(knockbackDirection, _data.knockbackFactor);
             }

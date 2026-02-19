@@ -38,16 +38,20 @@ MonoBehaviour:
     value: Session Result
   - key: TimeSpent
     value: Time Spent
+  - key: OxygenRestored
+    value: Oxygen Restored
   - key: LootAmount
-    value: Resource Earned
+    value: Scrap Metal Earned
   - key: LossAmount
-    value: Resource Lost
+    value: Scrap Metal Lost
   - key: DamageReceived
     value: Damage Received
   - key: DamageDealt
     value: Damage Dealt
   - key: CriticalDamageDealt
-    value: Damage Dealt
+    value: Critical Damage Dealt
+  - key: DestroyCount
+    value: Destroyed Metal
   - key: SessionReturn
     value: Back to the Spaceship
   - key: OxygenWarning

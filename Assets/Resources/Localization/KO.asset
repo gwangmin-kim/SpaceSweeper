@@ -38,16 +38,20 @@ MonoBehaviour:
     value: "\uC138\uC158 \uACB0\uACFC"
   - key: TimeSpent
     value: "\uAC78\uB9B0 \uC2DC\uAC04"
+  - key: OxygenRestored
+    value: "\uCDA9\uC804\uB41C \uC0B0\uC18C"
   - key: LootAmount
-    value: "\uD68D\uB4DD\uD55C \uD30C\uD3B8"
+    value: "\uD68D\uB4DD\uD55C \uACE0\uCCA0 \uD30C\uD3B8"
   - key: LossAmount
-    value: "\uC783\uC5B4\uBC84\uB9B0 \uD30C\uD3B8"
+    value: "\uC783\uC5B4\uBC84\uB9B0 \uACE0\uCCA0 \uD30C\uD3B8"
   - key: DamageReceived
     value: "\uBC1B\uC740 \uD53C\uD574\uB7C9"
   - key: DamageDealt
     value: "\uC785\uD78C \uD53C\uD574\uB7C9"
   - key: CriticalDamageDealt
-    value: "\uC785\uD78C \uD53C\uD574\uB7C9"
+    value: "\uD06C\uB9AC\uD2F0\uCEEC \uD53C\uD574\uB7C9"
+  - key: DestroyCount
+    value: "\uD30C\uAD34\uD55C \uACE0\uCCA0"
   - key: SessionReturn
     value: "\uC6B0\uC8FC\uC120\uC73C\uB85C \uBCF5\uADC0"
   - key: OxygenWarning

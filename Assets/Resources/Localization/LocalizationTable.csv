@@ -14,11 +14,13 @@ ExitDoorWarning,산소통이 없어 탐사가 불가능합니다!,Exploration is
 
 SessionResult,세션 결과,Session Result
 TimeSpent,걸린 시간,Time Spent
-LootAmount,획득한 파편,Resource Earned
-LossAmount,잃어버린 파편,Resource Lost
+OxygenRestored,충전된 산소,Oxygen Restored
+LootAmount,획득한 고철 파편,Scrap Metal Earned
+LossAmount,잃어버린 고철 파편,Scrap Metal Lost
 DamageReceived,받은 피해량,Damage Received
 DamageDealt,입힌 피해량,Damage Dealt
-CriticalDamageDealt,입힌 피해량,Damage Dealt
+CriticalDamageDealt,크리티컬 피해량,Critical Damage Dealt
+DestroyCount,파괴한 고철,Destroyed Metal
 
 SessionReturn,우주선으로 복귀,Back to the Spaceship
 

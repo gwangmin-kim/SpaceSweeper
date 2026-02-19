@@ -35,6 +35,9 @@ MonoBehaviour:
         knockbackDuration: 0.3
       magnetRange: 1
       oxygenAmount: 0
+      oxygenLossRatio: 0.1
+      isComboUnlocked: 0
+      comboScoreRate: 1
       currentWeapon: 0
       pickaxeStat:
         attackDamage: 1
@@ -47,14 +50,14 @@ MonoBehaviour:
         knockbackIntensity: 1
       shotgunStat:
         cooldown: 1.5
-        spreadAngle: 60
-        reboundIntensity: 1
+        spreadAngle: 45
+        reboundIntensity: 2
         bulletData:
-          damage: 1
+          damage: 5
           speed: 5
-          duration: 3
+          duration: 1
           isPenetrationUnlocked: 0
-        bulletCount: 10
+        bulletCount: 20
         bulletSpeedVariation: 0.1
       lasergunStat:
         damage: 1
@@ -77,7 +80,9 @@ MonoBehaviour:
       sizeRate: 1
       healthRate: 1
       valueRate: 1
+      overloadChance: 0
       overloadDropRate: 2
+      overloadDamgeRate: 10
       oxygenRestoreAmount: 0
       oxygenRestoreChance: 0
     gimickSpec:
@@ -86,7 +91,6 @@ MonoBehaviour:
         radius: 3
         damageToDamagable: 100
         knockbackFactor: 1
-        damageToPlayer: 1
       blackholeData:
         force: 0.1
         scale: 10
@@ -103,3 +107,4 @@ MonoBehaviour:
       hasExploredOnce: 0
       hasExchangedOnce: 0
       hasUsedWeaponOnce: 0
+      hasUnlockedNextLevel: 0

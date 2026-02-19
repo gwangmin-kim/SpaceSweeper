@@ -29,6 +29,8 @@ public class BulletController : MonoBehaviour
         if ((((1 << collision.gameObject.layer) & TargetLayer) != 0)
             && collision.TryGetComponent<IDamagable>(out var component))
         {
+            if (!component.IsAffectable()) return;
+
             component.TakeDamage(_bulletData.damage);
 
             if (!_bulletData.isPenetrationUnlocked)

@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using DG.Tweening;
 
 [RequireComponent(typeof(Collider2D))]
 public class ExitDoor : MonoBehaviour, IInteractable
@@ -12,6 +13,7 @@ public class ExitDoor : MonoBehaviour, IInteractable
     [SerializeField] GameObject _upgradeWarningIndicator;
     [SerializeField] float _warningTime;
 
+    Sequence _currentSequence;
     Coroutine _warningRoutine;
 
     // 산소가 있어야 탐사 가능
@@ -54,6 +56,24 @@ public class ExitDoor : MonoBehaviour, IInteractable
         if (!IsAvailable)
         {
             _upgradeWarningIndicator.SetActive(true);
+
+            // Vector2 position = _upgradeWarningIndicator.transform.localPosition;
+            // position.x = 0f;
+            // _upgradeWarningIndicator.transform.localPosition = position;
+
+            if (_currentSequence != null && _currentSequence.IsActive())
+            {
+                _currentSequence.Kill();
+            }
+
+            _currentSequence = DOTween.Sequence();
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(0f, 0.05f));
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(-0.2f, 0.05f));
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(0.2f, 0.05f));
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(-0.2f, 0.05f));
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(0.2f, 0.05f));
+            _currentSequence.Append(_upgradeWarningIndicator.transform.DOMoveX(0f, 0.05f));
+
             if (_warningRoutine != null) StopCoroutine(_warningRoutine);
             _warningRoutine = StartCoroutine(WarningUIRoutine());
             return;

@@ -19,60 +19,61 @@ MonoBehaviour:
     gold:
       mantissa: 0
       exponent: 0
-    currentLevelID: 2
+    currentLevelID: 1
     lastUnlockedLevelID: 2
     unlockedUpgrades:
     - 83d7e0708f1075d41993f08b2884ea26
     - e73fc3f86b25b4a4fba739ff7c35a17b
-    - 690f5bdf1f94c2649825cd3f553e5621
-    - c4bfd9816d7e0fd41acdd9e9a1425b5d
     - c1970973a39321343b9d183ac4c3caf9
+    - c4bfd9816d7e0fd41acdd9e9a1425b5d
+    - 690f5bdf1f94c2649825cd3f553e5621
     - 9db02b073b751c647be2135a2d9ac4da
-    - c0fe1a6ac18e47247bfd77047ecf11af
-    - 2463d8e7939ce8b42934850b45d2cc17
-    - 1748b9c8981ddf64db8a0a31ca2991e8
-    - 818fe3e9451a19d4c9aaec20ce2013d8
-    - 7e26f459309e05a49b01ff4f940a6c60
-    - 75e91a8668c138a44b3c091a480f52cd
-    - 5da00a2cbb4f3db4db3027206c798d42
-    - 5a7e397e4c0fc094cb0c8776a5733677
     - 51e084ae215112046bd4583c25404b60
     - 3dc9382db3fdc6545bd0904041838dea
-    - e04043be4e4db1f498aefb90ba06ddb5
-    - 9d74865e860950945b62373364098364
-    - 17f7739ab5da03d4f842469d87a1dc2d
-    - a153b08dd44587842b0cd63d88e1d7c2
-    - fc2caf40ff84ffd4380c4c7713ef1770
-    - 2266057fd61ef6d448411cc47d318b7e
-    - 3ed194ed9495bfc4391453b281de2f92
-    - 99f662dabe5721c42b41c3f49f4c5c4b
-    - 0197056ec8334104eb5ee6142333fa7d
+    - 5a7e397e4c0fc094cb0c8776a5733677
+    - 75e91a8668c138a44b3c091a480f52cd
+    - 7e26f459309e05a49b01ff4f940a6c60
+    - 2463d8e7939ce8b42934850b45d2cc17
     - a254c3562582b744fbccc035d12dfe4e
-    - abe083796aa6cf04c88cf4e0064b881d
-    - 4b249ab48f9dedc4fa8687ba52f3a2d2
-    - 61e0a9354a29df842a5dc038e083b526
-    - 0a83e914b7c47e44d94d3998f62a9541
-    - 683088f05de8acd45bc1216fabe5c6ee
-    - 0348394c5b61c634a996c7b22c87dfec
-    - 5ca59a89199e1984c835e031d0840bd3
-    - 8d8d8a900055e7941ad26e6cf69268e2
     - e4ea7087cb0403449b20113cbe44e18c
+    - 5da00a2cbb4f3db4db3027206c798d42
+    - 0197056ec8334104eb5ee6142333fa7d
+    - 1748b9c8981ddf64db8a0a31ca2991e8
+    - 818fe3e9451a19d4c9aaec20ce2013d8
+    - 61e0a9354a29df842a5dc038e083b526
+    - c0fe1a6ac18e47247bfd77047ecf11af
+    - 9d74865e860950945b62373364098364
+    - 3ed194ed9495bfc4391453b281de2f92
+    - 4b249ab48f9dedc4fa8687ba52f3a2d2
+    - e04043be4e4db1f498aefb90ba06ddb5
+    - 683088f05de8acd45bc1216fabe5c6ee
+    - 99f662dabe5721c42b41c3f49f4c5c4b
+    - 5ca59a89199e1984c835e031d0840bd3
+    - 0348394c5b61c634a996c7b22c87dfec
+    - abe083796aa6cf04c88cf4e0064b881d
+    - 8d8d8a900055e7941ad26e6cf69268e2
+    - 0a83e914b7c47e44d94d3998f62a9541
     - 152853c0e3f28e9448ee54189c72991f
-    - 5dd8793f83c126e4dae4b83c0424dc0f
+    - 17f7739ab5da03d4f842469d87a1dc2d
     - 43a04630064c75e478a421e9d3ffa79b
     - bd84a409864ba8a4c9c8b9ce0a3e253c
-    - 98341d3311bde79419afce3fafe78ea5
-    - d6c0647d55b3e2243963a83b70e2416b
-    - 0250627c80e010f429edcb86d6ba0009
     - e6812cb0fef31da479056986cb8527f8
-    - 36cb8cfaa1c41da41b1078e0e18a2a85
+    - a153b08dd44587842b0cd63d88e1d7c2
+    - d6c0647d55b3e2243963a83b70e2416b
+    - 98341d3311bde79419afce3fafe78ea5
+    - 0250627c80e010f429edcb86d6ba0009
+    - 5dd8793f83c126e4dae4b83c0424dc0f
     - c4155080810658a41bb5228315c2ee6a
-    - 9051c37a2594aab4c95d0b9bf66a4475
-    - ff7525e5441ef4f41bd5f85ce294ef5c
+    - 36cb8cfaa1c41da41b1078e0e18a2a85
     - c3dab85b3cb0f504b9195fedb2764188
     - 2eebb7a74f078bc419002b98af781cd5
+    - 9051c37a2594aab4c95d0b9bf66a4475
+    - fc2caf40ff84ffd4380c4c7713ef1770
     - 5ea5a1150592d5a498f624d00e1e2f44
+    - ff7525e5441ef4f41bd5f85ce294ef5c
+    - 2266057fd61ef6d448411cc47d318b7e
     - fdd1e3a0f2df562498d3e5476d38c1dc
+    - c98f9f92119a5eb4fbe7da14c62834bf
     playerSpec:
       moveStat:
         speed: 5
@@ -86,7 +87,10 @@ MonoBehaviour:
         knockbackDuration: 0.3
       magnetRange: 3.7129292
       oxygenAmount: 25
-      currentWeapon: 1
+      oxygenLossRatio: 0.1
+      isComboUnlocked: 1
+      comboScoreRate: 1
+      currentWeapon: 2
       pickaxeStat:
         attackDamage: 7.59375
         attackSpeed: 1.7575998
@@ -98,14 +102,14 @@ MonoBehaviour:
         knockbackIntensity: 0.1
       shotgunStat:
         cooldown: 1.5
-        spreadAngle: 60
-        reboundIntensity: 1
+        spreadAngle: 45
+        reboundIntensity: 2
         bulletData:
-          damage: 1
+          damage: 5
           speed: 5
-          duration: 3
+          duration: 1
           isPenetrationUnlocked: 0
-        bulletCount: 10
+        bulletCount: 20
         bulletSpeedVariation: 0.1
       lasergunStat:
         damage: 1
@@ -128,8 +132,10 @@ MonoBehaviour:
       sizeRate: 0.84672016
       healthRate: 8
       valueRate: 27
+      overloadChance: 0
       overloadDropRate: 2
-      oxygenRestoreAmount: 2
+      overloadDamgeRate: 10
+      oxygenRestoreAmount: 1
       oxygenRestoreChance: 0.1
     gimickSpec:
       meteorData:
@@ -137,7 +143,6 @@ MonoBehaviour:
         radius: 3
         damageToDamagable: 100
         knockbackFactor: 1
-        damageToPlayer: 1
       blackholeData:
         force: 0.1
         scale: 10
