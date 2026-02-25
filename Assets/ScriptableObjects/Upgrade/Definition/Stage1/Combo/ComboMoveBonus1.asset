@@ -15,9 +15,9 @@ MonoBehaviour:
   _id: 9144fe21d9a9e9648b2b34273ee514db
   effects:
   - {fileID: 11400000, guid: 991c253121f3d5d41a71d607c932237f, type: 2}
-  upgradeName: "\uC544\uB4DC\uB808\uB0A0\uB9B0-\uB2EC\uB9AC\uAE30"
+  upgradeName: "\uC544\uB4DC\uB808\uB0A0\uB9B0-\uB2E4\uB9AC"
   description: "\uB204\uC801\uB41C \uCF64\uBCF4 \uB2E8\uACC4\uC5D0 \uB530\uB77C \uC774\uB3D9\uC18D\uB3C4\uAC00
     \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 32647a704ae8a6943899b8cfbf3aba27, type: 3}
-  costString: 1K
+  costString: 3K
   parent: {fileID: 11400000, guid: 683252ab926545f44bde15896b0ffec7, type: 2}

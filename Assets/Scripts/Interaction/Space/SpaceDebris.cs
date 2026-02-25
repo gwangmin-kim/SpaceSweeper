@@ -12,15 +12,17 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     [SerializeField] float _maxHealth;
     [SerializeField] float _radius; // 대략적인 반지름 크기: 파괴 시 자원 파편이 생성되는 영역 반경을 결정
     [SerializeField] float _varianceRate; // 이 수치에 따라 크기/체력이 일정 범위 내에서 랜덤하게 생성
+    public float Radius => _radius;
 
     [Header("Gimick-Overload")]
-    [SerializeField] bool _isOverloaded = false;
-    [SerializeField] bool _isOverloadableBySpawn = false;
+    [SerializeField] bool _isOverloaded;
+    [SerializeField] bool _isOverloadableBySpawn;
     [SerializeField] float _overloadKnockbackIntensity;
     [SerializeField] float _overloadDestroyTime;
     [SerializeField] float _explosionRadius;
     [SerializeField] LayerMask _explosionTargetLayer;
     public bool IsOverloaded => _isOverloaded;
+    public event System.Action<float, float> OnOverloadDestroyed;
     ContactFilter2D _explosionFilter;
     List<Collider2D> _explosionHitBuffer;
 
@@ -37,20 +39,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     [SerializeField] float _knockbackFactor; // 밀려나는 정도: 작을 수록 적게 밀려남 (큰 폐기물은 이 값을 작게 설정하기)
     [SerializeField] float _velocityDampingTime; // 속도 감쇠 정도
 
-    [Header("UI")]
-    [SerializeField] SpriteRenderer _fillRenderer; // Health_Fill 오브젝트 연결
-    [SerializeField] float _healthBarDampingTime;
-
     float _currentHealth;
+    public event System.Action<float> OnHealthChanged;
+
     bool _isDestroyed = false;
     public bool IsAffectable() => !_isDestroyed;
-
-    // HealthBar Shader
-    float _currentHealthRatio = 1f;
-    float _targetHealthRatio = 1f;
-    float _currentVelocity = 0f;
-    static readonly int _fillAmountID = Shader.PropertyToID("_FillAmount"); // 셰이더 프로퍼티 이름 (그래프 Blackboard에 만든 이름과 똑같아야 함)
-    MaterialPropertyBlock _materialPropertyBlock;
 
     // linear damping
     bool _isInteracted = false; // 처음에는 감쇠 없이 초기 설정된 속도로 이동, 플레이어에 의한 첫 충돌 발생 시 감쇠 적용
@@ -62,10 +55,10 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+    }
 
-        // 최적화를 위한 프로퍼티 블록 생성
-        _materialPropertyBlock = new MaterialPropertyBlock();
-
+    void Start()
+    {
         var spec = GameManager.Instance.CurrentData.debrisSpec;
 
         // 랜덤성 부여
@@ -78,8 +71,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         _dropCount = (int)(_dropCount * variationRate);
 
         _currentHealth = _maxHealth;
-        _currentHealthRatio = 1f;
-        _targetHealthRatio = 1f;
+        OnHealthChanged?.Invoke(1f);
 
         // 과부하 설정
         if (_isOverloadableBySpawn && Random.value < spec.overloadChance)
@@ -101,11 +93,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         ApplyExternalVelocity();
 
         ConstrainPosition();
-    }
-
-    void Update()
-    {
-        SetHealthVisual();
     }
 
     void ApplyExternalVelocity()
@@ -228,21 +215,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         InGameRoutineManager.Instance.OnDebrisDestroy(gameObject);
     }
 
-    void SetHealthVisual()
-    {
-        // UI
-        _currentHealthRatio = Mathf.SmoothDamp(
-            _currentHealthRatio,
-            _targetHealthRatio,
-            ref _currentVelocity,
-            _healthBarDampingTime
-        );
-
-        _fillRenderer.GetPropertyBlock(_materialPropertyBlock);
-        _materialPropertyBlock.SetFloat(_fillAmountID, _currentHealthRatio);
-        _fillRenderer.SetPropertyBlock(_materialPropertyBlock);
-    }
-
     void HandleDebrisCollision(SpaceDebris other)
     {
         // 충돌 해결
@@ -304,8 +276,16 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
                 Vector2 deltaPosition = debris.transform.position - transform.position;
 
-                debris.ApplyKnockback(deltaPosition.normalized, _overloadKnockbackIntensity);
-                debris.TakeDamage(damage);
+                AttackInfo attackInfo = new AttackInfo
+                {
+                    source = AttackerType.Debris,
+                    isCritical = false,
+                    damage = damage,
+                    direction = deltaPosition.normalized,
+                    knockbackIntensity = _overloadKnockbackIntensity
+                };
+
+                debris.ApplyAttack(attackInfo);
             }
             else if (hit.gameObject.TryGetComponent<SpacePlayerController>(out var player))
             {
@@ -318,6 +298,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     IEnumerator OverloadExplosionRoutine()
     {
+        var spec = GameManager.Instance.CurrentData.debrisSpec;
+        _explosionRadius *= spec.overloadExplodeRange;
+        float explosionScale = _explosionRadius / transform.localScale.x;
+        OnOverloadDestroyed?.Invoke(explosionScale, _overloadDestroyTime);
+
         yield return new WaitForSeconds(_overloadDestroyTime);
         Explode();
         DropAndDestroy();
@@ -357,16 +342,17 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         ApplyRandomRotation();
     }
 
-    public void TakeDamage(float damage)
+    public void ApplyAttack(AttackInfo attackInfo)
     {
         if (_isDestroyed) return;
 
-        SessionManager.Instance.DealDamage(damage);
+        SessionManager.Instance.RecordAttack(attackInfo);
+        ApplyKnockback(attackInfo.direction, attackInfo.knockbackIntensity);
 
         if (_isOverloaded)
         {
             _currentHealth = 0f;
-            _targetHealthRatio = 0f;
+            OnHealthChanged?.Invoke(0f);
 
             if (TryGetComponent<Collider2D>(out var collider))
             {
@@ -378,8 +364,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
             return;
         }
 
-        _currentHealth -= damage;
-        _targetHealthRatio = Mathf.Clamp01(_currentHealth / _maxHealth);
+        _currentHealth -= attackInfo.damage;
+        OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
 
         if (_currentHealth <= 0)
         {

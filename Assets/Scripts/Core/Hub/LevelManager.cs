@@ -82,13 +82,9 @@ public class LevelManager : MonoBehaviour
         if (!levelState.isUnlocked)
         {
             Debug.LogWarning($"{levelState.levelDefinition.name} is not unlocked");
+            return;
         }
         GameManager.Instance.CurrentData.currentLevelID = levelState.levelDefinition.id;
-    }
-
-    public void SelectLevel(LevelDefinition levelDefinition)
-    {
-        SelectLevel(levelDefinition.id);
     }
 
     public LevelDefinition GetLevel(int id)

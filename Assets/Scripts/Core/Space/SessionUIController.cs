@@ -48,7 +48,7 @@ public class SessionUIController : MonoBehaviour
 
     public void SetOxygen(float amount, float ratio)
     {
-        _oxygenText.text = $"{amount:F2}";
+        _oxygenText.text = amount.ToString("0.0");
         _oxygenBar.fillAmount = ratio;
 
         if (ratio < _warningThreshold)

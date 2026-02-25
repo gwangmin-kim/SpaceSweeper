@@ -30,6 +30,7 @@ public class LevelDefinition : ScriptableObject
 {
     [Header("ID")]
     public int id; // 레벨 순서대로
+    public string LocationCode => $"Stage{id}_Name";
 
     [Header("Map Settings")]
     public GameObject mapPrefab;

@@ -6,6 +6,13 @@ Setting,설정,Setting
 ExitGame,게임 종료,Quit Game
 Loading,로딩 중...,Loading...
 
+CurrentLocation,현재 위치,Current Location
+Stage1_Name,미지 공간,Unknown Space
+Stage2_Name,블랙홀 중심부,Deep inside a Black Hole
+Stage3_Name,운석 주의,Meteorite Warning Zone
+Stage4_Name,자기 폭풍 지대,Magnetic Storm Zone
+Stage5_Name,사건의 지평선,Event Horizon
+
 Upgrader,장비 업그레이드,Upgrade Equipment
 Exchanger,수집한 파편 판매,Sell collected Metal
 MapSelector,탐사 위치 변경,Change Exploration location
@@ -19,7 +26,8 @@ LootAmount,획득한 고철 파편,Scrap Metal Earned
 LossAmount,잃어버린 고철 파편,Scrap Metal Lost
 DamageReceived,받은 피해량,Damage Received
 DamageDealt,입힌 피해량,Damage Dealt
-CriticalDamageDealt,크리티컬 피해량,Critical Damage Dealt
+CriticalDamageDealt,치명타 피해량,Critical Damage Dealt
+ExplosionDamage,폭발 피해량,Explosion Damage
 DestroyCount,파괴한 고철,Destroyed Metal
 
 SessionReturn,우주선으로 복귀,Back to the Spaceship

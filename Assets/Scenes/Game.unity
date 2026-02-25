@@ -1595,6 +1595,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: SessionHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 904343407109773028, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201135024950342662, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1201135024950342662, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3407108408075445885, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -1677,6 +1689,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3456576787408481171, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226981845473720165, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8226981845473720165, guid: 7a516d6d0decda04b91b6e8c63797ccf, type: 3}
+      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -2212,6 +2232,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2633825005010923379, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4540882231245232354, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
       propertyPath: m_Name
       value: SpacePlayer
@@ -2256,6 +2280,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9029205411040242046, guid: 306b2e5b102ee70419d34d46b33c2930, type: 3}
+      propertyPath: _spaceship
+      value: 
+      objectReference: {fileID: 2144255317253608797}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

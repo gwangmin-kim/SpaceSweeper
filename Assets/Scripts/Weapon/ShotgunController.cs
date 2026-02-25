@@ -7,12 +7,13 @@ public class BulletData
     public float speed;
     public float duration;
     public bool isPenetrationUnlocked;
+    public float knockbackIntensity;
 }
 
 [System.Serializable]
 public class ShotgunStat
 {
-    public float cooldown;
+    public float attackSpeed;
     public float spreadAngle; // 탄퍼짐 각도 (조준 방향 위아래 부채꼴)
     public float reboundIntensity; // 쏘고 뒤로 밀려나는 정도
 
@@ -28,8 +29,15 @@ public class ShotgunController : MonoBehaviour, IWeapon
     [SerializeField] Transform _bulletSpawnPoint;
     [SerializeField] GameObject _bulletPrefab;
 
+    [Header("Visual")]
+    [SerializeField] ShotgunAnimation _animation;
+
+    float _attackCooldown = 0f;
     float _attackCooldownTimer = 0f;
     bool IsAttackable => _attackCooldownTimer <= 0f;
+
+    // combo bonus
+    float _bonusSpeedRate = 1f;
 
     void FixedUpdate()
     {
@@ -41,9 +49,18 @@ public class ShotgunController : MonoBehaviour, IWeapon
         _stat = GameManager.Instance.CurrentData.playerSpec.shotgunStat;
     }
 
+    void SetComboBonus(int levelIndex, float _)
+    {
+        var spec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        _bonusSpeedRate = 1f + spec.attackSpeedBonus * levelIndex;
+    }
+
     public void Attack(Vector2 aimDirection)
     {
         if (!IsAttackable) return;
+
+        _attackCooldown = 1f / (_stat.attackSpeed * _bonusSpeedRate);
+        _attackCooldownTimer = _attackCooldown;
 
         for (int i = 0; i < _stat.bulletCount; i++)
         {
@@ -65,6 +82,22 @@ public class ShotgunController : MonoBehaviour, IWeapon
 
         SpacePlayerController.Instance.ApplyKnockback(-aimDirection, _stat.reboundIntensity);
 
-        _attackCooldownTimer = _stat.cooldown;
+        _animation.AttackAnimation(_attackCooldown);
+    }
+
+    void OnEnable()
+    {
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged += SetComboBonus;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged -= SetComboBonus;
+        }
     }
 }

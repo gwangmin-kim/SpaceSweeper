@@ -5,7 +5,7 @@ using UnityEngine;
 public class LasergunStat
 {
     public float damage;
-    public float hitInterval;
+    public float attackSpeed;
     public float range;
     public bool isTransitionUnlocked;
     public int transitionCount;
@@ -27,8 +27,12 @@ public class LasergunController : MonoBehaviour, IWeapon
     List<Collider2D> _overlapBuffer = new List<Collider2D>(10);
     HashSet<Transform> _currentTargets = new HashSet<Transform>(10);
 
+    float _attackCooldown = 0f;
     float _attackCooldownTimer = 0f;
     bool IsAttackable => _attackCooldownTimer <= 0f;
+
+    // combo bonus
+    float _bonusSpeedRate = 1f;
 
     void FixedUpdate()
     {
@@ -69,11 +73,18 @@ public class LasergunController : MonoBehaviour, IWeapon
         _filter.useTriggers = false;
     }
 
+    void SetComboBonus(int levelIndex, float _)
+    {
+        var spec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        _bonusSpeedRate = 1f + spec.attackSpeedBonus * levelIndex;
+    }
+
     public void Attack(Vector2 aimDirection)
     {
         if (!IsAttackable) return;
 
-        _attackCooldownTimer = _stat.hitInterval;
+        _attackCooldown = 1f / (_stat.attackSpeed * _bonusSpeedRate);
+        _attackCooldownTimer = _attackCooldown;
 
         _currentTargets.Clear();
 
@@ -86,7 +97,16 @@ public class LasergunController : MonoBehaviour, IWeapon
 
         // Debug.Log($"hit detected: {hit}");
 
-        component.TakeDamage(_stat.damage);
+        AttackInfo attackInfo = new AttackInfo
+        {
+            source = AttackerType.Player,
+            isCritical = false,
+            damage = _stat.damage,
+            direction = Vector2.zero,
+            knockbackIntensity = 0f
+        };
+
+        component.ApplyAttack(attackInfo);
         _currentTargets.Add(hit.transform);
 
         Debug.DrawLine(_detectOrigin.position, hit.transform.position, Color.red, 0.5f);
@@ -112,10 +132,26 @@ public class LasergunController : MonoBehaviour, IWeapon
             Debug.DrawLine(currentOrigin.position, target.position, Color.cyan, 0.5f);
             // Debug.Log($"[Hit {i + 1}] Transition Target: {target.name}");
 
-            component.TakeDamage(_stat.damage);
+            component.ApplyAttack(attackInfo);
             _currentTargets.Add(target);
 
             currentOrigin = target;
+        }
+    }
+
+    void OnEnable()
+    {
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged += SetComboBonus;
+        }
+    }
+
+    void OnDisable()
+    {
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged -= SetComboBonus;
         }
     }
 

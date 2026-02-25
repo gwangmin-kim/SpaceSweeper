@@ -61,6 +61,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
     float _dashCooldownTimer = 0f;
     bool IsDashing => _dashTimer > 0f;
     bool IsDashReady => _dashCooldownTimer <= 0f;
+    public event System.Action<float> OnDashStarted;
 
     // combat
     [SerializeField] GameObject _currentWeapon;
@@ -177,6 +178,7 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
             case PlayerState.Dash:
                 _dashTimer = _dashDuration;
                 _dashCooldownTimer = _moveStat.dashCooldown;
+                OnDashStarted?.Invoke(_moveStat.dashCooldown);
                 _knockbackTimer = 0f;
                 break;
             case PlayerState.Knockback:
@@ -208,12 +210,10 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
                 break;
             case PlayerState.Knockback:
                 _knockbackTimer -= Time.fixedDeltaTime;
-
                 if (_knockbackTimer <= 0f)
                 {
                     SetState(PlayerState.Move);
                 }
-
                 break;
         }
 

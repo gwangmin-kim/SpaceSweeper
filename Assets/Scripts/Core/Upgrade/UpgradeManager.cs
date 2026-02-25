@@ -14,6 +14,8 @@ public class UpgradeManager : MonoBehaviour
 
     public enum UpgradeState { Locked, Available, Unlocked };
 
+    public Vector2 upgradeTreePosition = Vector2.zero;
+
     void Awake()
     {
         if (Instance == null)

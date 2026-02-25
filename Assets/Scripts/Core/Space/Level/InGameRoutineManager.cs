@@ -40,6 +40,8 @@ public class InGameRoutineManager : MonoBehaviour
         int currentLevelID = GameManager.Instance.CurrentData.currentLevelID;
         _currentLevel = LevelManager.Instance.GetLevel(currentLevelID);
 
+        SessionManager.Instance.SetOxygenConsumption(_currentLevel.oxygenPerSecond);
+
         // 맵 프리팹(_currentLevel.mapPrefab) 안에 SpawnZone이라는 이름의 오브젝트를 포함시켜야 함.
         GameObject mapObject = Instantiate(_currentLevel.mapPrefab, _mapRoot);
         if (!mapObject.transform.Find("SpawnZone").TryGetComponent(out _currentSpawnZone))

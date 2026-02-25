@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   _id: 0250627c80e010f429edcb86d6ba0009
   effects:
-  - {fileID: 11400000, guid: 7ad0c3737a910d54bbc62ddd0b46ee89, type: 2}
   - {fileID: 11400000, guid: b6e2e40fecec2c14eb4dc9093ee5c351, type: 2}
   upgradeName: "\uC0B0\uC18C \uCD94\uCD9C"
   description: "\uC0B0\uC18C \uD68C\uBCF5\uB7C9\uC774 \uC99D\uAC00\uD569\uB2C8\uB2E4."

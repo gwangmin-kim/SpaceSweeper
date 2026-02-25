@@ -21,7 +21,7 @@ MonoBehaviour:
   debrisList:
   - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
     count: 50
-  - debrisPrefab: {fileID: 3042997265853864001, guid: a9148a98fc886c943a9372342df71dc7, type: 3}
+  - debrisPrefab: {fileID: 3042997265853864001, guid: e3ef205f2ff53b1468ed60f5b93e6710, type: 3}
     count: 20
   gimickList:
   - isEnabled: 1

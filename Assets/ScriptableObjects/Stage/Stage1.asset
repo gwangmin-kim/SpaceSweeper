@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Stage1
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   id: 1
+  locationCodeName: Stage1Name
   mapPrefab: {fileID: 7779516437347261427, guid: 4952956078fb5d24ab1d6bcdd6fc65af, type: 3}
   oxygenPerSecond: 1
   resourceSpawnData:

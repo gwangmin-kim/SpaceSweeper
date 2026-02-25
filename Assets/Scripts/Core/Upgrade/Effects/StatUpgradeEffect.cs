@@ -10,7 +10,7 @@ public enum PlayerStatType
     UnlockDash,
     DashSpeed,
     DashDistance,
-    DashCooldown,
+    MinusDashCooldown,
 
     // 넉백
     BounceFactor,
@@ -50,8 +50,9 @@ public class StatUpgradeEffect : UpgradeEffect
             case PlayerStatType.DashDistance:
                 spec.moveStat.dashDistance *= value;
                 break;
-            case PlayerStatType.DashCooldown:
-                spec.moveStat.dashCooldown *= value;
+            case PlayerStatType.MinusDashCooldown:
+                spec.moveStat.dashCooldown -= value;
+                if (spec.moveStat.dashCooldown < 0f) spec.moveStat.dashCooldown = 0f;
                 break;
             case PlayerStatType.BounceFactor:
                 spec.moveStat.bounceFactor *= value;

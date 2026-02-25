@@ -1,5 +1,7 @@
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(SpacePlayerController))]
 public class SpacePlayerVisual : MonoBehaviour
@@ -34,22 +36,42 @@ public class SpacePlayerVisual : MonoBehaviour
     [SerializeField] float _aimThreshold; // 파지/조준 모드로 전환되는 거리
     [SerializeField] float _weaponRotationDamping; // 회전 속도
 
+    [Header("Spaceship Indicator")]
+    [SerializeField] Transform _spaceship;
+    [SerializeField] GameObject _spaceshipIndicator;
+    [SerializeField] Transform _directionArray;
+    [SerializeField] float _distanceThreshold;
+    [SerializeField] TextMeshProUGUI _distanceText;
+
+    [Header("Dash Indicator")]
+    [SerializeField] CanvasGroup _dashIndicator;
+    [SerializeField] Image _dashBar;
+    Sequence _dashSequence;
+
     void Awake()
     {
         if (_playerController == null) _playerController = GetComponent<SpacePlayerController>();
 
         _visualRoot.localScale = Vector3.zero;
         _visualRoot.DOScale(1.0f, 0.5f);
+        _dashIndicator.alpha = 0f;
+    }
+
+    void Start()
+    {
+        _playerController.OnDashStarted += ApplyDash;
     }
 
     void Update()
     {
-        ApplyHead();
-        ApplyBody();
-        ApplyHand();
+        ApplyHead(Time.deltaTime);
+        ApplyBody(Time.deltaTime);
+        ApplyHand(Time.deltaTime);
+
+        ShowSpaceshipDirection();
     }
 
-    void ApplyHead()
+    void ApplyHead(float deltaTime)
     {
         Vector2 headPosition = _headRoot.position;
         Vector2 aimPosition = _playerController.AimPosition;
@@ -57,16 +79,16 @@ public class SpacePlayerVisual : MonoBehaviour
         Vector2 direction = (aimPosition - headPosition).normalized;
 
         Vector2 headOffset = direction * _headAttractFactor;
-        _head.localPosition = Vector2.Lerp(_head.localPosition, headOffset, _headDamping * Time.deltaTime);
+        _head.localPosition = Vector2.Lerp(_head.localPosition, headOffset, _headDamping * deltaTime);
 
         Vector2 faceOffset = direction;
         faceOffset.x *= _faceAttractFactor.x;
         faceOffset.y *= (faceOffset.y >= 0f) ? _faceAttractFactor.y : 0.5f * _faceAttractFactor.y;
 
-        _face.localPosition = Vector2.Lerp(_face.localPosition, faceOffset, _headDamping * Time.deltaTime);
+        _face.localPosition = Vector2.Lerp(_face.localPosition, faceOffset, _headDamping * deltaTime);
     }
 
-    void ApplyBody()
+    void ApplyBody(float deltaTime)
     {
         Quaternion targetRotation = Quaternion.identity;
 
@@ -92,10 +114,10 @@ public class SpacePlayerVisual : MonoBehaviour
                 break;
         }
 
-        _bodyPivot.localRotation = Quaternion.Lerp(_bodyPivot.localRotation, targetRotation, _bodyTiltDamping * Time.deltaTime);
+        _bodyPivot.localRotation = Quaternion.Lerp(_bodyPivot.localRotation, targetRotation, _bodyTiltDamping * deltaTime);
     }
 
-    void ApplyHand()
+    void ApplyHand(float deltaTime)
     {
         Vector2 handPosition = _handRoot.position;
         Vector2 aimPosition = _playerController.AimPosition;
@@ -103,7 +125,7 @@ public class SpacePlayerVisual : MonoBehaviour
 
         // 조준 위치를 따라감
         Vector2 handOffset = Vector2.ClampMagnitude(diff, 1f) * _handAttractFactor;
-        _handSocket.localPosition = Vector2.Lerp(_handSocket.localPosition, handOffset, _handDamping * Time.deltaTime);
+        _handSocket.localPosition = Vector2.Lerp(_handSocket.localPosition, handOffset, _handDamping * deltaTime);
 
         Quaternion targetRotation;
 
@@ -130,6 +152,46 @@ public class SpacePlayerVisual : MonoBehaviour
                 _handSocket.localScale = new Vector3(1, 1, 1);
             }
         }
-        _handSocket.rotation = Quaternion.Lerp(_handSocket.rotation, targetRotation, _weaponRotationDamping * Time.deltaTime);
+        _handSocket.rotation = Quaternion.Lerp(_handSocket.rotation, targetRotation, _weaponRotationDamping * deltaTime);
+    }
+
+    void ShowSpaceshipDirection()
+    {
+        Vector2 deltaPosition = _spaceship.position - _visualRoot.position;
+        float distance = deltaPosition.magnitude;
+
+        if (distance > _distanceThreshold)
+        {
+            _spaceshipIndicator.SetActive(true);
+            _spaceshipIndicator.transform.up = deltaPosition.normalized;
+
+            _distanceText.text = distance.ToString("0.0");
+            Rect rect = _distanceText.rectTransform.rect;
+            float angle = Mathf.Deg2Rad * _spaceshipIndicator.transform.localRotation.eulerAngles.z;
+
+            _distanceText.transform.position = _directionArray.position + 0.025f * new Vector3(-rect.width * Mathf.Sin(angle), rect.height * Mathf.Cos(angle), 0f);
+            _distanceText.transform.rotation = Quaternion.identity;
+        }
+        else
+        {
+            _spaceshipIndicator.SetActive(false);
+        }
+    }
+
+    void ApplyDash(float cooldown)
+    {
+        // 대시 시작 시 호출되는 이벤트 구독
+        // 쿨타임 동안 부드럽게 차오르는 효과 (fillAmount 조절)
+        // 다 차면 살짝 pop 튀어오르고 사라지는 느낌
+        _dashSequence?.Kill();
+        _dashBar.fillAmount = 0f;
+        _dashIndicator.alpha = 1f;
+        _dashIndicator.transform.localScale = Vector3.one;
+
+        _dashSequence = DOTween.Sequence().SetLink(gameObject);
+        _dashSequence.Append(_dashBar.DOFillAmount(1f, cooldown).SetEase(Ease.Linear));
+        _dashSequence.Append(_dashIndicator.transform.DOScale(1.2f, 0.1f).SetEase(Ease.OutQuad));
+        _dashSequence.Append(_dashIndicator.transform.DOScale(1.0f, 0.1f).SetEase(Ease.InQuad));
+        _dashSequence.Append(_dashIndicator.DOFade(0f, 0.3f).SetDelay(0.2f));
     }
 }

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: DebrisOverloadDamage1
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: 85df933a99df27b4395fb0dd046f9c31
+  effects:
+  - {fileID: 11400000, guid: 995bbbc8bd43b7e4face5308d617ec4e, type: 2}
+  upgradeName: "\uACE0\uC704\uD5D8 \uBB3C\uCCB4"
+  description: "\uD3ED\uBC1C \uD53C\uD574\uB7C9\uC774 \uB192\uC544\uC9D1\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 46cc8b99e34548b4c983997479e4a79e, type: 3}
+  costString: 150K
+  parent: {fileID: 11400000, guid: f9fde1e1180ef28479f9a1eb979f1a89, type: 2}

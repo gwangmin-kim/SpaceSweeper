@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2222665082129204280}
   - component: {fileID: 5673906126455070467}
+  - component: {fileID: 4260950597322906294}
   m_Layer: 3
   m_Name: Shotgun
   m_TagString: Untagged
@@ -168,7 +169,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ShotgunController
   _stat:
-    cooldown: 0
+    attackSpeed: 0
     spreadAngle: 0
     reboundIntensity: 0
     bulletData:
@@ -180,6 +181,22 @@ MonoBehaviour:
     bulletSpeedVariation: 0
   _bulletSpawnPoint: {fileID: 2911316668329039520}
   _bulletPrefab: {fileID: 7293312896602760015, guid: 9ffae58caf4f83744bbe5d9a43e0ea95, type: 3}
+  _animation: {fileID: 4260950597322906294}
+--- !u!114 &4260950597322906294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6644893148108249137}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9010dd8228194ff4eba39155871db10d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ShotgunAnimation
+  _shotgun: {fileID: 3825529014642470651}
+  _reboundAngle: 30
+  _spinAngle: 720
 --- !u!1 &8973334255856838102
 GameObject:
   m_ObjectHideFlags: 0

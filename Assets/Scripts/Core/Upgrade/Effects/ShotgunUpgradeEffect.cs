@@ -5,11 +5,11 @@ public enum ShotgunUpgradeType
     Unlock = 0,
 
     Damage = 10,
-    Cooldown = 11,
+    AttackSpeed = 11,
     Range = 12,
 
     BulletCount = 20,
-    SpreadAngle = 21,
+    SetSpreadAngle = 21,
     ReboundIntensity = 22,
     Penetration = 23,
 }
@@ -35,8 +35,8 @@ public class ShotgunUpgradeEffect : UpgradeEffect
             case ShotgunUpgradeType.Damage:
                 stat.bulletData.damage *= value;
                 break;
-            case ShotgunUpgradeType.Cooldown:
-                stat.cooldown *= value;
+            case ShotgunUpgradeType.AttackSpeed:
+                stat.attackSpeed *= value;
                 break;
             case ShotgunUpgradeType.Range:
                 stat.bulletData.speed *= value;
@@ -44,7 +44,7 @@ public class ShotgunUpgradeEffect : UpgradeEffect
             case ShotgunUpgradeType.BulletCount:
                 stat.bulletCount += (int)value;
                 break;
-            case ShotgunUpgradeType.SpreadAngle:
+            case ShotgunUpgradeType.SetSpreadAngle:
                 if (stat.spreadAngle > value)
                     stat.spreadAngle = value;
                 break;

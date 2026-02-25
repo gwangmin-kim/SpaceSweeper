@@ -11,7 +11,9 @@ public class SessionInformation
     public BigDouble lossAmount;
     public float oxygenLost; // 잃은 산소량
     public float oxygenRestored; // 복구한 산소량
-    public float damageDealt; // 폐기물에 가한 피해량
+    public float damageDealt; // 폐기물에 가한 피해량 (플레이어가 직접)
+    public float criticalDamageDealt; // 폐기물에 가한 치명타 피해량 (플레이어가 직접)
+    public float damageByDebris; // 폭발로 인한 피해량
     public int destroyCount; // 파괴된 폐기물 수
 }
 
@@ -34,11 +36,16 @@ public class SessionManager : MonoBehaviour
     // Oxygen
     float _totalOxygenAmountInverse = 0f; // 산소 총량의 역수 (연산 효율성 위해 역수로 저장)
     float _currentOxygenAmount = 0f; // 현재 산소량
-    float _oxygenConsumptionPerSec = 1f; // 초당 소비 산소량
+    float _oxygenPerSec = 1f; // 초당 소비 산소량
+    public void SetOxygenConsumption(float amount)
+    {
+        _oxygenPerSec = amount;
+    }
 
     public void Awake()
     {
         Instance = this;
+        _info = new SessionInformation();
     }
 
     void Start()
@@ -50,7 +57,7 @@ public class SessionManager : MonoBehaviour
     {
         if (_info.isOngoing && _currentOxygenAmount > 0f)
         {
-            _currentOxygenAmount -= Time.deltaTime * _oxygenConsumptionPerSec;
+            _currentOxygenAmount -= Time.deltaTime * _oxygenPerSec;
             _info.timer += Time.deltaTime;
 
             float oxygenRatio = Mathf.Clamp01(_currentOxygenAmount * _totalOxygenAmountInverse);
@@ -129,17 +136,29 @@ public class SessionManager : MonoBehaviour
         _info.oxygenLost += amount;
     }
 
-    public void DealDamage(float amount)
+    public void RecordAttack(AttackInfo attackInfo)
     {
         if (!_info.isOngoing) return;
 
-        _info.damageDealt += amount;
-
-        var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
-        if (comboSpec.isUnlocked)
+        switch (attackInfo.source)
         {
-            float score = amount * comboSpec.scoreRate;
-            ComboManager.Instance.AddScore(score);
+            case AttackerType.Player:
+                // record damage
+                _info.damageDealt += attackInfo.damage;
+                if (attackInfo.isCritical) _info.criticalDamageDealt += attackInfo.damage;
+
+                // apply Combo score
+                var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+                if (comboSpec.isUnlocked)
+                {
+                    float score = attackInfo.damage * comboSpec.scoreRate;
+                    ComboManager.Instance.AddScore(score);
+                }
+
+                break;
+            case AttackerType.Debris:
+                _info.damageByDebris += attackInfo.damage;
+                break;
         }
     }
 

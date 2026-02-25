@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: ShotgunRebound
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: 530398fbe1c3d7c4d84196183bd6ef06
+  effects:
+  - {fileID: 11400000, guid: df98aa56ce728194784dae8a77234a3c, type: 2}
+  upgradeName: "\uC644\uBCBD\uD55C \uBC18\uB3D9 \uC81C\uC5B4"
+  description: "\uC0F7\uAC74\uC744 \uC3E0 \uB54C \uBC00\uB824\uB098\uB294 \uC138\uAE30\uAC00
+    \uD06C\uAC8C \uAC10\uC18C\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: e2be72fe5a8602c4b85bc49191f5062c, type: 3}
+  costString: 50K
+  parent: {fileID: 11400000, guid: 814e451a5f6280a47bb45b71b3f96d68, type: 2}

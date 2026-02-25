@@ -31,7 +31,18 @@ public class BulletController : MonoBehaviour
         {
             if (!component.IsAffectable()) return;
 
-            component.TakeDamage(_bulletData.damage);
+            Vector2 knockbackDirection = _rigidbody.linearVelocity.normalized;
+
+            AttackInfo attackInfo = new AttackInfo
+            {
+                source = AttackerType.Player,
+                isCritical = false,
+                damage = _bulletData.damage,
+                direction = knockbackDirection,
+                knockbackIntensity = _bulletData.knockbackIntensity
+            };
+
+            component.ApplyAttack(attackInfo);
 
             if (!_bulletData.isPenetrationUnlocked)
             {

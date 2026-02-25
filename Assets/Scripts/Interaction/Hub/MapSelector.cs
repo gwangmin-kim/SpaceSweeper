@@ -39,4 +39,15 @@ public class MapSelector : MonoBehaviour, IInteractable
         // 장소 선택 UI 호출
         MapUIController.Instance.ActivatePanel();
     }
+
+    public void SelectLevel(LevelDefinition levelDefinition)
+    {
+        if (LevelManager.Instance == null)
+        {
+            Debug.LogError("LevelManager is not initialized");
+            return;
+        }
+        LevelManager.Instance.SelectLevel(levelDefinition.id);
+        HubUIController.Instance.SetStageName(levelDefinition.LocationCode);
+    }
 }

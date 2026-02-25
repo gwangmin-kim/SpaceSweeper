@@ -44,8 +44,8 @@ public class PlayerSpec
         return currentWeapon switch
         {
             WeaponType.Pickaxe => pickaxeStat.attackSpeed.ToString(),
-            WeaponType.Shotgun => (1f / shotgunStat.cooldown).ToString(),
-            WeaponType.Lasergun => (1f / lasergunStat.hitInterval).ToString(),
+            WeaponType.Shotgun => shotgunStat.attackSpeed.ToString(),
+            WeaponType.Lasergun => (1f / lasergunStat.attackSpeed).ToString(),
             _ => "0"
         };
     }
@@ -70,8 +70,10 @@ public class ComboSpec
     public float scoreRate;
 
     public float moveSpeedBonus;
-    public float AttackSpeedBonus;
-    public float AttackRangeBonus;
+    public float attackSpeedBonus;
+
+    public float pickaxeRangeBonus;
+    public float shotgunBulletBonus;
 }
 
 [System.Serializable]
@@ -96,6 +98,7 @@ public class DebrisSpec
     public float overloadChance;
     public float overloadDropRate;
     public float overloadDamgeRate; // 최대 체력 비례 대미지, 예: 5.0이라면 최대 체력의 5배 대미지
+    public float overloadExplodeRange;
 
     public float oxygenRestoreAmount; // 파괴 시 일정 확률로 충전되는 산소량
     public float oxygenRestoreChance; // 산소 재충전 확률

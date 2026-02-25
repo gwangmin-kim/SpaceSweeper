@@ -14,21 +14,12 @@ public class SessionSummaryUI : MonoBehaviour
         RefreshAll();
     }
 
-    void UpdateVisibility()
-    {
-
-    }
 
     public void RefreshAll()
     {
-        UpdateVisibility();
-
         foreach (var slot in _sessionFieldList)
         {
-            if (slot.gameObject.activeSelf)
-            {
-                slot.UpdateValue();
-            }
+            slot.UpdateValue();
         }
     }
 }

@@ -3,13 +3,18 @@ using UnityEngine;
 
 public enum SessionInfoType
 {
-    TimeSpent,
     LootAmount,
     LossAmount,
-    DamageReceived,
-    DamageDealt,
-    DestroyCount,
+
+    TimeSpent,
     OxygenRestored,
+
+    DamageDealt,
+    CriticalDamageDealt,
+    ExplosionDamage,
+
+    DamageReceived,
+    DestroyCount,
 }
 
 public class SessionFieldTextUI : MonoBehaviour
@@ -44,13 +49,19 @@ public class SessionFieldTextUI : MonoBehaviour
         var info = SessionManager.Instance.Information;
         return _infoType switch
         {
-            SessionInfoType.TimeSpent => info.timer.ToString("F2"),
             SessionInfoType.LootAmount => BigDoubleFormatter.Format(info.lootAmount),
             SessionInfoType.LossAmount => BigDoubleFormatter.Format(info.lossAmount),
-            SessionInfoType.DamageReceived => info.oxygenLost.ToString("F2"),
-            SessionInfoType.DamageDealt => info.damageDealt.ToString("F2"),
+
+            SessionInfoType.TimeSpent => info.timer.ToString("0.0"),
+            SessionInfoType.OxygenRestored => info.oxygenRestored.ToString("0.0"),
+
+            SessionInfoType.DamageDealt => info.damageDealt.ToString("0.#"),
+            SessionInfoType.CriticalDamageDealt => info.criticalDamageDealt.ToString("0.#"),
+            SessionInfoType.ExplosionDamage => info.damageByDebris.ToString("0.#"),
+
+            SessionInfoType.DamageReceived => info.oxygenLost.ToString("0.#"),
             SessionInfoType.DestroyCount => info.destroyCount.ToString(),
-            SessionInfoType.OxygenRestored => info.oxygenRestored.ToString("F2"),
+
 
             // ...
 
@@ -63,13 +74,19 @@ public class SessionFieldTextUI : MonoBehaviour
         if (SessionManager.Instance == null) return false;
 
         var info = SessionManager.Instance.Information;
+
         return _infoType switch
         {
             SessionInfoType.LossAmount => !info.isSuccessful,
-            SessionInfoType.DamageReceived => info.oxygenLost > 0f,
-            SessionInfoType.DamageDealt => info.damageDealt > 0f,
-            SessionInfoType.DestroyCount => info.destroyCount > 0,
+
             SessionInfoType.OxygenRestored => info.oxygenRestored > 0f,
+
+            SessionInfoType.DamageDealt => info.damageDealt > 0f,
+            SessionInfoType.CriticalDamageDealt => info.criticalDamageDealt > 0f,
+            SessionInfoType.ExplosionDamage => info.damageByDebris > 0f,
+
+            SessionInfoType.DamageReceived => info.oxygenLost > 0f,
+            SessionInfoType.DestroyCount => info.destroyCount > 0,
 
             // ...
 
@@ -80,6 +97,7 @@ public class SessionFieldTextUI : MonoBehaviour
     public void UpdateValue()
     {
         bool visibility = GetVisibility();
+        // Debug.Log($"{gameObject.name} visibility: {visibility}");
 
         if (visibility)
             _value.text = GetValueFromData();

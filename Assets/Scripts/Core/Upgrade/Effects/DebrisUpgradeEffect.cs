@@ -9,7 +9,10 @@ public enum DebrisUpgradeType
     // 스폰 및 드롭: 10-19
     SpawnCount = 10,
     DropValue = 11,
-    OverloadDropInc = 12,
+    PlusOverloadChance = 12,
+    OverloadDropInc = 13,
+    OverloadDamageInc = 14,
+    OverloadExplodeRange = 15,
 
     // 보너스 효과: 20-29
     PlusOxygenRestoreAmount = 20,
@@ -41,8 +44,18 @@ public class DebrisUpgradeEffect : UpgradeEffect
             case DebrisUpgradeType.DropValue:
                 spec.valueRate *= value;
                 break;
+
+            case DebrisUpgradeType.PlusOverloadChance:
+                spec.overloadChance += value;
+                break;
             case DebrisUpgradeType.OverloadDropInc:
                 spec.overloadDropRate *= value;
+                break;
+            case DebrisUpgradeType.OverloadDamageInc:
+                spec.overloadDamgeRate *= value;
+                break;
+            case DebrisUpgradeType.OverloadExplodeRange:
+                spec.overloadExplodeRange *= value;
                 break;
 
             case DebrisUpgradeType.PlusOxygenRestoreAmount:

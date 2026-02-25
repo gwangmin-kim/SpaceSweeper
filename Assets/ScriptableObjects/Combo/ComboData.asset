@@ -17,27 +17,31 @@ MonoBehaviour:
     threshold: 1
     decayRate: 1
     minScoreRequired: 0
-  - gradeName: E
+  - gradeName: F
     threshold: 100
-    decayRate: 100
+    decayRate: 50
     minScoreRequired: 1
-  - gradeName: D
+  - gradeName: E
     threshold: 250
-    decayRate: 150
+    decayRate: 100
     minScoreRequired: 90
-  - gradeName: C
-    threshold: 500
-    decayRate: 250
-    minScoreRequired: 230
-  - gradeName: B
+  - gradeName: D
     threshold: 1000
+    decayRate: 250
+    minScoreRequired: 200
+  - gradeName: C
+    threshold: 2500
     decayRate: 500
-    minScoreRequired: 450
-  - gradeName: A
-    threshold: 2000
-    decayRate: 1000
     minScoreRequired: 900
+  - gradeName: B
+    threshold: 6500
+    decayRate: 1500
+    minScoreRequired: 2400
+  - gradeName: A
+    threshold: 20000
+    decayRate: 4000
+    minScoreRequired: 6000
   - gradeName: S
-    threshold: 5000
-    decayRate: 200
-    minScoreRequired: 1800
+    threshold: 50000
+    decayRate: 10000
+    minScoreRequired: 19000

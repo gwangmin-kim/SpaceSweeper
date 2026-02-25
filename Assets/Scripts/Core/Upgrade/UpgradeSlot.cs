@@ -83,7 +83,7 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 _completedOverlay.SetActive(false);
                 _button.interactable = true;
 
-                SetTransparency(0.5f);
+                SetTransparency(0.7f);
                 break;
             case UpgradeManager.UpgradeState.Unlocked:
                 gameObject.SetActive(true);
@@ -104,7 +104,7 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
             {
                 _currentSequence.Kill();
             }
-            _currentSequence = DOTween.Sequence();
+            _currentSequence = DOTween.Sequence().SetLink(gameObject);
             _currentSequence.Append(transform.DOScale(2.0f, 0.01f));
             _currentSequence.Append(transform.DOScale(1.0f, 0.3f)).SetEase(Ease.InCirc);
             _currentSequence.Play();
@@ -118,7 +118,7 @@ public class UpgradeSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
                 _currentSequence.Kill();
             }
             transform.rotation = Quaternion.identity;
-            _currentSequence = DOTween.Sequence();
+            _currentSequence = DOTween.Sequence().SetLink(gameObject);
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 10f), 0.1f));
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, -10f), 0.1f));
             _currentSequence.Append(transform.DORotate(new Vector3(0f, 0f, 0f), 0.1f));

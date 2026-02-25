@@ -8,7 +8,7 @@ public enum ComboUpgradeType
 
     SetMoveSpeedBouns = 20,
     SetAttackSpeedBonus = 21,
-    SetAttackRangeBonus = 22,
+    SetPickaxeRangeBonus = 30,
 }
 
 [CreateAssetMenu(fileName = "NewComboUpgradeEffect", menuName = "Upgrades/Effects/Combo Upgrade")]
@@ -35,10 +35,10 @@ public class ComboUpgradeEffect : UpgradeEffect
                 spec.moveSpeedBonus = value;
                 break;
             case ComboUpgradeType.SetAttackSpeedBonus:
-                spec.AttackSpeedBonus = value;
+                spec.attackSpeedBonus = value;
                 break;
-            case ComboUpgradeType.SetAttackRangeBonus:
-                spec.AttackRangeBonus = value;
+            case ComboUpgradeType.SetPickaxeRangeBonus:
+                spec.pickaxeRangeBonus = value;
                 break;
 
             default:

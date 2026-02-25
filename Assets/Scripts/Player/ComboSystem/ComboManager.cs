@@ -10,6 +10,7 @@ public class ComboManager : MonoBehaviour
 
     [SerializeField] float _currentScore = 0f;
     [SerializeField] int _currentLevelIndex = 0;
+
     public ComboLevelData CurrentLevel => _comboData.levelList[_currentLevelIndex];
 
     float _holdTimer = 0f;

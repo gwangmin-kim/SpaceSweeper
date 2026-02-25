@@ -5,7 +5,7 @@ public enum LasergunUpgradeType
     Unlock = 0,
 
     Damage = 10,
-    Cooldown = 11,
+    AttackSpeed = 11,
     Range = 12,
 
     Transition = 20,
@@ -34,8 +34,8 @@ public class LasergunUpgradeEffect : UpgradeEffect
             case LasergunUpgradeType.Damage:
                 stat.damage *= value;
                 break;
-            case LasergunUpgradeType.Cooldown:
-                stat.hitInterval *= value;
+            case LasergunUpgradeType.AttackSpeed:
+                stat.attackSpeed *= value;
                 break;
             case LasergunUpgradeType.Range:
                 stat.range *= value;

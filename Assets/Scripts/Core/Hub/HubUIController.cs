@@ -11,6 +11,9 @@ public class HubUIController : MonoBehaviour
     [SerializeField] TextMeshProUGUI _resourceAmount;
     [SerializeField] TextMeshProUGUI _goldAmount;
 
+    [Header("Stage")]
+    [SerializeField] TextMeshProUGUI _stageNameText;
+
     public void Awake()
     {
         Instance = this;
@@ -20,6 +23,7 @@ public class HubUIController : MonoBehaviour
     {
         SetResource(ResourceManager.Instance.Resource);
         SetGold(ResourceManager.Instance.Gold);
+        SetStageName();
     }
 
     public void SetResource(BigDouble amount)
@@ -30,5 +34,17 @@ public class HubUIController : MonoBehaviour
     public void SetGold(BigDouble amount)
     {
         _goldAmount.text = $"{BigDoubleFormatter.Format(amount)}";
+    }
+
+    public void SetStageName()
+    {
+        string currentLevelCode = LevelManager.Instance.GetLevel(GameManager.Instance.CurrentData.currentLevelID).LocationCode;
+        SetStageName(currentLevelCode);
+    }
+
+    public void SetStageName(string code)
+    {
+        string text = LocalizationManager.Instance.GetLocalizedText(code);
+        _stageNameText.text = $": {text}";
     }
 }

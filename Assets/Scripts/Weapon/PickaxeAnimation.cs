@@ -32,11 +32,11 @@ public class PickaxeAnimation : MonoBehaviour
             CancelAnimation();
         }
 
-        _currentSequence = DOTween.Sequence();
-
         float windUpTime = attackTiming * 0.4f;
         float strikeTime = attackTiming * 0.6f;
         float recoveryTime = totalTime - attackTiming;
+
+        _currentSequence = DOTween.Sequence().SetLink(gameObject);
 
         // 들어올리기
         _currentSequence.Append(_pickaxe.DOLocalRotate(new Vector3(0f, 0f, _upAngle), windUpTime)

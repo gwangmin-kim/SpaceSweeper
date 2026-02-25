@@ -25,7 +25,6 @@ public class PickaxeController : MonoBehaviour, IWeapon
     [SerializeField] float _attackDelayRatio; // 0.0 ~ 1.0, 공격 딜레이 중 어느 시점에 실제 타격을 일으킬지 결정
 
     [Header("Visual")]
-    [SerializeField] Transform _visualRoot;
     [SerializeField] PickaxeAnimation _animation;
 
     LayerMask TargetLayer => SpacePlayerController.Instance.TargetLayer;
@@ -33,6 +32,11 @@ public class PickaxeController : MonoBehaviour, IWeapon
     float _attackCooldown;
     float _attackCooldownTimer = 0f;
     bool IsAttackable => _attackCooldownTimer <= 0f;
+
+    // combo bonus
+    float _bonusSpeedRate = 1f;
+    float _bonusRangeRate = 1f;
+    Vector3 _defaultScale;
 
     ContactFilter2D _filter;
     List<Collider2D> _hitBuffer = new List<Collider2D>(10);
@@ -54,51 +58,46 @@ public class PickaxeController : MonoBehaviour, IWeapon
 
         float scaleRatio = _stat.attackRange;
         transform.localScale = new Vector3(scaleRatio, scaleRatio, 1f);
+        _defaultScale = transform.localScale;
+    }
+
+    void SetComboBonus(int levelIndex, float _)
+    {
+        var spec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+        _bonusSpeedRate = 1f + spec.attackSpeedBonus * levelIndex;
+        _bonusRangeRate = 1f + spec.pickaxeRangeBonus * levelIndex;
+
+        transform.localScale = _bonusRangeRate * _defaultScale;
     }
 
     public void Attack(Vector2 _)
     {
         if (!IsAttackable) return;
 
-        _attackCooldown = 1f / _stat.attackSpeed;
+        _attackCooldown = 1f / (_stat.attackSpeed * _bonusSpeedRate);
         _attackCooldownTimer = _attackCooldown;
 
         float damage = _stat.attackDamage;
-        if (Random.value < _stat.criticalChance)
-        {
-            damage *= _stat.criticalDamage;
-        }
+        bool isCritical = Random.value < _stat.criticalChance;
+        if (isCritical) damage *= _stat.criticalDamage;
 
-        _attackRoutine = StartCoroutine(AttackRoutine(damage));
+        _attackRoutine = StartCoroutine(AttackRoutine(damage, isCritical));
 
         _animation.AttackAnimation(_attackCooldown, _attackDelayRatio * _attackCooldown);
     }
 
-    void ProcessHit(Collider2D hit, float damage)
-    {
-        if (hit != null && hit.TryGetComponent<IDamagable>(out var component))
-        {
-            // Debug.Log($"hit detected: {hit}");
-
-            component.TakeDamage(damage);
-
-            Vector2 knockbackDirection = (hit.transform.position - _attackOffset.position).normalized;
-            component.ApplyKnockback(knockbackDirection, _stat.knockbackIntensity);
-        }
-    }
-
-    IEnumerator AttackRoutine(float damage)
+    IEnumerator AttackRoutine(float damage, bool isCritical)
     {
         yield return new WaitForSeconds(_attackDelayRatio * _attackCooldown);
 
-        float range = _defaultRange * _stat.attackRange;
+        float range = _defaultRange * _stat.attackRange * _bonusRangeRate;
 
         if (!_stat.isMultiHitUnlocked)
         {
             Collider2D hit = Physics2D.OverlapCircle(
                 _attackOffset.position, range, TargetLayer);
 
-            ProcessHit(hit, damage);
+            ProcessHit(hit, damage, isCritical);
         }
         else
         {
@@ -109,8 +108,30 @@ public class PickaxeController : MonoBehaviour, IWeapon
 
             for (int i = 0; i < count; i++)
             {
-                ProcessHit(_hitBuffer[i], damage);
+                ProcessHit(_hitBuffer[i], damage, isCritical);
             }
+        }
+    }
+
+    void ProcessHit(Collider2D hit, float damage, bool isCritical)
+    {
+        if (hit != null && hit.TryGetComponent<IDamagable>(out var component))
+        {
+            // Debug.Log($"hit detected: {hit}");
+
+            if (isCritical) damage *= _stat.criticalDamage;
+            Vector2 knockbackDirection = (hit.transform.position - _attackOffset.position).normalized;
+
+            AttackInfo attackInfo = new AttackInfo
+            {
+                source = AttackerType.Player,
+                isCritical = isCritical,
+                damage = damage,
+                direction = knockbackDirection,
+                knockbackIntensity = _stat.knockbackIntensity
+            };
+
+            component.ApplyAttack(attackInfo);
         }
     }
 
@@ -120,15 +141,29 @@ public class PickaxeController : MonoBehaviour, IWeapon
         _animation.CancelAnimation();
     }
 
+    void OnEnable()
+    {
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged += SetComboBonus;
+        }
+    }
+
+
     void OnDisable()
     {
         if (_attackRoutine != null) StopCoroutine(_attackRoutine);
+
+        if (ComboManager.Instance != null)
+        {
+            ComboManager.Instance.OnComboChanged -= SetComboBonus;
+        }
     }
 
     public void OnDrawGizmos()
     {
         // draw attack range
         Gizmos.color = Color.softRed;
-        Gizmos.DrawWireSphere(_attackOffset.position, _defaultRange * _stat.attackRange);
+        Gizmos.DrawWireSphere(_attackOffset.position, _defaultRange * _stat.attackRange * _bonusRangeRate);
     }
 }

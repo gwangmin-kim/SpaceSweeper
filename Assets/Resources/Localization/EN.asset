@@ -24,6 +24,18 @@ MonoBehaviour:
     value: Quit Game
   - key: Loading
     value: Loading...
+  - key: CurrentLocation
+    value: Current Location
+  - key: Stage1_Name
+    value: Unknown Space
+  - key: Stage2_Name
+    value: Deep inside a Black Hole
+  - key: Stage3_Name
+    value: Meteorite Warning Zone
+  - key: Stage4_Name
+    value: Magnetic Storm Zone
+  - key: Stage5_Name
+    value: Event Horizon
   - key: Upgrader
     value: Upgrade Equipment
   - key: Exchanger
@@ -50,6 +62,8 @@ MonoBehaviour:
     value: Damage Dealt
   - key: CriticalDamageDealt
     value: Critical Damage Dealt
+  - key: ExplosionDamage
+    value: Explosion Damage
   - key: DestroyCount
     value: Destroyed Metal
   - key: SessionReturn

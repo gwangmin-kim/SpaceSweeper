@@ -10,6 +10,7 @@ public class UpgradeUIController : MonoBehaviour
     [SerializeField] GameObject _upgradePanel;
     [SerializeField] Transform _viewportContentRoot;
     [SerializeField] TooltipController _tooltip;
+    RectTransform _upgradeTreeRoot;
 
     [Header("Status Viewport")]
     [SerializeField] StatusPanelController _statusPanel;
@@ -25,6 +26,7 @@ public class UpgradeUIController : MonoBehaviour
     void Start()
     {
         _upgradeSlots = new List<UpgradeSlot>(_viewportContentRoot.GetComponentsInChildren<UpgradeSlot>(true));
+        _upgradeTreeRoot = _viewportContentRoot.GetComponent<RectTransform>();
 
         RefreshAllSlots();
     }
@@ -57,10 +59,14 @@ public class UpgradeUIController : MonoBehaviour
     public void ActivatePanel()
     {
         _upgradePanel.SetActive(true);
+
+        _upgradeTreeRoot.anchoredPosition = UpgradeManager.Instance == null ? Vector2.zero : UpgradeManager.Instance.upgradeTreePosition;
     }
 
     public void OnPanelCloseButton()
     {
+        if (UpgradeManager.Instance != null) UpgradeManager.Instance.upgradeTreePosition = _upgradeTreeRoot.anchoredPosition;
+
         _upgradePanel.SetActive(false);
         _tooltip.HideTooltip();
     }

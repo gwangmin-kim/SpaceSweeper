@@ -119,9 +119,18 @@ public class MeteorController : MonoBehaviour
 
             if (hit.gameObject.TryGetComponent<IDamagable>(out var damagable))
             {
-                damagable.TakeDamage(_data.damageToDamagable);
                 Vector2 knockbackDirection = (Vector2)hit.transform.position - _hitPosition;
-                damagable.ApplyKnockback(knockbackDirection, _data.knockbackFactor);
+
+                AttackInfo attackInfo = new AttackInfo
+                {
+                    source = AttackerType.Player,
+                    isCritical = false,
+                    damage = _data.damageToDamagable,
+                    direction = knockbackDirection,
+                    knockbackIntensity = _data.knockbackFactor
+                };
+
+                damagable.ApplyAttack(attackInfo);
             }
             else if (hit.CompareTag("Player"))
             {
