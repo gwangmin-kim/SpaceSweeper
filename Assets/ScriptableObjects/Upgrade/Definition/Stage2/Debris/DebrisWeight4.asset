@@ -23,4 +23,4 @@ MonoBehaviour:
     \uAC00\uCE58\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 38728df568e95924f8d6a11881542a77, type: 3}
   costString: 200K
-  parent: {fileID: 11400000, guid: df432f26b58a0854a859e305fd4f7363, type: 2}
+  parent: {fileID: 11400000, guid: 373bcdad8714d0249909940af85b5e73, type: 2}

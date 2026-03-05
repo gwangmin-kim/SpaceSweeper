@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: UnlockBonusPickaxe
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: c59d044ec31852949b9994d33ee18c3b
+  effects:
+  - {fileID: 11400000, guid: 252bc82772e7ab140b245a8d17ad0819, type: 2}
+  upgradeName: "\uC7AC\uD65C\uC6A9-\uACE1\uAD2D\uC774"
+  description: "\uACE1\uAD2D\uC774\uAC00 \uC8FC\uBCC0\uC744 \uB3CC\uBA70 \uACE0\uCCA0\uC744
+    \uD0C0\uACA9\uD569\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 3419f80f05947e243811de9db5f55c25, type: 3}
+  costString: 100K
+  parent: {fileID: 11400000, guid: df432f26b58a0854a859e305fd4f7363, type: 2}

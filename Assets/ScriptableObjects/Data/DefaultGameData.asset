@@ -33,17 +33,18 @@ MonoBehaviour:
         bounceFactor: 1
         knockbackFactor: 2
         knockbackDuration: 0.3
+        isGhostUnlocked: 0
       magnetRange: 1
       oxygenAmount: 0
       oxygenLossRatio: 0.2
       comboSpec:
         isUnlocked: 0
-        holdTime: 0.5
         scoreRate: 1
         moveSpeedBonus: 0
         attackSpeedBonus: 0
         pickaxeRangeBonus: 0
         shotgunBulletBonus: 0
+        globalMagnetOnA: 0
       currentWeapon: 0
       pickaxeStat:
         attackDamage: 1
@@ -55,8 +56,8 @@ MonoBehaviour:
         isMultiHitUnlocked: 0
         knockbackIntensity: 1
       shotgunStat:
-        attackSpeed: 0.8
-        spreadAngle: 45
+        attackSpeed: 0.7
+        spreadAngle: 60
         reboundIntensity: 2
         bulletData:
           damage: 5
@@ -73,6 +74,13 @@ MonoBehaviour:
         isTransitionUnlocked: 0
         transitionCount: 0
         transitionRange: 0
+      bonusPickaxeStat:
+        unlocked: 0
+        count: 1
+        rotationRadius: 2
+        attackRadius: 0.5
+        rotationAnglePerSecond: 90
+        knockbackIntensity: 0.2
     resourceSpec:
       exchangeInterval: 0.2
       exchangeAmount:
@@ -97,8 +105,8 @@ MonoBehaviour:
       meteorData:
         delay: 3
         radius: 3
-        damageToDamagable: 100
-        knockbackFactor: 1
+        damageToDamagable: 10000
+        knockbackFactor: 5
       blackholeData:
         force: 0.1
         scale: 10

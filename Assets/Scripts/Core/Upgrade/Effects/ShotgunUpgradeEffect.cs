@@ -32,6 +32,7 @@ public class ShotgunUpgradeEffect : UpgradeEffect
                     spec.currentWeapon == WeaponType.Pickaxe)
                     spec.currentWeapon = WeaponType.Shotgun;
                 break;
+
             case ShotgunUpgradeType.Damage:
                 stat.bulletData.damage *= value;
                 break;
@@ -41,6 +42,7 @@ public class ShotgunUpgradeEffect : UpgradeEffect
             case ShotgunUpgradeType.Range:
                 stat.bulletData.speed *= value;
                 break;
+
             case ShotgunUpgradeType.BulletCount:
                 stat.bulletCount += (int)value;
                 break;

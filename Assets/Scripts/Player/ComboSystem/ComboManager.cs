@@ -21,6 +21,7 @@ public class ComboManager : MonoBehaviour
     void Awake()
     {
         Instance = this;
+        OnComboChanged += OnComboChangedBonus;
     }
 
     void Update()
@@ -62,6 +63,16 @@ public class ComboManager : MonoBehaviour
         }
     }
 
+    void OnComboChangedBonus(int index, float score)
+    {
+        var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+
+        if (comboSpec.globalMagnetOnA && GetLevelString(index) == "A")
+        {
+            SessionManager.Instance.TriggerGlobalMagnet();
+        }
+    }
+
     void ResetCombo()
     {
         _currentScore = 0f;
@@ -73,8 +84,7 @@ public class ComboManager : MonoBehaviour
     {
         _currentScore += amount;
 
-        var comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
-        _holdTimer = comboSpec.holdTime;
+        _holdTimer = CurrentLevel.holdTime;
 
         CheckLevelUp();
     }

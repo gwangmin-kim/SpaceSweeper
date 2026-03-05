@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: UnlockDash
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeEffect
   affectedStatList: 
-  statType: 2
+  statType: 10
   value: 0

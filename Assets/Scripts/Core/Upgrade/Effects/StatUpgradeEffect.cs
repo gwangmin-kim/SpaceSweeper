@@ -3,23 +3,25 @@ using UnityEngine;
 public enum PlayerStatType
 {
     // 이동
-    PlusMoveSpeed,
-    MoveDampingTime,
+    PlusMoveSpeed = 0,
+    MoveDampingTime = 1,
+    UnlockGhost = 2,
 
     // 대시
-    UnlockDash,
-    DashSpeed,
-    DashDistance,
-    MinusDashCooldown,
+    UnlockDash = 10,
+    DashSpeed = 11,
+    DashDistance = 12,
+    MinusDashCooldown = 13,
 
     // 넉백
-    BounceFactor,
-    KnockbackFactor,
-    KnockbackDuration,
+    BounceFactor = 20,
+    KnockbackFactor = 21,
+    KnockbackDuration = 22,
 
     // 기타
-    MagnetRange,
-    PlusOxygenAmount,
+    MagnetRange = 30,
+    PlusOxygenAmount = 31,
+    MinusOxygenLossRatio = 32,
 }
 
 [CreateAssetMenu(fileName = "NewStatUpgradeEffect", menuName = "Upgrades/Effects/Stat Upgrade")]
@@ -41,6 +43,10 @@ public class StatUpgradeEffect : UpgradeEffect
             case PlayerStatType.MoveDampingTime:
                 spec.moveStat.dampingTime *= value;
                 break;
+            case PlayerStatType.UnlockGhost:
+                spec.moveStat.isGhostUnlocked = true;
+                break;
+
             case PlayerStatType.UnlockDash:
                 spec.moveStat.isDashUnlocked = true;
                 break;
@@ -54,6 +60,7 @@ public class StatUpgradeEffect : UpgradeEffect
                 spec.moveStat.dashCooldown -= value;
                 if (spec.moveStat.dashCooldown < 0f) spec.moveStat.dashCooldown = 0f;
                 break;
+
             case PlayerStatType.BounceFactor:
                 spec.moveStat.bounceFactor *= value;
                 break;
@@ -63,12 +70,18 @@ public class StatUpgradeEffect : UpgradeEffect
             case PlayerStatType.KnockbackDuration:
                 spec.moveStat.knockbackDuration *= value;
                 break;
+
             case PlayerStatType.MagnetRange:
                 spec.magnetRange *= value;
                 break;
             case PlayerStatType.PlusOxygenAmount:
                 spec.oxygenAmount += value;
                 break;
+            case PlayerStatType.MinusOxygenLossRatio:
+                spec.oxygenLossRatio -= value;
+                if (spec.oxygenLossRatio < 0f) spec.oxygenLossRatio = 0f;
+                break;
+
             default:
                 Debug.LogWarning("Unknown stat type");
                 break;

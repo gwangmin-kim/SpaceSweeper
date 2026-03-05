@@ -16,10 +16,10 @@ MonoBehaviour:
   mapPrefab: {fileID: 7779516437347261427, guid: eeb4dd61da6d9ef458740f0ddab1f06a, type: 3}
   oxygenPerSecond: 2
   resourceSpawnData:
-    resourcePrefab: {fileID: 8950358119033516933, guid: 3486a28a22eb90e4cb6597ecaff9e963, type: 3}
+    resourcePrefab: {fileID: 6704266993105513661, guid: 3486a28a22eb90e4cb6597ecaff9e963, type: 3}
     count: 100
   debrisList:
-  - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
+  - debrisPrefab: {fileID: 3042997265853864001, guid: 388f37ae48477c14b91fb344e6ace024, type: 3}
     count: 20
   - debrisPrefab: {fileID: 3042997265853864001, guid: e3ef205f2ff53b1468ed60f5b93e6710, type: 3}
     count: 2

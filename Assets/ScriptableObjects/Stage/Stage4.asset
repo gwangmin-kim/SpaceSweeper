@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   id: 4
   mapPrefab: {fileID: 7779516437347261427, guid: f30917e78f4688840a1038326d2de45b, type: 3}
-  oxygenPerSecond: 1
+  oxygenPerSecond: 4
   resourceSpawnData:
-    resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
+    resourcePrefab: {fileID: 6704266993105513661, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
     count: 50
   debrisList:
   - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}

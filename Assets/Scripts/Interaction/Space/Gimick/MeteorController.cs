@@ -123,7 +123,7 @@ public class MeteorController : MonoBehaviour
 
                 AttackInfo attackInfo = new AttackInfo
                 {
-                    source = AttackerType.Player,
+                    source = AttackerType.Gimick,
                     isCritical = false,
                     damage = _data.damageToDamagable,
                     direction = knockbackDirection,

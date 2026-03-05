@@ -1,9 +1,8 @@
 using UnityEngine;
+using UnityEngine.Pool;
 // using BreakInfinity;
 
-[RequireComponent(typeof(Collider2D))]
-[RequireComponent(typeof(Rigidbody2D))]
-public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormAffectable
+public class ResourceItem : MonoBehaviour
 {
     public enum ResourceState
     {
@@ -12,13 +11,11 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
         Attracted // 플레이어에게 끌려가는 상태
     }
 
-    Collider2D _collider;
-    Rigidbody2D _rigidbody;
-
     [Header("State (Read Only)")]
     [SerializeField] ResourceState _currentState = ResourceState.Idle;
 
     [Header("Resource Status")]
+    [SerializeField] double _defaultValue;
     [SerializeField] double _value;
 
     [Header("Initialize Options")]
@@ -37,7 +34,8 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
     [SerializeField] float _attractSpeedFactor; // 플레이어에게 얼마나 빠르게 이끌릴지 결정
 
     [Header("Collision")]
-    [SerializeField] LayerMask _playerLayer;
+    [SerializeField] float _lootRadius;
+    float _lootRadiusSqr;
 
     Vector2 _dropPosition = Vector2.zero; // 초기 드롭 시의 목표 지점, UnitCircle 내부에서 랜덤 결정 (normalize 안함) 이후 Factor와 곱해서 결정
     float _standbyTimer = 0f;
@@ -45,66 +43,74 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
     Transform _target;
     float _attractTimer = 0f;
 
-    // blackhole gimick
-    Vector2 _externalVelocity = Vector2.zero;
-    float _gimickLifeTimer = 0.5f;
+    Vector2 _linearVelocity = Vector2.zero;
+    float _angularVelocity = 0f;
+
+    // object pooling
+    IObjectPool<ResourceItem> _managedPool;
+
+    // update optimize
+    float _updateInterval = 0.1f;
+    float _updateTimer = 0f;
+
+    // 풀 참조 설정
+    public void SetPool(IObjectPool<ResourceItem> pool)
+    {
+        _managedPool = pool;
+    }
 
     void Awake()
     {
         // set random rotation
         transform.Rotate(Vector3.forward, Random.Range(0f, 360f));
 
-        _collider = GetComponent<Collider2D>();
-        _rigidbody = GetComponent<Rigidbody2D>();
+        _lootRadiusSqr = _lootRadius * _lootRadius;
     }
 
-    // ! 움직이는 콜라이더는 Rigidbody를 달아주는 것이 효율적이라고 함. (https://docs.unity3d.com/6000.3/Documentation/Manual/CollidersOverview.html)
-    // ! transform.position을 직접 수정하는 것에서 Rigidbody 기반 속도 제어로 변경 고려
-    void FixedUpdate()
+    void Start()
     {
+        SessionManager.Instance.OnGlobalMagnetTriggered += OnGlobalMagnetTriggered;
+    }
+
+    void Update()
+    {
+        transform.position += (Vector3)_linearVelocity * Time.deltaTime;
+        transform.Rotate(Vector3.forward, _angularVelocity * Time.deltaTime);
+
+        _updateTimer += Time.deltaTime;
+
         switch (_currentState)
         {
             case ResourceState.Spawning:
-                HandleSpawning();
+                HandleSpawning(Time.deltaTime);
                 break;
             case ResourceState.Idle:
-                HandleIdle();
+                if (_updateTimer >= _updateInterval)
+                    HandleIdle();
                 break;
             case ResourceState.Attracted:
-                HandleAttracted();
+                if (_updateTimer >= _updateInterval)
+                    HandleAttracted(_updateInterval);
                 break;
         }
 
-        ApplyExternalVelocity();
-
-        if (_gimickLifeTimer <= 0f)
+        if (_updateTimer > _updateInterval)
         {
-            _collider.enabled = false;
-            Destroy(gameObject);
+            _updateTimer = 0f;
         }
-    }
-
-    void ApplyExternalVelocity()
-    {
-        _rigidbody.linearVelocity += _externalVelocity;
-
-        if (_externalVelocity.sqrMagnitude > 0f)
-        {
-            _gimickLifeTimer -= Time.fixedDeltaTime;
-        }
-
-        _externalVelocity = Vector2.zero;
     }
 
     // 폐기물에서 드롭된 직후
-    void HandleSpawning()
+    void HandleSpawning(float deltaTime)
     {
-        _standbyTimer -= Time.fixedDeltaTime;
-        _rigidbody.position = Vector2.Lerp(_rigidbody.position, _dropPosition, _explodeSpeedFactor * Time.fixedDeltaTime);
+        _standbyTimer -= deltaTime;
+        transform.position = Vector2.Lerp(transform.position, _dropPosition, _explodeSpeedFactor * deltaTime);
 
         if (_standbyTimer <= 0f)
         {
-            InitFloating(Vector2.zero);
+            _currentState = ResourceState.Idle;
+            _linearVelocity = Vector2.zero;
+            _angularVelocity = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
         }
     }
 
@@ -118,66 +124,80 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
         if (InGameRoutineManager.Instance == null) return;
 
         Bounds mapBounds = InGameRoutineManager.Instance.CurrentMapBounds;
-        Vector2 currentPos = _rigidbody.position;
+        Vector2 currentPosition = transform.position;
 
         // 맵 반대편으로 텔레포트
-        if (currentPos.x < mapBounds.min.x)
+        if (currentPosition.x < mapBounds.min.x)
         {
-            currentPos.x = mapBounds.max.x;
+            currentPosition.x = mapBounds.max.x;
         }
-        else if (currentPos.x > mapBounds.max.x)
+        else if (currentPosition.x > mapBounds.max.x)
         {
-            currentPos.x = mapBounds.min.x;
-        }
-
-        if (currentPos.y < mapBounds.min.y)
-        {
-            currentPos.y = mapBounds.max.y;
-        }
-        else if (currentPos.y > mapBounds.max.y)
-        {
-            currentPos.y = mapBounds.min.y;
+            currentPosition.x = mapBounds.min.x;
         }
 
-        _rigidbody.position = currentPos;
+        if (currentPosition.y < mapBounds.min.y)
+        {
+            currentPosition.y = mapBounds.max.y;
+        }
+        else if (currentPosition.y > mapBounds.max.y)
+        {
+            currentPosition.y = mapBounds.min.y;
+        }
+
+        transform.position = currentPosition;
     }
 
-    void HandleAttracted()
+    void HandleAttracted(float deltaTime)
     {
-        _attractTimer += Time.fixedDeltaTime;
+        // 충돌 검사
+        Vector2 deltaPosition = _target.position - transform.position;
+        float sqrDistance = deltaPosition.sqrMagnitude;
+
+        if (sqrDistance < _lootRadiusSqr)
+        {
+            SessionManager.Instance.LootResource(_value);
+            Deactivate();
+        }
+
+        _attractTimer += deltaTime;
 
         // 플레이어 쪽으로 유도
-        Vector2 deltaPosition = _target.position - transform.position;
         Vector3 attractDirection = deltaPosition.normalized;
-
-        attractDirection.z = 0f;
-
         float attractSpeed = Mathf.Lerp(_minAttractSpeed, _maxAttractSpeed, _attractTimer * _attractSpeedFactor);
-
-        _rigidbody.linearVelocity = attractSpeed * attractDirection;
+        _linearVelocity = attractSpeed * attractDirection;
     }
 
     // 초기 맵과 함께 생성 시 호출
     public void InitFloating(Vector2 direction)
     {
+        _value = _defaultValue;
+
+        _target = null;
         _currentState = ResourceState.Idle;
-        _collider.enabled = true;
 
         float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
-        _rigidbody.linearVelocity = floatingSpeed * direction;
-        _rigidbody.angularVelocity = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
+        _linearVelocity = floatingSpeed * direction;
+        _angularVelocity = Random.Range(-_maxRotationAnglePerSecond, _maxRotationAnglePerSecond);
     }
 
     // 폐기물 파괴로 생성 시 호출
     public void InitDrop(float valueRate, float intensity)
     {
-        _value *= valueRate;
+        _value = _defaultValue * valueRate;
 
+        _target = null;
         _currentState = ResourceState.Spawning;
-        _collider.enabled = false;
 
         _standbyTimer = _standbyDuration;
         _dropPosition = (Vector2)transform.position + _explodeDistance * Random.insideUnitCircle * intensity;
+    }
+
+    void OnGlobalMagnetTriggered()
+    {
+        if (SpacePlayerController.Instance == null) return;
+        Transform target = SpacePlayerController.Instance.transform;
+        SetTarget(target);
     }
 
     public void SetTarget(Transform target)
@@ -190,24 +210,15 @@ public class ResourceItem : MonoBehaviour, IBlackholeAffectable, IMagneticStormA
         _attractTimer = 0f;
     }
 
-    void OnTriggerEnter2D(Collider2D collision)
+    void Deactivate()
     {
-        if (((1 << collision.gameObject.layer) & _playerLayer) != 0)
+        if (_managedPool != null)
         {
-            // 플레이어를 거치지 않고 직접 세션 매니저 호출
-            SessionManager.Instance.LootResource(_value);
-
-            Destroy(gameObject);
+            _managedPool.Release(this); // 풀로 반환
         }
-    }
-
-    public void ApplyBlackhole(Vector2 velocity)
-    {
-        _externalVelocity += velocity;
-    }
-
-    public void ApplyMagneticStorm(Vector2 velocity)
-    {
-        _externalVelocity += velocity;
+        else
+        {
+            Destroy(gameObject); // 혹시 풀이 없으면 그냥 파괴
+        }
     }
 }

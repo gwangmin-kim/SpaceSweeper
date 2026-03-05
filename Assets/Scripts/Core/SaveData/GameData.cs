@@ -28,6 +28,9 @@ public class PlayerSpec
     public ShotgunStat shotgunStat;
     public LasergunStat lasergunStat;
 
+    [Header("Bonus Weapon")]
+    public BonusPickaxeStat bonusPickaxeStat;
+
     public string GetAttackDamageString()
     {
         return currentWeapon switch
@@ -66,7 +69,6 @@ public class PlayerSpec
 public class ComboSpec
 {
     public bool isUnlocked;
-    public float holdTime;
     public float scoreRate;
 
     public float moveSpeedBonus;
@@ -74,6 +76,8 @@ public class ComboSpec
 
     public float pickaxeRangeBonus;
     public float shotgunBulletBonus;
+
+    public bool globalMagnetOnA; // A 콤보 도달 시 전체 파편 흡수
 }
 
 [System.Serializable]

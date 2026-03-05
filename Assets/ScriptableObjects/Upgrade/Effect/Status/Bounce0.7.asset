@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 107cf0579a884c843ab83ee842605ce6, type: 3}
   m_Name: Bounce0.7
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeEffect
-  statType: 6
+  affectedStatList: 
+  statType: 20
   value: 0.7

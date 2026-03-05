@@ -10,6 +10,7 @@ public interface IDamagable
 public enum AttackerType
 {
     Player,
+    BonusWeapon,
     Debris,
     Gimick,
 }

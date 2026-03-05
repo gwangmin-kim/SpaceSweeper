@@ -1,4 +1,5 @@
 key, KO, EN
+Title,Escape from the Blackhole,Escape from the Blackhole
 
 NewGame,새 게임,New Game
 Continue,이어하기,Continue
@@ -20,11 +21,12 @@ ExitDoor,탐사하러 나가기,Go out to Explore
 ExitDoorWarning,산소통이 없어 탐사가 불가능합니다!,Exploration is impossible without an Oxygen Tank!
 
 SessionResult,세션 결과,Session Result
+NewBest,신기록!,New Best!
 TimeSpent,걸린 시간,Time Spent
 OxygenRestored,충전된 산소,Oxygen Restored
 LootAmount,획득한 고철 파편,Scrap Metal Earned
 LossAmount,잃어버린 고철 파편,Scrap Metal Lost
-DamageReceived,받은 피해량,Damage Received
+DamageReceived,유실된 산소량,Oxygen Lost
 DamageDealt,입힌 피해량,Damage Dealt
 CriticalDamageDealt,치명타 피해량,Critical Damage Dealt
 ExplosionDamage,폭발 피해량,Explosion Damage

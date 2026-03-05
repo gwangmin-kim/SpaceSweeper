@@ -22,5 +22,5 @@ MonoBehaviour:
     \uB300\uC2E0, \uB5A8\uC5B4\uB728\uB9AC\uB294 \uAE08\uC18D \uD30C\uD3B8\uC758
     \uAC00\uCE58\uAC00 \uC99D\uAC00\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: 38728df568e95924f8d6a11881542a77, type: 3}
-  costString: 200K
+  costString: 1.5M
   parent: {fileID: 11400000, guid: d27062001a986a54398ea3dd4f89ca0a, type: 2}

@@ -17,31 +17,39 @@ MonoBehaviour:
     threshold: 1
     decayRate: 1
     minScoreRequired: 0
+    holdTime: 0
   - gradeName: F
     threshold: 100
     decayRate: 50
     minScoreRequired: 1
+    holdTime: 0.5
   - gradeName: E
     threshold: 250
     decayRate: 100
     minScoreRequired: 90
+    holdTime: 0.4
   - gradeName: D
     threshold: 1000
     decayRate: 250
     minScoreRequired: 200
+    holdTime: 0.3
   - gradeName: C
     threshold: 2500
     decayRate: 500
     minScoreRequired: 900
+    holdTime: 0.2
   - gradeName: B
     threshold: 6500
     decayRate: 1500
     minScoreRequired: 2400
+    holdTime: 0.1
   - gradeName: A
     threshold: 20000
     decayRate: 4000
     minScoreRequired: 6000
+    holdTime: 0.05
   - gradeName: S
     threshold: 50000
     decayRate: 10000
     minScoreRequired: 19000
+    holdTime: 0.01

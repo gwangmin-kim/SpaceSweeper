@@ -234,16 +234,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ResourceItem
   _currentState: 1
+  _defaultValue: 10
   _value: 10
   _standbyDuration: 0.5
   _explodeDistance: 1
-  _explodeSpeedFactor: 10
+  _explodeSpeedFactor: 3
   _minDriftSpeed: 0
   _maxDriftSpeed: 1
   _maxRotationAnglePerSecond: 100
   _minAttractSpeed: 1
-  _maxAttractSpeed: 10
+  _maxAttractSpeed: 12
   _attractSpeedFactor: 1
-  _playerLayer:
-    serializedVersion: 2
-    m_Bits: 8
+  _lootRadius: 0.5

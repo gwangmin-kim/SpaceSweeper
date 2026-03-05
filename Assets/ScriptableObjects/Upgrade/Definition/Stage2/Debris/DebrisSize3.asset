@@ -21,4 +21,4 @@ MonoBehaviour:
     \uC791\uC544\uC9C0\uACE0, \uB300\uC2E0 \uC870\uAE08 \uB354 \uB9CE\uC774 \uB4F1\uC7A5\uD569\uB2C8\uB2E4."
   icon: {fileID: 21300000, guid: c3d7556f82643ba4eb8eb4aeb0dbb360, type: 3}
   costString: 80K
-  parent: {fileID: 11400000, guid: f9fde1e1180ef28479f9a1eb979f1a89, type: 2}
+  parent: {fileID: 11400000, guid: 373bcdad8714d0249909940af85b5e73, type: 2}

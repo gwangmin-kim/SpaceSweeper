@@ -14,15 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LevelDefinition
   id: 3
   mapPrefab: {fileID: 7779516437347261427, guid: 5c8d13f608a34e140853a4ea8bb38f7d, type: 3}
-  oxygenPerSecond: 1
+  oxygenPerSecond: 3
   resourceSpawnData:
-    resourcePrefab: {fileID: 8950358119033516933, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
+    resourcePrefab: {fileID: 6704266993105513661, guid: 250f3a08d48748442bd56d6a83b4f678, type: 3}
     count: 50
   debrisList:
-  - debrisPrefab: {fileID: 3042997265853864001, guid: 9563e595fd4d008448202efcfe52d28a, type: 3}
-    count: 20
-  - debrisPrefab: {fileID: 3042997265853864001, guid: e3ef205f2ff53b1468ed60f5b93e6710, type: 3}
-    count: 40
+  - debrisPrefab: {fileID: 3042997265853864001, guid: b82ccb3cbfd207e4882c028f3440e958, type: 3}
+    count: 10
   gimickList:
   - isEnabled: 1
     GimickPrefab: {fileID: 646261281379050948, guid: ae3d16c218f2c3348915fd92fd289d02, type: 3}

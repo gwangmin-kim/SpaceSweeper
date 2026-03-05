@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public struct ResourceSpawnData
 {
-    public GameObject resourcePrefab;
+    public ResourceItem resourcePrefab;
     public int count; // 소환할 개수
 }
 

@@ -18,6 +18,7 @@ public class PlayerMoveStat
     public float bounceFactor; // 벽에 '부딪쳤을 때' 튕겨나가는 정도
     public float knockbackFactor; // 동적으로 움직이는 물체에 '맞았을 때' 튕겨나가는 정도
     public float knockbackDuration; // 최소 넉백 시간
+    public bool isGhostUnlocked; // 유체화 (폐기물과 충돌 판정 제거) 해금 여부
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -116,6 +117,15 @@ public class SpacePlayerController : MonoBehaviour, IBlackholeAffectable, IMagne
             _currentWeapon.GetComponent<IWeapon>()?.InitWeapon();
 
             // Debug.Log($"prefab: {weaponPrefab}/instance: {_currentWeapon}");
+        }
+
+        if (_moveStat.isGhostUnlocked)
+        {
+            _collider.isTrigger = true;
+        }
+        else
+        {
+            _collider.isTrigger = false;
         }
     }
 

@@ -1,5 +1,6 @@
 using UnityEngine;
 using BreakInfinity;
+using System;
 
 [System.Serializable]
 public class SessionInformation
@@ -11,8 +12,9 @@ public class SessionInformation
     public BigDouble lossAmount;
     public float oxygenLost; // 잃은 산소량
     public float oxygenRestored; // 복구한 산소량
-    public float damageDealt; // 폐기물에 가한 피해량 (플레이어가 직접)
-    public float criticalDamageDealt; // 폐기물에 가한 치명타 피해량 (플레이어가 직접)
+    public float damageDealt; // 폐기물에 플레이어가 가한 피해량
+    public float criticalDamageDealt; // 폐기물에 가한 치명타 피해량
+    public float bonusDamageDealt; // 보너스무기(자동 공격)로 가한 피해량
     public float damageByDebris; // 폭발로 인한 피해량
     public int destroyCount; // 파괴된 폐기물 수
 }
@@ -32,6 +34,8 @@ public class SessionManager : MonoBehaviour
     [SerializeField] SessionInformation _info;
 
     public SessionInformation Information => _info;
+
+    public event Action OnGlobalMagnetTriggered;
 
     // Oxygen
     float _totalOxygenAmountInverse = 0f; // 산소 총량의 역수 (연산 효율성 위해 역수로 저장)
@@ -156,10 +160,29 @@ public class SessionManager : MonoBehaviour
                 }
 
                 break;
+
+            case AttackerType.BonusWeapon:
+                _info.bonusDamageDealt += attackInfo.damage;
+
+                // apply Combo score
+                comboSpec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
+                if (comboSpec.isUnlocked)
+                {
+                    float score = attackInfo.damage * comboSpec.scoreRate;
+                    ComboManager.Instance.AddScore(score);
+                }
+
+                break;
+
             case AttackerType.Debris:
                 _info.damageByDebris += attackInfo.damage;
                 break;
         }
+    }
+
+    public void TriggerGlobalMagnet()
+    {
+        OnGlobalMagnetTriggered?.Invoke();
     }
 
     public void DestroyDebris()

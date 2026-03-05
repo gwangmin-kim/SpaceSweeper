@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f36d305dafc116341bb0c749f1809ed0, type: 3}
+  m_Name: OxygenLossRatio2
+  m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
+  _id: 9eb9715afe2fa8d498fbc1dc986e5afb
+  effects:
+  - {fileID: 11400000, guid: 24896488a2e6b6c4887a538b65c789da, type: 2}
+  upgradeName: "\uBC29\uD638\uBCF5 \uCC29\uC6A9"
+  description: "\uD3ED\uBC1C\uC5D0 \uD718\uB9D0\uB838\uC744 \uB54C \uC783\uB294 \uC0B0\uC18C\uC758
+    \uBE44\uC728\uC774 \uC904\uC5B4\uB4ED\uB2C8\uB2E4."
+  icon: {fileID: 21300000, guid: 439dc7652eea59b4cb2695b033fdba6b, type: 3}
+  costString: 100K
+  parent: {fileID: 11400000, guid: 2f41e7641d1d1f84e93c3bb965a2ec15, type: 2}

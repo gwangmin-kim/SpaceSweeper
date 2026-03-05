@@ -119,6 +119,6 @@ public class DebrisVisual : MonoBehaviour
     {
         _explosionVisualRoot.gameObject.SetActive(true);
         _explosionVisualRoot.localScale = Vector3.zero;
-        _explosionVisualRoot.DOScale(scale, time);
+        _explosionVisualRoot.DOScale(scale, time).SetLink(gameObject);
     }
 }

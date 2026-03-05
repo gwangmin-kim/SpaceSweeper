@@ -70,7 +70,7 @@ public class InGameRoutineManager : MonoBehaviour
 
         for (int i = 0; i < _currentLevel.resourceSpawnData.count; i++)
         {
-            SpawnSingleResource(_currentLevel.resourceSpawnData.resourcePrefab);
+            SpawnSingleResource();
         }
 
         foreach (var spawnData in _currentLevel.debrisList)
@@ -96,21 +96,15 @@ public class InGameRoutineManager : MonoBehaviour
         _cameraConfiner.InvalidateBoundingShapeCache();
     }
 
-    public void SpawnSingleResource(GameObject resourcePrefab)
+    public void SpawnSingleResource()
     {
         Vector2 spawnPosition = GetRandomPositionInSpawnZone();
 
-        GameObject resource = Instantiate(resourcePrefab, _mapRoot);
-        resource.transform.position = spawnPosition;
-
-        if (!resource.TryGetComponent<ResourceItem>(out var component))
-        {
-            Debug.LogWarning($"{resource} is not a ResourceItem object");
-            return;
-        }
+        ResourceItem item = ResourcePoolManager.Instance.Get();
+        item.transform.position = spawnPosition;
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
-        component.InitFloating(floatingDirection);
+        item.InitFloating(floatingDirection);
     }
 
     void SpawnSingleDebris(GameObject debrisPrefab)
@@ -127,7 +121,6 @@ public class InGameRoutineManager : MonoBehaviour
         }
 
         Vector2 floatingDirection = Random.insideUnitCircle.normalized;
-        debris.SetResourceToDrop(_currentLevel.resourceSpawnData.resourcePrefab);
         debris.InitMovement(floatingDirection);
 
         _remainingDebrisCount++;

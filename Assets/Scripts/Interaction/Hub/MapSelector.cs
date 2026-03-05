@@ -48,6 +48,6 @@ public class MapSelector : MonoBehaviour, IInteractable
             return;
         }
         LevelManager.Instance.SelectLevel(levelDefinition.id);
-        HubUIController.Instance.SetStageName(levelDefinition.LocationCode);
+        HubUIController.Instance.SetStageName();
     }
 }

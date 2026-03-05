@@ -38,6 +38,7 @@ public class ShotgunController : MonoBehaviour, IWeapon
 
     // combo bonus
     float _bonusSpeedRate = 1f;
+    float _bonusBulletRate = 1f;
 
     void FixedUpdate()
     {
@@ -53,6 +54,7 @@ public class ShotgunController : MonoBehaviour, IWeapon
     {
         var spec = GameManager.Instance.CurrentData.playerSpec.comboSpec;
         _bonusSpeedRate = 1f + spec.attackSpeedBonus * levelIndex;
+        _bonusBulletRate = 1f + spec.shotgunBulletBonus * levelIndex;
     }
 
     public void Attack(Vector2 aimDirection)
@@ -62,7 +64,9 @@ public class ShotgunController : MonoBehaviour, IWeapon
         _attackCooldown = 1f / (_stat.attackSpeed * _bonusSpeedRate);
         _attackCooldownTimer = _attackCooldown;
 
-        for (int i = 0; i < _stat.bulletCount; i++)
+        int bulletCount = (int)(_stat.bulletCount * _bonusBulletRate);
+
+        for (int i = 0; i < bulletCount; i++)
         {
             float speed = _stat.bulletData.speed *
                 (1f + Random.Range(-_stat.bulletSpeedVariation, _stat.bulletSpeedVariation));

@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UpgradeDefinition
   _id: 18675f791a484a84a8a44c6899dee972
   effects:
-  - {fileID: 11400000, guid: 21fc87cbf06beb949aa3e575b8fe411c, type: 2}
+  - {fileID: 11400000, guid: 010238444520da748b7358d3d780075f, type: 2}
   upgradeName: "\uC88C\uD45C \uACC4\uC0B0 \uC644\uB8CC"
   description: "\uB2E4\uC74C \uC9C0\uC5ED\uC744 \uD0D0\uC0AC\uD560 \uC218 \uC788\uC2B5\uB2C8\uB2E4.
     \uC0B0\uC18C \uACB0\uD54D\uC5D0 \uC8FC\uC758\uD558\uC138\uC694!"
   icon: {fileID: 21300000, guid: f99a0acf017b0864fb1c540a7dac3b98, type: 3}
-  costString: 
+  costString: 10M
   parent: {fileID: 11400000, guid: fdd1e3a0f2df562498d3e5476d38c1dc, type: 2}

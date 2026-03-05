@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: DashCooldown-0.5
   m_EditorClassIdentifier: Assembly-CSharp::StatUpgradeEffect
   affectedStatList: 
-  statType: 5
+  statType: 13
   value: 0.5

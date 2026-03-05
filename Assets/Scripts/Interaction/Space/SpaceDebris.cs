@@ -27,7 +27,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     List<Collider2D> _explosionHitBuffer;
 
     [Header("Drop Settings")]
-    [SerializeField] GameObject _resourcePrefab;
     [SerializeField] int _dropCount;
 
     [Header("Floating Settings")]
@@ -42,8 +41,8 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
     float _currentHealth;
     public event System.Action<float> OnHealthChanged;
 
-    bool _isDestroyed = false;
-    public bool IsAffectable() => !_isDestroyed;
+    bool _isAffectable = true;
+    public bool IsAffectable() => _isAffectable;
 
     // linear damping
     bool _isInteracted = false; // 처음에는 감쇠 없이 초기 설정된 속도로 이동, 플레이어에 의한 첫 충돌 발생 시 감쇠 적용
@@ -190,8 +189,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     void DropAndDestroy()
     {
-        if (_isDestroyed) return;
-        _isDestroyed = true;
+        _isAffectable = false;
 
         float dropRate = GetDropRate();
         float valueRate = GetValueRate();
@@ -203,13 +201,9 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
             Vector2 spawnOffset = Random.insideUnitCircle * _radius;
             Vector2 spawnPosition = (Vector2)transform.position + spawnOffset;
 
-            var resourceObject = Instantiate(_resourcePrefab, spawnPosition, Quaternion.identity);
-            if (!resourceObject.TryGetComponent<ResourceItem>(out var resource))
-            {
-                Debug.LogWarning($"{resourceObject} is not a ResourceItem object");
-                return;
-            }
-            resource.InitDrop(valueRate, dropRate);
+            ResourceItem item = ResourcePoolManager.Instance.Get();
+            item.transform.position = spawnPosition;
+            item.InitDrop(valueRate, dropRate);
         }
 
         InGameRoutineManager.Instance.OnDebrisDestroy(gameObject);
@@ -301,6 +295,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         var spec = GameManager.Instance.CurrentData.debrisSpec;
         _explosionRadius *= spec.overloadExplodeRange;
         float explosionScale = _explosionRadius / transform.localScale.x;
+        Debug.Log($"explosion scale: {explosionScale}");
         OnOverloadDestroyed?.Invoke(explosionScale, _overloadDestroyTime);
 
         yield return new WaitForSeconds(_overloadDestroyTime);
@@ -330,11 +325,6 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         }
     }
 
-    public void SetResourceToDrop(GameObject resourcePrefab)
-    {
-        _resourcePrefab = resourcePrefab;
-    }
-
     public void InitMovement(Vector2 direction)
     {
         float floatingSpeed = Random.Range(_minDriftSpeed, _maxDriftSpeed);
@@ -344,7 +334,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
     public void ApplyAttack(AttackInfo attackInfo)
     {
-        if (_isDestroyed) return;
+        if (!_isAffectable) return;
 
         SessionManager.Instance.RecordAttack(attackInfo);
         ApplyKnockback(attackInfo.direction, attackInfo.knockbackIntensity);
@@ -359,7 +349,11 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
                 collider.enabled = false;
             }
 
-            StartCoroutine(OverloadExplosionRoutine());
+            if (_isAffectable)
+            {
+                _isAffectable = false;
+                StartCoroutine(OverloadExplosionRoutine());
+            }
 
             return;
         }
@@ -367,15 +361,16 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
         _currentHealth -= attackInfo.damage;
         OnHealthChanged?.Invoke(_currentHealth / _maxHealth);
 
-        if (_currentHealth <= 0)
+        if (_currentHealth <= 0 && _isAffectable)
         {
+            _isAffectable = false;
             DropAndDestroy();
         }
     }
 
     public void ApplyKnockback(Vector2 direction, float intensity)
     {
-        if (_isDestroyed) return;
+        if (!_isAffectable) return;
 
         float knockbackSpeed = _isOverloaded ? _overloadKnockbackIntensity : intensity * _knockbackFactor;
         Vector2 knockbackVelocity = knockbackSpeed * direction;
@@ -406,7 +401,7 @@ public class SpaceDebris : MonoBehaviour, IDamagable, IBlackholeAffectable, IMag
 
         _explosionFilter = new ContactFilter2D();
         _explosionFilter.SetLayerMask(_explosionTargetLayer);
-        _explosionFilter.useTriggers = false;
+        _explosionFilter.useTriggers = true;
 
         int hitCountPreset = 10;
         _explosionHitBuffer = new List<Collider2D>(hitCountPreset);
